@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Calculateur Schengen 90/180 — AUTRANSA MAROC</title>
+<style>
+  :root {
+    --red: #cc0000;
+    --red-dark: #990000;
+    --red-light: #fdf0f0;
+    --red-mid: #f5b3b3;
+    --white: #ffffff;
+    --gray-light: #f4f4f4;
+    --gray-mid: #d1d5db;
+    --gray-dark: #374151;
+    --text: #1a1a1a;
+    --text2: #6b7280;
+    --border: #e5e7eb;
+    --green: #0e7c4a;
+    --green-light: #e0f5ea;
+    --green-mid: #6fcf97;
+    --amber: #92580a;
+    --amber-light: #fef3e2;
+    --amber-mid: #f6c157;
+    --danger-light: #fde8e8;
+    --danger-mid: #f87171;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f0f0f0;
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--red);
+    color: white;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-stripe {
+    position: absolute; top: 0; right: 0;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 0 120px 90px 0;
+    border-color: transparent var(--red-dark) transparent transparent;
+    opacity: .4;
+  }
+  .header-inner {
+    padding: 20px 16px 16px;
+    position: relative; z-index: 1;
+  }
+  .header-top {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .brand { font-size: 22px; font-weight: 900; letter-spacing: .5px; color: white; }
+  .brand span { font-weight: 300; font-size: 14px; display: block; opacity: .85; letter-spacing: 0; }
+  .logo-box {
+    background: white; border-radius: 6px; padding: 5px 10px;
+    font-size: 13px; font-weight: 900; color: var(--red); letter-spacing: .5px;
+  }
+  .header-title { font-size: 17px; font-weight: 700; color: white; margin-bottom: 3px; }
+  .header-sub { font-size: 12px; color: rgba(255,255,255,.8); }
+
+  /* CONTAINER */
+  .container { max-width: 480px; margin: 0 auto; padding: 14px; }
+
+  /* CARD */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  }
+  .card-title {
+    display: flex; align-items: center; gap: 9px;
+    font-size: 14px; font-weight: 700; color: var(--text);
+    margin-bottom: 14px; padding-bottom: 10px;
+    border-bottom: 2px solid var(--red-light);
+  }
+  .badge {
+    background: var(--red); color: white;
+    width: 24px; height: 24px; border-radius: 50%;
+    font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+
+  /* FORM */
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .field label { font-size: 12px; color: var(--text2); font-weight: 600; display: block; margin-bottom: 5px; }
+  .field input[type="date"] {
+    width: 100%; font-size: 14px; padding: 10px 12px;
+    border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--gray-light); color: var(--text); transition: border-color .2s;
+  }
+  .field input:focus { outline: none; border-color: var(--red); background: white; }
+
+  /* VISA INFO */
+  .visa-info {
+    background: var(--red-light); border: 1px solid var(--red-mid);
+    border-radius: var(--radius-sm); padding: 10px 12px;
+    margin-top: 12px; font-size: 13px; color: var(--red-dark);
+    display: none; line-height: 1.6;
+  }
+  .visa-info strong { font-weight: 700; }
+
+  /* WINDOWS */
+  .windows { margin-top: 12px; display: none; }
+  .windows-label { font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
+  .wrow {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 9px 12px; border-radius: var(--radius-sm); margin-bottom: 6px; border: 1px solid;
+  }
+  .wrow.c1 { background: #fff5f5; border-color: #fca5a5; }
+  .wrow.c1 .wn { color: #991b1b; } .wrow.c1 .wd { color: #dc2626; } .wrow.c1 .wm { background: #fee2e2; color: #991b1b; }
+  .wrow.c2 { background: #f9fafb; border-color: #d1d5db; }
+  .wrow.c2 .wn { color: #1f2937; } .wrow.c2 .wd { color: #4b5563; } .wrow.c2 .wm { background: #f3f4f6; color: #1f2937; }
+  .wrow.c3 { background: #fff5f5; border-color: #fca5a5; }
+  .wrow.c3 .wn { color: #991b1b; } .wrow.c3 .wd { color: #dc2626; } .wrow.c3 .wm { background: #fee2e2; color: #991b1b; }
+  .wrow.c4 { background: #f9fafb; border-color: #d1d5db; }
+  .wrow.c4 .wn { color: #1f2937; } .wrow.c4 .wd { color: #4b5563; } .wrow.c4 .wm { background: #f3f4f6; color: #1f2937; }
+  .wn { font-size: 12px; font-weight: 700; }
+  .wd { font-size: 11px; margin-top: 1px; }
+  .wm { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+
+  /* ENTRIES */
+  .entry-header { display: grid; grid-template-columns: 1fr 1fr 56px 32px; gap: 6px; margin-bottom: 6px; }
+  .entry-header span { font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: .04em; }
+  .entry-row { display: grid; grid-template-columns: 1fr 1fr 56px 32px; gap: 6px; align-items: center; margin-bottom: 7px; }
+  .entry-row input[type="date"] {
+    font-size: 12px; padding: 8px 6px;
+    border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--gray-light); color: var(--text); width: 100%;
+  }
+  .entry-row input:focus { outline: none; border-color: var(--red); background: white; }
+  .days-badge { text-align: center; font-size: 13px; font-weight: 700; padding: 8px 4px; border-radius: var(--radius-sm); background: var(--gray-light); color: var(--text2); }
+  .days-badge.ok { background: #e0f5ea; color: var(--green); }
+  .days-badge.warn { background: #fef3e2; color: var(--amber); }
+  .days-badge.danger { background: #fde8e8; color: #9b1c1c; }
+  .del-btn {
+    width: 32px; height: 36px; background: none;
+    border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    color: var(--text2); cursor: pointer; font-size: 14px;
+    display: flex; align-items: center; justify-content: center; transition: all .15s;
+  }
+  .del-btn:hover { background: var(--danger-light); color: #9b1c1c; border-color: var(--danger-mid); }
+  .add-btn {
+    width: 100%; background: none; border: 1.5px dashed var(--gray-mid);
+    border-radius: var(--radius-sm); color: var(--text2); font-size: 13px;
+    padding: 9px; cursor: pointer; display: flex; align-items: center;
+    justify-content: center; gap: 6px; margin-top: 4px; font-weight: 600; transition: all .15s;
+  }
+  .add-btn:hover { background: var(--red-light); color: var(--red); border-color: var(--red-mid); }
+
+  /* STATS */
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .stat {
+    background: var(--white); border-radius: var(--radius-sm); padding: 12px 14px;
+    border: 1px solid var(--border); text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  .stat-label { font-size: 11px; color: var(--text2); font-weight: 600; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
+  .stat-val { font-size: 28px; font-weight: 800; line-height: 1; }
+  .stat-unit { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .sv-ok { color: var(--green); }
+  .sv-warn { color: var(--amber); }
+  .sv-danger { color: #9b1c1c; }
+  .sv-red { color: var(--red); }
+
+  /* GAUGE */
+  .gauge-wrap {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 12px;
+  }
+  .gauge-label { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; color: var(--text2); margin-bottom: 7px; }
+  .gauge-track { height: 14px; background: var(--gray-light); border-radius: 7px; overflow: hidden; }
+  .gauge-fill { height: 100%; border-radius: 7px; transition: width .5s, background .3s; }
+  .gf-ok { background: var(--green-mid); }
+  .gf-warn { background: var(--amber-mid); }
+  .gf-danger { background: var(--danger-mid); }
+  .gauge-sub { font-size: 11px; color: var(--text2); margin-top: 5px; text-align: center; }
+
+  /* RESULT */
+  .result-box { border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 12px; border: 1px solid; font-size: 13px; line-height: 1.6; }
+  .result-box strong { font-weight: 700; }
+  .rb-ok { background: var(--green-light); border-color: var(--green-mid); color: var(--green); }
+  .rb-warn { background: var(--amber-light); border-color: var(--amber-mid); color: var(--amber); }
+  .rb-danger { background: var(--danger-light); border-color: var(--danger-mid); color: #9b1c1c; }
+
+  /* BREAKDOWN */
+  .breakdown { background: var(--gray-light); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 12px; display: none; }
+  .bk-title { font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 7px; }
+  .bk-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); padding: 3px 0; border-bottom: 1px solid var(--border); }
+  .bk-row:last-child { border: none; font-weight: 700; color: var(--text); margin-top: 3px; font-size: 13px; }
+
+  /* RESET BTN */
+  .reset-btn {
+    width: 100%; background: none; border: 1.5px solid var(--red-mid);
+    border-radius: var(--radius-sm); color: var(--red); font-size: 13px;
+    padding: 10px; cursor: pointer; font-weight: 600; margin-top: 4px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    transition: all .15s;
+  }
+  .reset-btn:hover { background: var(--red-light); }
+
+  /* ALERT INFO */
+  .alert-info {
+    background: var(--red-light); border: 1px solid var(--red-mid);
+    border-radius: var(--radius-sm); padding: 10px 12px;
+    font-size: 12px; color: var(--red-dark); line-height: 1.6; margin-bottom: 12px;
+  }
+  .alert-info strong { font-weight: 700; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--gray-dark); color: rgba(255,255,255,.7);
+    text-align: center; padding: 16px;
+    font-size: 11px; line-height: 1.8; margin-top: 10px;
+  }
+  .footer strong { color: white; font-size: 12px; }
+  .footer .sep { color: var(--red); margin: 0 6px; }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-stripe"></div>
+  <div class="header-inner">
+    <div class="header-top">
+      <div class="brand">
+        🛂 Schengen
+        <span>Calculateur 90 / 180 jours</span>
+      </div>
+      <div class="logo-box">AUTRANSA</div>
+    </div>
+    <div class="header-title">Chauffeur Routier International</div>
+    <div class="header-sub">Saisir les dates du visa et les tampons passeport</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ÉTAPE 1 -->
+  <div class="card">
+    <div class="card-title">
+      <span class="badge">1</span>
+      Dates de validité du visa
+    </div>
+    <div class="row2">
+      <div class="field">
+        <label>📅 Début du visa</label>
+        <input type="date" id="visa-start" onchange="onVisaChange()"/>
+      </div>
+      <div class="field">
+        <label>📅 Fin du visa</label>
+        <input type="date" id="visa-end" onchange="onVisaChange()"/>
+      </div>
+    </div>
+    <div class="visa-info" id="visa-info"></div>
+    <div class="windows" id="windows-wrap">
+      <div class="windows-label">Fenêtres de 180 jours</div>
+      <div id="windows-list"></div>
+    </div>
+  </div>
+
+  <!-- ÉTAPE 2 -->
+  <div class="card">
+    <div class="card-title">
+      <span class="badge">2</span>
+      Tampons du passeport — Entrées / Sorties Schengen
+    </div>
+    <div class="entry-header">
+      <span>Entrée</span>
+      <span>Sortie</span>
+      <span style="text-align:center;">Jours</span>
+      <span></span>
+    </div>
+    <div id="entries-list"></div>
+    <button class="add-btn" onclick="addEntry()">＋ Ajouter un séjour</button>
+  </div>
+
+  <!-- RÉSULTATS -->
+  <div id="stats-wrap" class="hidden">
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">Jours consommés</div>
+        <div class="stat-val sv-ok" id="s-used">0</div>
+        <div class="stat-unit">sur 90 autorisés</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Jours restants</div>
+        <div class="stat-val sv-ok" id="s-remain">90</div>
+        <div class="stat-unit">disponibles</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Quota utilisé</div>
+        <div class="stat-val sv-ok" id="s-pct">0</div>
+        <div class="stat-unit">%</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Avant fin visa</div>
+        <div class="stat-val sv-red" id="s-vr">—</div>
+        <div class="stat-unit">jours</div>
+      </div>
+    </div>
+
+    <div class="gauge-wrap">
+      <div class="gauge-label">
+        <span>0 jour</span>
+        <span id="gauge-txt">0 / 90 jours</span>
+        <span>90 jours MAX</span>
+      </div>
+      <div class="gauge-track">
+        <div class="gauge-fill gf-ok" id="gauge-fill" style="width:0%"></div>
+      </div>
+      <div class="gauge-sub" id="gauge-sub"></div>
+    </div>
+
+    <div id="result-box"></div>
+    <div class="breakdown" id="breakdown">
+      <div class="bk-title">Détail des séjours — fenêtre active</div>
+      <div id="bk-rows"></div>
+    </div>
+
+    <button class="reset-btn" onclick="resetAll()">↺ Réinitialiser tout</button>
+  </div>
+
+  <div class="alert-info">
+    <strong>📌 Règle ESS :</strong> Sur toute fenêtre de <strong>180 jours consécutifs</strong>, le total des jours passés dans l'espace Schengen ne doit pas dépasser <strong>90 jours</strong>. Cette règle s'applique indépendamment à chaque fenêtre.
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>LAKCHER AHMED &nbsp;—&nbsp; AUTRANSA MAROC</strong><br>
+  Administrativo Tráfico Maroc &nbsp;<span class="sep">|</span>&nbsp; Área de Tráfico<br>
+  +212 539 341 736 &nbsp;<span class="sep">|</span>&nbsp; +212 665 067 771 &nbsp;<span class="sep">|</span>&nbsp; administracion.maroc@autransasl.com<br>
+  <span style="font-size:10px;opacity:.6;margin-top:4px;display:block;">Application indicative — Se référer aux autorités compétentes en cas de doute.</span>
+</div>
+
+<script>
+let entries = [{ id: 1, e: '', s: '' }];
+const $ = id => document.getElementById(id);
+
+function fmt(d) {
+  if (!d) return '—';
+  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+function fmtS(d) {
+  if (!d) return '—';
+  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: '2-digit' });
+}
+function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate() + n); return r; }
+function diffDays(d1, d2) { return Math.round((d2 - d1) / 86400000); }
+function daysBetween(d1, d2) { return Math.max(0, Math.round((d2 - d1) / 86400000) + 1); }
+
+function getVisa() {
+  const vs = $('visa-start').value, ve = $('visa-end').value;
+  if (!vs || !ve) return null;
+  const d1 = new Date(vs), d2 = new Date(ve);
+  if (d2 <= d1) return null;
+  return { start: d1, end: d2 };
+}
+
+function computeWindows(s, e) {
+  const total = daysBetween(s, e);
+  const n = Math.ceil(total / 180);
+  const wins = [];
+  for (let i = 0; i < n; i++) {
+    const ws = addDays(s, i * 180);
+    const we = new Date(Math.min(addDays(ws, 179), e));
+    if (ws <= e) wins.push({ start: ws, end: we, num: i + 1 });
+  }
+  return wins;
+}
+
+function getCurrentWindow(v) {
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const wins = computeWindows(v.start, v.end);
+  for (const w of wins) if (today >= w.start && today <= w.end) return w;
+  return today < v.start ? wins[0] : wins[wins.length - 1];
+}
+
+function onVisaChange() {
+  const v = getVisa();
+  const vi = $('visa-info'), ww = $('windows-wrap'), wl = $('windows-list');
+  if (!v) { vi.style.display = 'none'; ww.style.display = 'none'; return; }
+  const dur = daysBetween(v.start, v.end);
+  const wins = computeWindows(v.start, v.end);
+  vi.innerHTML = `Visa de <strong>${dur} jours</strong> &nbsp;|&nbsp; Du <strong>${fmt(v.start)}</strong> au <strong>${fmt(v.end)}</strong> &nbsp;|&nbsp; <strong>${wins.length} fenêtre(s) de 180 jours</strong>`;
+  vi.style.display = 'block';
+  const cols = ['c1', 'c2', 'c3', 'c4'];
+  wl.innerHTML = '';
+  wins.forEach((w, i) => {
+    const d = daysBetween(w.start, w.end);
+    const div = document.createElement('div');
+    div.className = 'wrow ' + cols[i % 4];
+    div.innerHTML = `<div><div class="wn">Fenêtre ${w.num} <span style="font-weight:400;font-size:11px;">(${d} j)</span></div><div class="wd">${fmtS(w.start)} → ${fmtS(w.end)}</div></div><span class="wm">90 j max</span>`;
+    wl.appendChild(div);
+  });
+  ww.style.display = 'block';
+  calculate();
+}
+
+function addEntry() { entries.push({ id: Date.now(), e: '', s: '' }); renderEntries(); }
+function removeEntry(id) {
+  if (entries.length === 1) { entries[0] = { id: entries[0].id, e: '', s: '' }; renderEntries(); calculate(); return; }
+  entries = entries.filter(x => x.id !== id); renderEntries(); calculate();
+}
+function upd(id, f, v) {
+  const e = entries.find(x => x.id === id);
+  if (e) { e[f] = v; renderEntries(); calculate(); }
+}
+
+function renderEntries() {
+  const list = $('entries-list');
+  list.innerHTML = '';
+  entries.forEach(en => {
+    const d1 = en.e ? new Date(en.e) : null;
+    const d2 = en.s ? new Date(en.s) : null;
+    const days = (d1 && d2 && d2 >= d1) ? daysBetween(d1, d2) : null;
+    let dc = '—', cls = 'days-badge';
+    if (days !== null) {
+      dc = days + 'j';
+      cls += days > 30 ? ' danger' : days > 15 ? ' warn' : ' ok';
+    }
+    const row = document.createElement('div');
+    row.className = 'entry-row';
+    row.innerHTML = `
+      <input type="date" value="${en.e}" onchange="upd(${en.id},'e',this.value)"/>
+      <input type="date" value="${en.s}" onchange="upd(${en.id},'s',this.value)"/>
+      <div class="${cls}">${dc}</div>
+      <button class="del-btn" onclick="removeEntry(${en.id})" title="Supprimer">✕</button>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function getPeriods() {
+  return entries.filter(e => e.e && e.s).map(e => ({ d1: new Date(e.e), d2: new Date(e.s) })).filter(p => p.d2 >= p.d1);
+}
+
+function daysInWin(periods, ws, we) {
+  let tot = 0;
+  periods.forEach(p => {
+    const s = new Date(Math.max(p.d1, ws));
+    const e = new Date(Math.min(p.d2, we));
+    if (e >= s) tot += Math.round((e - s) / 86400000) + 1;
+  });
+  return tot;
+}
+
+function calculate() {
+  const v = getVisa();
+  const periods = getPeriods();
+  const sw = $('stats-wrap');
+  if (periods.length === 0) {
+    sw.classList.add('hidden');
+    $('breakdown').style.display = 'none';
+    $('result-box').innerHTML = '';
+    return;
+  }
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  let wStart, wEnd;
+  if (v) { const cw = getCurrentWindow(v); wStart = cw.start; wEnd = cw.end; }
+  else { wEnd = new Date(today); wStart = addDays(today, -179); }
+
+  const used = daysInWin(periods, wStart, wEnd);
+  const remain = Math.max(0, 90 - used);
+  const pct = Math.min(100, Math.round(used / 90 * 100));
+  const vr = v ? Math.max(0, diffDays(today, v.end)) : null;
+
+  const su = $('s-used'); su.textContent = used;
+  su.className = 'stat-val ' + (used >= 90 ? 'sv-danger' : used >= 75 ? 'sv-warn' : 'sv-ok');
+  const sr = $('s-remain'); sr.textContent = remain;
+  sr.className = 'stat-val ' + (remain <= 10 ? 'sv-danger' : remain <= 20 ? 'sv-warn' : 'sv-ok');
+  const sp = $('s-pct'); sp.textContent = pct;
+  sp.className = 'stat-val ' + (pct >= 100 ? 'sv-danger' : pct >= 83 ? 'sv-warn' : 'sv-ok');
+  $('s-vr').textContent = vr !== null ? vr : '—';
+
+  const gf = $('gauge-fill');
+  gf.style.width = pct + '%';
+  gf.className = 'gauge-fill ' + (pct >= 100 ? 'gf-danger' : pct >= 83 ? 'gf-warn' : 'gf-ok');
+  $('gauge-txt').textContent = used + ' / 90 jours utilisés';
+  $('gauge-sub').textContent = remain > 0 ? `Il reste ${remain} jour(s) disponible(s) dans cette fenêtre.` : 'Quota atteint — aucun jour disponible.';
+
+  let rh = '';
+  if (used >= 90)
+    rh = `<div class="result-box rb-danger"><strong>🚫 DÉPASSEMENT — ${used} jours sur 90 !</strong><br>La règle 90/180 est violée. Ne pas entrer en espace Schengen.</div>`;
+  else if (used >= 75)
+    rh = `<div class="result-box rb-warn"><strong>⚠️ Seuil critique — ${used}/90 jours utilisés</strong><br>Il reste <strong>${remain} jour(s)</strong>. Planifier les prochains passages avec précaution.</div>`;
+  else
+    rh = `<div class="result-box rb-ok"><strong>✅ Conforme — ${used}/90 jours utilisés</strong><br>Fenêtre active : ${fmtS(wStart)} → ${fmtS(wEnd)} &nbsp;|&nbsp; Solde : <strong>${remain} jours disponibles</strong>.</div>`;
+  $('result-box').innerHTML = rh;
+
+  const bkRows = $('bk-rows');
+  bkRows.innerHTML = '';
+  periods.forEach((p, i) => {
+    const inW = daysInWin([p], wStart, wEnd);
+    const div = document.createElement('div');
+    div.className = 'bk-row';
+    div.innerHTML = `<span>Séjour ${i + 1} — ${fmt(p.d1)} → ${fmt(p.d2)}</span><span>${inW} j</span>`;
+    bkRows.appendChild(div);
+  });
+  const tot = document.createElement('div');
+  tot.className = 'bk-row';
+  tot.innerHTML = `<span>Total fenêtre active</span><span>${used} / 90 j</span>`;
+  bkRows.appendChild(tot);
+  $('breakdown').style.display = 'block';
+  sw.classList.remove('hidden');
+}
+
+function resetAll() {
+  $('visa-start').value = '';
+  $('visa-end').value = '';
+  $('visa-info').style.display = 'none';
+  $('windows-wrap').style.display = 'none';
+  $('windows-list').innerHTML = '';
+  entries = [{ id: 1, e: '', s: '' }];
+  renderEntries();
+  $('stats-wrap').classList.add('hidden');
+  $('breakdown').style.display = 'none';
+  $('result-box').innerHTML = '';
+}
+
+renderEntries();
+</script>
+</body>
+</html>
