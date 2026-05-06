@@ -1,325 +1,265 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Calculateur Schengen 90/180 — AUTRANSA MAROC</title>
+<title>Calculateur Schengen 90/180</title>
 <style>
-  :root {
-    --red: #cc0000;
-    --red-dark: #990000;
-    --red-light: #fdf0f0;
-    --red-mid: #f5b3b3;
-    --white: #ffffff;
-    --gray-light: #f4f4f4;
-    --gray-mid: #d1d5db;
-    --gray-dark: #374151;
-    --text: #1a1a1a;
-    --text2: #6b7280;
-    --border: #e5e7eb;
-    --green: #0e7c4a;
-    --green-light: #e0f5ea;
-    --green-mid: #6fcf97;
-    --amber: #92580a;
-    --amber-light: #fef3e2;
-    --amber-mid: #f6c157;
-    --danger-light: #fde8e8;
-    --danger-mid: #f87171;
-    --radius: 12px;
-    --radius-sm: 8px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #f0f0f0;
-    color: var(--text);
-    min-height: 100vh;
-    padding-bottom: 60px;
-  }
+:root {
+  --red: #cc0000;
+  --red-dark: #990000;
+  --red-light: #fff0f0;
+  --red-mid: #ffb3b3;
+  --white: #ffffff;
+  --gray-bg: #f2f2f2;
+  --gray-light: #f7f7f7;
+  --gray-mid: #d1d5db;
+  --gray-dark: #374151;
+  --text: #111827;
+  --text2: #555;
+  --border: #e0e0e0;
+  --green: #0b6e3f;
+  --green-light: #e6f7ee;
+  --green-mid: #4caf7d;
+  --amber: #7a4a00;
+  --amber-light: #fff8e6;
+  --amber-mid: #f0b429;
+  --danger-light: #fff0f0;
+  --danger-mid: #f87171;
+  --radius: 14px;
+  --radius-sm: 9px;
+  --font: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html[dir="rtl"] { font-family: 'Noto Kufi Arabic', 'Tahoma', var(--font); }
+html[dir="ltr"] { font-family: var(--font); }
+body { background: var(--gray-bg); color: var(--text); min-height: 100vh; padding-bottom: 50px; font-size: 15px; }
 
-  /* HEADER */
-  .header {
-    background: var(--red);
-    color: white;
-    padding: 0;
-    position: relative;
-    overflow: hidden;
-  }
-  .header-stripe {
-    position: absolute; top: 0; right: 0;
-    width: 0; height: 0;
-    border-style: solid;
-    border-width: 0 120px 90px 0;
-    border-color: transparent var(--red-dark) transparent transparent;
-    opacity: .4;
-  }
-  .header-inner {
-    padding: 20px 16px 16px;
-    position: relative; z-index: 1;
-  }
-  .header-top {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  .brand { font-size: 22px; font-weight: 900; letter-spacing: .5px; color: white; }
-  .brand span { font-weight: 300; font-size: 14px; display: block; opacity: .85; letter-spacing: 0; }
-  .logo-box {
-    background: white; border-radius: 6px; padding: 5px 10px;
-    font-size: 13px; font-weight: 900; color: var(--red); letter-spacing: .5px;
-  }
-  .header-title { font-size: 17px; font-weight: 700; color: white; margin-bottom: 3px; }
-  .header-sub { font-size: 12px; color: rgba(255,255,255,.8); }
+/* HEADER */
+.header { background: var(--red); padding: 0; position: relative; overflow: hidden; }
+.header::after { content: ''; position: absolute; bottom: 0; right: 0; width: 160px; height: 100%; background: var(--red-dark); clip-path: polygon(40% 0%, 100% 0%, 100% 100%, 0% 100%); opacity: .35; }
+.header-inner { padding: 20px 18px 18px; position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; }
+.header-left {}
+.header-title { font-size: 20px; font-weight: 800; color: white; letter-spacing: .3px; }
+.header-sub { font-size: 13px; color: rgba(255,255,255,.8); margin-top: 3px; }
+.header-logo { background: white; color: var(--red); font-size: 13px; font-weight: 900; padding: 6px 12px; border-radius: 8px; letter-spacing: .5px; white-space: nowrap; }
 
-  /* CONTAINER */
-  .container { max-width: 480px; margin: 0 auto; padding: 14px; }
+/* LANG SWITCH */
+.lang-bar { background: var(--red-dark); display: flex; justify-content: flex-end; padding: 6px 18px; gap: 6px; }
+.lang-btn { background: none; border: 1.5px solid rgba(255,255,255,.4); color: rgba(255,255,255,.75); font-size: 13px; font-weight: 700; padding: 4px 14px; border-radius: 20px; cursor: pointer; transition: all .2s; }
+.lang-btn.active { background: white; color: var(--red); border-color: white; }
 
-  /* CARD */
-  .card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 12px;
-    border: 1px solid var(--border);
-    box-shadow: 0 1px 3px rgba(0,0,0,.06);
-  }
-  .card-title {
-    display: flex; align-items: center; gap: 9px;
-    font-size: 14px; font-weight: 700; color: var(--text);
-    margin-bottom: 14px; padding-bottom: 10px;
-    border-bottom: 2px solid var(--red-light);
-  }
-  .badge {
-    background: var(--red); color: white;
-    width: 24px; height: 24px; border-radius: 50%;
-    font-size: 12px; font-weight: 700;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  }
+/* CONTAINER */
+.container { max-width: 480px; margin: 0 auto; padding: 16px; }
 
-  /* FORM */
-  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .field label { font-size: 12px; color: var(--text2); font-weight: 600; display: block; margin-bottom: 5px; }
-  .field input[type="date"] {
-    width: 100%; font-size: 14px; padding: 10px 12px;
-    border: 1.5px solid var(--border); border-radius: var(--radius-sm);
-    background: var(--gray-light); color: var(--text); transition: border-color .2s;
-  }
-  .field input:focus { outline: none; border-color: var(--red); background: white; }
+/* CARD */
+.card { background: var(--white); border-radius: var(--radius); padding: 18px; margin-bottom: 14px; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+.card-title { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2.5px solid var(--red-light); }
+.badge { background: var(--red); color: white; width: 26px; height: 26px; border-radius: 50%; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
-  /* VISA INFO */
-  .visa-info {
-    background: var(--red-light); border: 1px solid var(--red-mid);
-    border-radius: var(--radius-sm); padding: 10px 12px;
-    margin-top: 12px; font-size: 13px; color: var(--red-dark);
-    display: none; line-height: 1.6;
-  }
-  .visa-info strong { font-weight: 700; }
+/* FORM */
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field label { font-size: 12px; color: var(--text2); font-weight: 600; display: block; margin-bottom: 5px; }
+.field input[type="date"] { width: 100%; font-size: 15px; padding: 11px 13px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--gray-light); color: var(--text); transition: border-color .2s; }
+.field input[type="date"]:focus { outline: none; border-color: var(--red); background: white; }
 
-  /* WINDOWS */
-  .windows { margin-top: 12px; display: none; }
-  .windows-label { font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
-  .wrow {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 9px 12px; border-radius: var(--radius-sm); margin-bottom: 6px; border: 1px solid;
-  }
-  .wrow.c1 { background: #fff5f5; border-color: #fca5a5; }
-  .wrow.c1 .wn { color: #991b1b; } .wrow.c1 .wd { color: #dc2626; } .wrow.c1 .wm { background: #fee2e2; color: #991b1b; }
-  .wrow.c2 { background: #f9fafb; border-color: #d1d5db; }
-  .wrow.c2 .wn { color: #1f2937; } .wrow.c2 .wd { color: #4b5563; } .wrow.c2 .wm { background: #f3f4f6; color: #1f2937; }
-  .wrow.c3 { background: #fff5f5; border-color: #fca5a5; }
-  .wrow.c3 .wn { color: #991b1b; } .wrow.c3 .wd { color: #dc2626; } .wrow.c3 .wm { background: #fee2e2; color: #991b1b; }
-  .wrow.c4 { background: #f9fafb; border-color: #d1d5db; }
-  .wrow.c4 .wn { color: #1f2937; } .wrow.c4 .wd { color: #4b5563; } .wrow.c4 .wm { background: #f3f4f6; color: #1f2937; }
-  .wn { font-size: 12px; font-weight: 700; }
-  .wd { font-size: 11px; margin-top: 1px; }
-  .wm { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+/* INFO BOXES */
+.info-visa { background: var(--red-light); border: 1.5px solid var(--red-mid); border-radius: var(--radius-sm); padding: 10px 13px; margin-top: 12px; font-size: 14px; color: var(--red-dark); display: none; line-height: 1.7; }
+.info-visa strong { font-weight: 700; }
+.regle-box { background: var(--gray-light); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin-top: 12px; font-size: 13px; color: var(--text2); line-height: 1.8; display: none; }
+.regle-box strong { color: var(--text); font-weight: 600; }
+.fenetre-pill { display: inline-block; background: var(--red-light); border: 1px solid var(--red-mid); border-radius: 20px; padding: 3px 10px; color: var(--red-dark); font-weight: 700; font-size: 13px; }
 
-  /* ENTRIES */
-  .entry-header { display: grid; grid-template-columns: 1fr 1fr 56px 32px; gap: 6px; margin-bottom: 6px; }
-  .entry-header span { font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: .04em; }
-  .entry-row { display: grid; grid-template-columns: 1fr 1fr 56px 32px; gap: 6px; align-items: center; margin-bottom: 7px; }
-  .entry-row input[type="date"] {
-    font-size: 12px; padding: 8px 6px;
-    border: 1.5px solid var(--border); border-radius: var(--radius-sm);
-    background: var(--gray-light); color: var(--text); width: 100%;
-  }
-  .entry-row input:focus { outline: none; border-color: var(--red); background: white; }
-  .days-badge { text-align: center; font-size: 13px; font-weight: 700; padding: 8px 4px; border-radius: var(--radius-sm); background: var(--gray-light); color: var(--text2); }
-  .days-badge.ok { background: #e0f5ea; color: var(--green); }
-  .days-badge.warn { background: #fef3e2; color: var(--amber); }
-  .days-badge.danger { background: #fde8e8; color: #9b1c1c; }
-  .del-btn {
-    width: 32px; height: 36px; background: none;
-    border: 1.5px solid var(--border); border-radius: var(--radius-sm);
-    color: var(--text2); cursor: pointer; font-size: 14px;
-    display: flex; align-items: center; justify-content: center; transition: all .15s;
-  }
-  .del-btn:hover { background: var(--danger-light); color: #9b1c1c; border-color: var(--danger-mid); }
-  .add-btn {
-    width: 100%; background: none; border: 1.5px dashed var(--gray-mid);
-    border-radius: var(--radius-sm); color: var(--text2); font-size: 13px;
-    padding: 9px; cursor: pointer; display: flex; align-items: center;
-    justify-content: center; gap: 6px; margin-top: 4px; font-weight: 600; transition: all .15s;
-  }
-  .add-btn:hover { background: var(--red-light); color: var(--red); border-color: var(--red-mid); }
+/* ENTRIES */
+.entry-header { display: grid; grid-template-columns: 1fr 1fr 58px 32px; gap: 6px; margin-bottom: 6px; }
+.entry-header span { font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: .05em; }
+.entry-row { display: grid; grid-template-columns: 1fr 1fr 58px 32px; gap: 6px; align-items: center; margin-bottom: 8px; }
+.entry-row input { font-size: 13px; padding: 9px 7px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--gray-light); color: var(--text); width: 100%; }
+.entry-row input:focus { outline: none; border-color: var(--red); background: white; }
+.days-badge { text-align: center; font-size: 14px; font-weight: 700; padding: 9px 4px; border-radius: var(--radius-sm); background: var(--gray-light); color: var(--text2); }
+.days-badge.ok { background: var(--green-light); color: var(--green); }
+.days-badge.warn { background: var(--amber-light); color: var(--amber); }
+.days-badge.danger { background: var(--danger-light); color: #9b1c1c; }
+.del-btn { width: 34px; height: 38px; background: none; border: 1.5px solid var(--border); border-radius: var(--radius-sm); color: var(--text2); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all .15s; }
+.del-btn:hover { background: var(--danger-light); color: #9b1c1c; border-color: var(--danger-mid); }
+.add-btn { width: 100%; background: none; border: 2px dashed var(--gray-mid); border-radius: var(--radius-sm); color: var(--text2); font-size: 14px; padding: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 4px; font-weight: 600; transition: all .15s; }
+.add-btn:hover { background: var(--red-light); color: var(--red); border-color: var(--red-mid); }
 
-  /* STATS */
-  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-  .stat {
-    background: var(--white); border-radius: var(--radius-sm); padding: 12px 14px;
-    border: 1px solid var(--border); text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,.04);
-  }
-  .stat-label { font-size: 11px; color: var(--text2); font-weight: 600; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }
-  .stat-val { font-size: 28px; font-weight: 800; line-height: 1; }
-  .stat-unit { font-size: 12px; color: var(--text2); margin-top: 2px; }
-  .sv-ok { color: var(--green); }
-  .sv-warn { color: var(--amber); }
-  .sv-danger { color: #9b1c1c; }
-  .sv-red { color: var(--red); }
+/* SIMULATION */
+.sim-box { background: #fff8f0; border: 1.5px solid #f6c157; border-radius: var(--radius-sm); padding: 12px 14px; margin-top: 14px; }
+.sim-title { font-size: 13px; font-weight: 700; color: var(--amber); margin-bottom: 10px; }
+.sim-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+.sim-btn { width: 100%; background: var(--amber-mid); border: none; border-radius: var(--radius-sm); padding: 10px; font-size: 14px; font-weight: 700; color: white; cursor: pointer; transition: background .15s; }
+.sim-btn:hover { background: #d4920f; }
+.sim-result { margin-top: 10px; font-size: 13px; line-height: 1.7; padding: 10px 12px; border-radius: var(--radius-sm); display: none; }
+.sim-result.ok { background: var(--green-light); color: var(--green); border: 1px solid var(--green-mid); }
+.sim-result.danger { background: var(--danger-light); color: #9b1c1c; border: 1px solid var(--danger-mid); }
+.sim-result.warn { background: var(--amber-light); color: var(--amber); border: 1px solid var(--amber-mid); }
 
-  /* GAUGE */
-  .gauge-wrap {
-    background: var(--white); border: 1px solid var(--border);
-    border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 12px;
-  }
-  .gauge-label { display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; color: var(--text2); margin-bottom: 7px; }
-  .gauge-track { height: 14px; background: var(--gray-light); border-radius: 7px; overflow: hidden; }
-  .gauge-fill { height: 100%; border-radius: 7px; transition: width .5s, background .3s; }
-  .gf-ok { background: var(--green-mid); }
-  .gf-warn { background: var(--amber-mid); }
-  .gf-danger { background: var(--danger-mid); }
-  .gauge-sub { font-size: 11px; color: var(--text2); margin-top: 5px; text-align: center; }
+/* STATS */
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.stat { background: var(--white); border-radius: var(--radius-sm); padding: 14px; border: 1px solid var(--border); text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+.stat-label { font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 5px; text-transform: uppercase; letter-spacing: .04em; }
+.stat-val { font-size: 32px; font-weight: 800; line-height: 1; }
+.stat-unit { font-size: 12px; color: var(--text2); margin-top: 3px; }
+.sv-ok { color: var(--green); }
+.sv-warn { color: var(--amber); }
+.sv-danger { color: #9b1c1c; }
+.sv-red { color: var(--red); }
 
-  /* RESULT */
-  .result-box { border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 12px; border: 1px solid; font-size: 13px; line-height: 1.6; }
-  .result-box strong { font-weight: 700; }
-  .rb-ok { background: var(--green-light); border-color: var(--green-mid); color: var(--green); }
-  .rb-warn { background: var(--amber-light); border-color: var(--amber-mid); color: var(--amber); }
-  .rb-danger { background: var(--danger-light); border-color: var(--danger-mid); color: #9b1c1c; }
+/* GAUGE */
+.gauge-wrap { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 14px; }
+.gauge-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 8px; }
+.gauge-track { height: 16px; background: var(--gray-light); border-radius: 8px; overflow: hidden; }
+.gauge-fill { height: 100%; border-radius: 8px; transition: width .5s, background .3s; }
+.gf-ok { background: var(--green-mid); }
+.gf-warn { background: var(--amber-mid); }
+.gf-danger { background: var(--danger-mid); }
+.gauge-sub { font-size: 13px; color: var(--text2); margin-top: 6px; text-align: center; }
 
-  /* BREAKDOWN */
-  .breakdown { background: var(--gray-light); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 12px; display: none; }
-  .bk-title { font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 7px; }
-  .bk-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); padding: 3px 0; border-bottom: 1px solid var(--border); }
-  .bk-row:last-child { border: none; font-weight: 700; color: var(--text); margin-top: 3px; font-size: 13px; }
+/* RESULT */
+.result-box { border-radius: var(--radius-sm); padding: 14px; margin-bottom: 14px; border: 1.5px solid; font-size: 14px; line-height: 1.7; }
+.result-box strong { font-weight: 700; }
+.rb-ok { background: var(--green-light); border-color: var(--green-mid); color: var(--green); }
+.rb-warn { background: var(--amber-light); border-color: var(--amber-mid); color: var(--amber); }
+.rb-danger { background: var(--danger-light); border-color: var(--danger-mid); color: #9b1c1c; }
 
-  /* RESET BTN */
-  .reset-btn {
-    width: 100%; background: none; border: 1.5px solid var(--red-mid);
-    border-radius: var(--radius-sm); color: var(--red); font-size: 13px;
-    padding: 10px; cursor: pointer; font-weight: 600; margin-top: 4px;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    transition: all .15s;
-  }
-  .reset-btn:hover { background: var(--red-light); }
+/* BREAKDOWN */
+.breakdown { background: var(--gray-light); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 14px; display: none; }
+.bk-title { font-size: 12px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
+.bk-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--text2); padding: 5px 0; border-bottom: 1px solid var(--border); }
+.bk-row:last-child { border: none; font-weight: 700; color: var(--text); margin-top: 4px; font-size: 14px; }
+.bk-row .in-win { color: var(--red); font-weight: 700; }
 
-  /* ALERT INFO */
-  .alert-info {
-    background: var(--red-light); border: 1px solid var(--red-mid);
-    border-radius: var(--radius-sm); padding: 10px 12px;
-    font-size: 12px; color: var(--red-dark); line-height: 1.6; margin-bottom: 12px;
-  }
-  .alert-info strong { font-weight: 700; }
+/* RESET */
+.reset-btn { width: 100%; background: none; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px; font-size: 14px; color: var(--text2); cursor: pointer; font-weight: 600; transition: all .15s; }
+.reset-btn:hover { background: var(--danger-light); color: #9b1c1c; border-color: var(--danger-mid); }
 
-  /* FOOTER */
-  .footer {
-    background: var(--gray-dark); color: rgba(255,255,255,.7);
-    text-align: center; padding: 16px;
-    font-size: 11px; line-height: 1.8; margin-top: 10px;
-  }
-  .footer strong { color: white; font-size: 12px; }
-  .footer .sep { color: var(--red); margin: 0 6px; }
+/* FOOTER */
+.footer { background: var(--gray-dark); color: rgba(255,255,255,.7); text-align: center; padding: 18px 16px; font-size: 13px; line-height: 1.9; margin-top: 8px; }
+.footer strong { color: white; font-size: 14px; }
+.footer .sep { color: var(--red); margin: 0 6px; }
 
-  .hidden { display: none !important; }
+/* ALERT */
+.alert-rule { background: var(--red-light); border: 1px solid var(--red-mid); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; color: #7f1111; line-height: 1.8; margin-bottom: 14px; }
+.alert-rule strong { font-weight: 700; }
+
+/* RTL adjustments */
+html[dir="rtl"] .header-inner { flex-direction: row-reverse; }
+html[dir="rtl"] .entry-header span { text-align: right; }
+html[dir="rtl"] .bk-row { flex-direction: row-reverse; }
+html[dir="rtl"] .gauge-label { flex-direction: row-reverse; }
+html[dir="rtl"] .lang-bar { justify-content: flex-start; }
+
+.hidden { display: none !important; }
 </style>
 </head>
 <body>
 
+<div class="lang-bar">
+  <button class="lang-btn active" id="btn-fr" onclick="setLang('fr')">FR</button>
+  <button class="lang-btn" id="btn-ar" onclick="setLang('ar')">ع</button>
+</div>
+
 <div class="header">
-  <div class="header-stripe"></div>
   <div class="header-inner">
-    <div class="header-top">
-      <div class="brand">
-        🛂 Schengen
-        <span>Calculateur 90 / 180 jours</span>
-      </div>
-      <div class="logo-box">AUTRANSA</div>
+    <div class="header-left">
+      <div class="header-title" data-fr="🛂 Calculateur Schengen" data-ar="🛂 حاسبة شنغن">🛂 Calculateur Schengen</div>
+      <div class="header-sub" data-fr="Règle 90/180 jours — Chauffeur routier" data-ar="قاعدة 90/180 يوم — سائق النقل الدولي">Règle 90/180 jours — Chauffeur routier</div>
     </div>
-    <div class="header-title">Chauffeur Routier International</div>
-    <div class="header-sub">Saisir les dates du visa et les tampons passeport</div>
+    <div class="header-logo">AUTRANSA</div>
   </div>
 </div>
 
 <div class="container">
 
-  <!-- ÉTAPE 1 -->
+  <!-- ÉTAPE 1 : VISA -->
   <div class="card">
     <div class="card-title">
       <span class="badge">1</span>
-      Dates de validité du visa
+      <span data-fr="Dates du visa" data-ar="تواريخ التأشيرة">Dates du visa</span>
     </div>
     <div class="row2">
       <div class="field">
-        <label>📅 Début du visa</label>
+        <label data-fr="📅 Début du visa" data-ar="📅 بداية التأشيرة">📅 Début du visa</label>
         <input type="date" id="visa-start" onchange="onVisaChange()"/>
       </div>
       <div class="field">
-        <label>📅 Fin du visa</label>
+        <label data-fr="📅 Fin du visa" data-ar="📅 نهاية التأشيرة">📅 Fin du visa</label>
         <input type="date" id="visa-end" onchange="onVisaChange()"/>
       </div>
     </div>
-    <div class="visa-info" id="visa-info"></div>
-    <div class="windows" id="windows-wrap">
-      <div class="windows-label">Fenêtres de 180 jours</div>
-      <div id="windows-list"></div>
-    </div>
+    <div class="info-visa" id="visa-info"></div>
+    <div class="regle-box" id="regle-box"></div>
   </div>
 
-  <!-- ÉTAPE 2 -->
+  <!-- ÉTAPE 2 : TAMPONS -->
   <div class="card">
     <div class="card-title">
       <span class="badge">2</span>
-      Tampons du passeport — Entrées / Sorties Schengen
+      <span data-fr="Tampons passeport — Entrées / Sorties Schengen" data-ar="أختام جواز السفر — دخول / خروج شنغن">Tampons passeport — Entrées / Sorties Schengen</span>
     </div>
     <div class="entry-header">
-      <span>Entrée</span>
-      <span>Sortie</span>
-      <span style="text-align:center;">Jours</span>
+      <span data-fr="Entrée" data-ar="دخول">Entrée</span>
+      <span data-fr="Sortie" data-ar="خروج">Sortie</span>
+      <span style="text-align:center;" data-fr="Jours" data-ar="أيام">Jours</span>
       <span></span>
     </div>
     <div id="entries-list"></div>
-    <button class="add-btn" onclick="addEntry()">＋ Ajouter un séjour</button>
+    <button class="add-btn" onclick="addEntry()">
+      <span style="font-size:18px;">＋</span>
+      <span data-fr="Ajouter un séjour" data-ar="إضافة إقامة">Ajouter un séjour</span>
+    </button>
+
+    <!-- SIMULATION -->
+    <div class="sim-box" id="sim-box" style="display:none;">
+      <div class="sim-title">
+        <span data-fr="🔮 Mode simulation — Planifier une future entrée" data-ar="🔮 محاكاة — تخطيط دخول مستقبلي">🔮 Mode simulation — Planifier une future entrée</span>
+      </div>
+      <div class="sim-row">
+        <div class="field">
+          <label data-fr="📅 Date d'entrée prévue" data-ar="📅 تاريخ الدخول المخطط">📅 Date d'entrée prévue</label>
+          <input type="date" id="sim-entry" style="width:100%;font-size:15px;padding:11px 13px;border:1.5px solid #e0e0e0;border-radius:9px;background:#f7f7f7;color:#111827;" onchange="runSimulation()"/>
+        </div>
+        <div class="field">
+          <label data-fr="📅 Date de sortie prévue" data-ar="📅 تاريخ الخروج المخطط">📅 Date de sortie prévue</label>
+          <input type="date" id="sim-exit" style="width:100%;font-size:15px;padding:11px 13px;border:1.5px solid #e0e0e0;border-radius:9px;background:#f7f7f7;color:#111827;" onchange="runSimulation()"/>
+        </div>
+      </div>
+      <div class="sim-result" id="sim-result"></div>
+    </div>
   </div>
 
   <!-- RÉSULTATS -->
   <div id="stats-wrap" class="hidden">
     <div class="stats">
       <div class="stat">
-        <div class="stat-label">Jours consommés</div>
+        <div class="stat-label" data-fr="Jours consommés" data-ar="الأيام المستهلكة">Jours consommés</div>
         <div class="stat-val sv-ok" id="s-used">0</div>
-        <div class="stat-unit">sur 90 autorisés</div>
+        <div class="stat-unit" data-fr="sur 90 autorisés" data-ar="من 90 مسموحاً">sur 90 autorisés</div>
       </div>
       <div class="stat">
-        <div class="stat-label">Jours restants</div>
+        <div class="stat-label" data-fr="Jours restants" data-ar="الأيام المتبقية">Jours restants</div>
         <div class="stat-val sv-ok" id="s-remain">90</div>
-        <div class="stat-unit">disponibles</div>
+        <div class="stat-unit" data-fr="disponibles" data-ar="متاحة">disponibles</div>
       </div>
       <div class="stat">
-        <div class="stat-label">Quota utilisé</div>
+        <div class="stat-label" data-fr="Quota utilisé" data-ar="نسبة الاستهلاك">Quota utilisé</div>
         <div class="stat-val sv-ok" id="s-pct">0</div>
         <div class="stat-unit">%</div>
       </div>
       <div class="stat">
-        <div class="stat-label">Avant fin visa</div>
+        <div class="stat-label" data-fr="Avant fin visa" data-ar="قبل انتهاء التأشيرة">Avant fin visa</div>
         <div class="stat-val sv-red" id="s-vr">—</div>
-        <div class="stat-unit">jours</div>
+        <div class="stat-unit" data-fr="jours" data-ar="يوم">jours</div>
       </div>
     </div>
 
     <div class="gauge-wrap">
       <div class="gauge-label">
-        <span>0 jour</span>
-        <span id="gauge-txt">0 / 90 jours</span>
-        <span>90 jours MAX</span>
+        <span data-fr="0 jour" data-ar="0 يوم">0 jour</span>
+        <span id="gauge-txt" style="font-weight:700;color:#111827;">0 / 90</span>
+        <span data-fr="90 jours MAX" data-ar="90 يوم الحد الأقصى">90 jours MAX</span>
       </div>
       <div class="gauge-track">
         <div class="gauge-fill gf-ok" id="gauge-fill" style="width:0%"></div>
@@ -328,43 +268,118 @@
     </div>
 
     <div id="result-box"></div>
+
     <div class="breakdown" id="breakdown">
-      <div class="bk-title">Détail des séjours — fenêtre active</div>
+      <div class="bk-title" data-fr="Détail des séjours — fenêtre glissante active" data-ar="تفاصيل الإقامات — النافذة الزمنية الحالية">Détail des séjours — fenêtre glissante active</div>
       <div id="bk-rows"></div>
     </div>
 
-    <button class="reset-btn" onclick="resetAll()">↺ Réinitialiser tout</button>
+    <button class="reset-btn" onclick="resetAll()">
+      ↺ <span data-fr="Réinitialiser tout" data-ar="إعادة تعيين">Réinitialiser tout</span>
+    </button>
   </div>
 
-  <div class="alert-info">
-    <strong>📌 Règle ESS :</strong> Sur toute fenêtre de <strong>180 jours consécutifs</strong>, le total des jours passés dans l'espace Schengen ne doit pas dépasser <strong>90 jours</strong>. Cette règle s'applique indépendamment à chaque fenêtre.
+  <div class="alert-rule">
+    <strong data-fr="📌 Règle ESS — Fenêtre glissante :" data-ar="📌 قاعدة ESS — النافذة الزمنية المتحركة :">📌 Règle ESS — Fenêtre glissante :</strong>
+    <span data-fr=" À n'importe quelle date, le système remonte 180 jours en arrière et vérifie que le total en Schengen ne dépasse pas 90 jours. La fenêtre se décale chaque jour automatiquement." data-ar=" في أي تاريخ، يرجع النظام 180 يوماً للوراء ويتحقق من أن مجموع أيام الإقامة في شنغن لا يتجاوز 90 يوماً. تتحرك النافذة تلقائياً كل يوم."> À n'importe quelle date, le système remonte 180 jours en arrière et vérifie que le total en Schengen ne dépasse pas 90 jours. La fenêtre se décale chaque jour automatiquement.</span>
   </div>
 
 </div>
 
 <div class="footer">
   <strong>LAKCHER AHMED &nbsp;—&nbsp; AUTRANSA MAROC</strong><br>
-  Administrativo Tráfico Maroc &nbsp;<span class="sep">|</span>&nbsp; Área de Tráfico<br>
-  +212 539 341 736 &nbsp;<span class="sep">|</span>&nbsp; +212 665 067 771 &nbsp;<span class="sep">|</span>&nbsp; administracion.maroc@autransasl.com<br>
-  <span style="font-size:10px;opacity:.6;margin-top:4px;display:block;">Application indicative — Se référer aux autorités compétentes en cas de doute.</span>
+  <span data-fr="Application indicative — Se référer aux autorités compétentes en cas de doute." data-ar="تطبيق استرشادي — يرجى الرجوع إلى السلطات المختصة عند الشك.">Application indicative — Se référer aux autorités compétentes en cas de doute.</span>
 </div>
 
 <script>
 let entries = [{ id: 1, e: '', s: '' }];
+let currentLang = 'fr';
 const $ = id => document.getElementById(id);
 
-function fmt(d) {
-  if (!d) return '—';
-  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+/* ── TRADUCTIONS ── */
+const T = {
+  fr: {
+    usedOn: (u) => `${u} jours sur 90 dans la fenêtre active`,
+    remain: (r) => `Il reste ${r} jour(s) disponible(s).`,
+    none: 'Quota épuisé — aucun jour disponible.',
+    ok: (u, r, ws, we) => `<strong>✅ Conforme ESS — ${u}/90 jours</strong><br>Fenêtre active : ${ws} → ${we} &nbsp;|&nbsp; Solde : <strong>${r} jours disponibles</strong>`,
+    warn: (u, r) => `<strong>⚠️ Seuil critique — ${u}/90 jours</strong><br>Il reste <strong>${r} jours</strong>. Planifier avec précaution.`,
+    danger: (u) => `<strong>🚫 Dépassement — ${u} jours sur 90 !</strong><br>Règle ESS violée. Entrée en Schengen refusée.`,
+    inWin: (n) => `${n}j dans fenêtre`,
+    outWin: 'hors fenêtre',
+    total: 'Total fenêtre glissante',
+    regle: (ws, we, u) => `<strong>📌 Règle ESS — Fenêtre glissante</strong><br>
+      À <strong>n'importe quelle date</strong>, le système remonte <strong>180 jours en arrière</strong> et compte les jours en Schengen. Si total > <strong style="color:var(--red)">90 jours → refus d'entrée</strong>.<br>
+      Il n'y a <strong>pas de fenêtres fixes</strong> — la fenêtre se décale chaque jour.<br>
+      <span style="margin-top:6px;display:block;padding-top:6px;border-top:1px solid #e0e0e0;">
+        🔍 <strong>Fenêtre active aujourd'hui :</strong>
+        <span style="background:#fff0f0;border:1px solid #ffb3b3;border-radius:20px;padding:2px 10px;color:#7f1111;font-weight:700;font-size:13px;">${ws} → ${we}</span>
+        &nbsp;→&nbsp;
+        <span style="background:#fff0f0;border:1px solid #ffb3b3;border-radius:20px;padding:2px 10px;color:#7f1111;font-weight:700;font-size:13px;">${u} / 90 jours</span>
+      </span>`,
+    simOk: (entry, used, remain, maxStay) => `<strong>✅ Entrée possible le ${entry}</strong><br>Jours déjà utilisés dans la fenêtre de cette date : <strong>${used}/90</strong><br>Solde disponible : <strong>${remain} jours</strong><br>Séjour maximum possible : <strong>${maxStay} jours</strong>`,
+    simWarn: (entry, used, remain, maxStay) => `<strong>⚠️ Entrée possible mais attention le ${entry}</strong><br>Jours utilisés : <strong>${used}/90</strong> — Solde : <strong>${remain} jours</strong><br>Ne pas dépasser <strong>${maxStay} jours</strong> de séjour.`,
+    simDanger: (entry, used) => `<strong>🚫 Entrée impossible le ${entry}</strong><br>Jours déjà consommés dans la fenêtre : <strong>${used}/90</strong>. Quota dépassé.`,
+    simCheck: (entry, exit, used, inTrip, total, remain) => `<strong>🔍 Vérification du séjour prévu</strong><br>
+      Entrée : <strong>${entry}</strong> &nbsp;→&nbsp; Sortie : <strong>${exit}</strong> (${inTrip} jours)<br>
+      Jours avant ce séjour : ${used} &nbsp;+&nbsp; Ce séjour : ${inTrip} &nbsp;=&nbsp; <strong>Total : ${total}/90</strong><br>`,
+    simCheckOk: (remain) => `✅ <strong>Séjour autorisé</strong> — Solde après : <strong>${remain} jours</strong>`,
+    simCheckDanger: () => `🚫 <strong>Séjour refusé</strong> — Dépasse les 90 jours autorisés`,
+  },
+  ar: {
+    usedOn: (u) => `${u} يوماً من أصل 90 في النافذة الحالية`,
+    remain: (r) => `متبقي ${r} يوم متاح.`,
+    none: 'استُنفد الحصة — لا أيام متاحة.',
+    ok: (u, r, ws, we) => `<strong>✅ مطابق ESS — ${u}/90 يوم</strong><br>النافذة الحالية : ${ws} → ${we} &nbsp;|&nbsp; الرصيد : <strong>${r} يوم متاح</strong>`,
+    warn: (u, r) => `<strong>⚠️ حد حرج — ${u}/90 يوم</strong><br>متبقي <strong>${r} يوم</strong>. تخطيط بحذر.`,
+    danger: (u) => `<strong>🚫 تجاوز — ${u} يوم من أصل 90 !</strong><br>قاعدة ESS منتهكة. رفض الدخول إلى شنغن.`,
+    inWin: (n) => `${n} يوم في النافذة`,
+    outWin: 'خارج النافذة',
+    total: 'المجموع في النافذة المتحركة',
+    regle: (ws, we, u) => `<strong>📌 قاعدة ESS — النافذة المتحركة</strong><br>
+      في <strong>أي تاريخ</strong>، يرجع النظام <strong>180 يوماً للوراء</strong> ويحسب أيام الإقامة في شنغن. إذا تجاوز المجموع <strong style="color:var(--red)">90 يوماً → رفض الدخول</strong>.<br>
+      <strong>لا توجد نوافذ ثابتة</strong> — تتحرك النافذة تلقائياً كل يوم.<br>
+      <span style="margin-top:6px;display:block;padding-top:6px;border-top:1px solid #e0e0e0;">
+        🔍 <strong>النافذة الحالية اليوم :</strong>
+        <span style="background:#fff0f0;border:1px solid #ffb3b3;border-radius:20px;padding:2px 10px;color:#7f1111;font-weight:700;font-size:13px;">${ws} → ${we}</span>
+        &nbsp;→&nbsp;
+        <span style="background:#fff0f0;border:1px solid #ffb3b3;border-radius:20px;padding:2px 10px;color:#7f1111;font-weight:700;font-size:13px;">${u} / 90 يوم</span>
+      </span>`,
+    simOk: (entry, used, remain, maxStay) => `<strong>✅ الدخول ممكن في ${entry}</strong><br>الأيام المستهلكة في نافذة هذا التاريخ : <strong>${used}/90</strong><br>الرصيد المتاح : <strong>${remain} يوم</strong><br>أقصى إقامة ممكنة : <strong>${maxStay} يوم</strong>`,
+    simWarn: (entry, used, remain, maxStay) => `<strong>⚠️ الدخول ممكن لكن انتبه في ${entry}</strong><br>الأيام المستهلكة : <strong>${used}/90</strong> — الرصيد : <strong>${remain} يوم</strong><br>لا تتجاوز <strong>${maxStay} يوم</strong> إقامة.`,
+    simDanger: (entry, used) => `<strong>🚫 الدخول مستحيل في ${entry}</strong><br>الأيام المستهلكة في النافذة : <strong>${used}/90</strong>. تجاوز الحصة.`,
+    simCheck: (entry, exit, used, inTrip, total, remain) => `<strong>🔍 التحقق من الرحلة المخططة</strong><br>
+      دخول : <strong>${entry}</strong> &nbsp;→&nbsp; خروج : <strong>${exit}</strong> (${inTrip} يوم)<br>
+      أيام قبل هذه الرحلة : ${used} &nbsp;+&nbsp; هذه الرحلة : ${inTrip} &nbsp;=&nbsp; <strong>المجموع : ${total}/90</strong><br>`,
+    simCheckOk: (remain) => `✅ <strong>الرحلة مسموحة</strong> — الرصيد بعدها : <strong>${remain} يوم</strong>`,
+    simCheckDanger: () => `🚫 <strong>الرحلة مرفوضة</strong> — تتجاوز الـ 90 يوماً المسموحة`,
+  }
+};
+
+/* ── LANGUE ── */
+function setLang(lang) {
+  currentLang = lang;
+  const html = document.documentElement;
+  html.setAttribute('lang', lang);
+  html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  $('btn-fr').classList.toggle('active', lang === 'fr');
+  $('btn-ar').classList.toggle('active', lang === 'ar');
+  document.querySelectorAll('[data-fr]').forEach(el => {
+    const key = 'data-' + lang;
+    if (el.hasAttribute(key)) el.textContent = el.getAttribute(key);
+  });
+  onVisaChange();
+  renderEntries();
 }
-function fmtS(d) {
-  if (!d) return '—';
-  return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: '2-digit' });
-}
+
+/* ── UTILS ── */
+function fmt(d) { if (!d) return '—'; return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }); }
+function fmtS(d) { if (!d) return '—'; return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: '2-digit' }); }
 function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate() + n); return r; }
 function diffDays(d1, d2) { return Math.round((d2 - d1) / 86400000); }
 function daysBetween(d1, d2) { return Math.max(0, Math.round((d2 - d1) / 86400000) + 1); }
 
+function getToday() { const t = new Date(); t.setHours(0, 0, 0, 0); return t; }
 function getVisa() {
   const vs = $('visa-start').value, ve = $('visa-end').value;
   if (!vs || !ve) return null;
@@ -373,74 +388,58 @@ function getVisa() {
   return { start: d1, end: d2 };
 }
 
-function computeWindows(s, e) {
-  const total = daysBetween(s, e);
-  const n = Math.ceil(total / 180);
-  const wins = [];
-  for (let i = 0; i < n; i++) {
-    const ws = addDays(s, i * 180);
-    const we = new Date(Math.min(addDays(ws, 179), e));
-    if (ws <= e) wins.push({ start: ws, end: we, num: i + 1 });
-  }
-  return wins;
+/* ── CALCUL ESS : fenêtre glissante depuis refDate - 179 → refDate ── */
+function daysInGlidingWindow(periods, refDate) {
+  const winStart = addDays(refDate, -179);
+  return periods.reduce((tot, p) => {
+    const s = new Date(Math.max(p.d1, winStart));
+    const e = new Date(Math.min(p.d2, refDate));
+    return e >= s ? tot + Math.round((e - s) / 86400000) + 1 : tot;
+  }, 0);
 }
 
-function getCurrentWindow(v) {
-  const today = new Date(); today.setHours(0, 0, 0, 0);
-  const wins = computeWindows(v.start, v.end);
-  for (const w of wins) if (today >= w.start && today <= w.end) return w;
-  return today < v.start ? wins[0] : wins[wins.length - 1];
-}
-
+/* ── VISA CHANGE ── */
 function onVisaChange() {
   const v = getVisa();
-  const vi = $('visa-info'), ww = $('windows-wrap'), wl = $('windows-list');
-  if (!v) { vi.style.display = 'none'; ww.style.display = 'none'; return; }
+  const vi = $('visa-info'), rb = $('regle-box');
+  if (!v) { vi.style.display = 'none'; rb.style.display = 'none'; return; }
   const dur = daysBetween(v.start, v.end);
-  const wins = computeWindows(v.start, v.end);
-  vi.innerHTML = `Visa de <strong>${dur} jours</strong> &nbsp;|&nbsp; Du <strong>${fmt(v.start)}</strong> au <strong>${fmt(v.end)}</strong> &nbsp;|&nbsp; <strong>${wins.length} fenêtre(s) de 180 jours</strong>`;
+  const today = getToday();
+  const winStart = addDays(today, -179);
+  const periods = getPeriods();
+  const used = daysInGlidingWindow(periods, today);
+  if (currentLang === 'ar') {
+    vi.innerHTML = `تأشيرة <strong>${dur} يوماً</strong> &nbsp;|&nbsp; من <strong>${fmt(v.start)}</strong> إلى <strong>${fmt(v.end)}</strong>`;
+  } else {
+    vi.innerHTML = `Visa de <strong>${dur} jours</strong> &nbsp;|&nbsp; Du <strong>${fmt(v.start)}</strong> au <strong>${fmt(v.end)}</strong>`;
+  }
   vi.style.display = 'block';
-  const cols = ['c1', 'c2', 'c3', 'c4'];
-  wl.innerHTML = '';
-  wins.forEach((w, i) => {
-    const d = daysBetween(w.start, w.end);
-    const div = document.createElement('div');
-    div.className = 'wrow ' + cols[i % 4];
-    div.innerHTML = `<div><div class="wn">Fenêtre ${w.num} <span style="font-weight:400;font-size:11px;">(${d} j)</span></div><div class="wd">${fmtS(w.start)} → ${fmtS(w.end)}</div></div><span class="wm">90 j max</span>`;
-    wl.appendChild(div);
-  });
-  ww.style.display = 'block';
-  calculate();
+  rb.innerHTML = T[currentLang].regle(fmtS(winStart), fmtS(today), used);
+  rb.style.display = 'block';
+  $('sim-box').style.display = 'block';
 }
 
+/* ── ENTRIES ── */
 function addEntry() { entries.push({ id: Date.now(), e: '', s: '' }); renderEntries(); }
 function removeEntry(id) {
   if (entries.length === 1) { entries[0] = { id: entries[0].id, e: '', s: '' }; renderEntries(); calculate(); return; }
   entries = entries.filter(x => x.id !== id); renderEntries(); calculate();
 }
-function upd(id, f, v) {
-  const e = entries.find(x => x.id === id);
-  if (e) { e[f] = v; renderEntries(); calculate(); }
-}
+function upd(id, f, v) { const e = entries.find(x => x.id === id); if (e) { e[f] = v; renderEntries(); calculate(); } }
 
 function renderEntries() {
-  const list = $('entries-list');
-  list.innerHTML = '';
+  const list = $('entries-list'); list.innerHTML = '';
   entries.forEach(en => {
     const d1 = en.e ? new Date(en.e) : null;
     const d2 = en.s ? new Date(en.s) : null;
     const days = (d1 && d2 && d2 >= d1) ? daysBetween(d1, d2) : null;
-    let dc = '—', cls = 'days-badge';
-    if (days !== null) {
-      dc = days + 'j';
-      cls += days > 30 ? ' danger' : days > 15 ? ' warn' : ' ok';
-    }
+    let cls = 'days-badge', dc = days ? (days > 30 ? ' danger' : days > 15 ? ' warn' : ' ok') : '';
     const row = document.createElement('div');
     row.className = 'entry-row';
     row.innerHTML = `
       <input type="date" value="${en.e}" onchange="upd(${en.id},'e',this.value)"/>
       <input type="date" value="${en.s}" onchange="upd(${en.id},'s',this.value)"/>
-      <div class="${cls}">${dc}</div>
+      <div class="${cls+dc}">${days != null ? days + (currentLang === 'ar' ? 'ي' : 'j') : '—'}</div>
       <button class="del-btn" onclick="removeEntry(${en.id})" title="Supprimer">✕</button>
     `;
     list.appendChild(row);
@@ -451,35 +450,20 @@ function getPeriods() {
   return entries.filter(e => e.e && e.s).map(e => ({ d1: new Date(e.e), d2: new Date(e.s) })).filter(p => p.d2 >= p.d1);
 }
 
-function daysInWin(periods, ws, we) {
-  let tot = 0;
-  periods.forEach(p => {
-    const s = new Date(Math.max(p.d1, ws));
-    const e = new Date(Math.min(p.d2, we));
-    if (e >= s) tot += Math.round((e - s) / 86400000) + 1;
-  });
-  return tot;
-}
-
+/* ── CALCULATE ── */
 function calculate() {
   const v = getVisa();
   const periods = getPeriods();
   const sw = $('stats-wrap');
-  if (periods.length === 0) {
-    sw.classList.add('hidden');
-    $('breakdown').style.display = 'none';
-    $('result-box').innerHTML = '';
-    return;
-  }
-  const today = new Date(); today.setHours(0, 0, 0, 0);
-  let wStart, wEnd;
-  if (v) { const cw = getCurrentWindow(v); wStart = cw.start; wEnd = cw.end; }
-  else { wEnd = new Date(today); wStart = addDays(today, -179); }
+  if (periods.length === 0) { sw.classList.add('hidden'); $('breakdown').style.display = 'none'; $('result-box').innerHTML = ''; onVisaChange(); return; }
 
-  const used = daysInWin(periods, wStart, wEnd);
+  const today = getToday();
+  const winStart = addDays(today, -179);
+  const used = daysInGlidingWindow(periods, today);
   const remain = Math.max(0, 90 - used);
   const pct = Math.min(100, Math.round(used / 90 * 100));
   const vr = v ? Math.max(0, diffDays(today, v.end)) : null;
+  const t = T[currentLang];
 
   const su = $('s-used'); su.textContent = used;
   su.className = 'stat-val ' + (used >= 90 ? 'sv-danger' : used >= 75 ? 'sv-warn' : 'sv-ok');
@@ -492,46 +476,103 @@ function calculate() {
   const gf = $('gauge-fill');
   gf.style.width = pct + '%';
   gf.className = 'gauge-fill ' + (pct >= 100 ? 'gf-danger' : pct >= 83 ? 'gf-warn' : 'gf-ok');
-  $('gauge-txt').textContent = used + ' / 90 jours utilisés';
-  $('gauge-sub').textContent = remain > 0 ? `Il reste ${remain} jour(s) disponible(s) dans cette fenêtre.` : 'Quota atteint — aucun jour disponible.';
+  $('gauge-txt').textContent = t.usedOn(used);
+  $('gauge-sub').textContent = remain > 0 ? t.remain(remain) : t.none;
 
   let rh = '';
-  if (used >= 90)
-    rh = `<div class="result-box rb-danger"><strong>🚫 DÉPASSEMENT — ${used} jours sur 90 !</strong><br>La règle 90/180 est violée. Ne pas entrer en espace Schengen.</div>`;
-  else if (used >= 75)
-    rh = `<div class="result-box rb-warn"><strong>⚠️ Seuil critique — ${used}/90 jours utilisés</strong><br>Il reste <strong>${remain} jour(s)</strong>. Planifier les prochains passages avec précaution.</div>`;
-  else
-    rh = `<div class="result-box rb-ok"><strong>✅ Conforme — ${used}/90 jours utilisés</strong><br>Fenêtre active : ${fmtS(wStart)} → ${fmtS(wEnd)} &nbsp;|&nbsp; Solde : <strong>${remain} jours disponibles</strong>.</div>`;
+  if (used >= 90) rh = `<div class="result-box rb-danger">${t.danger(used)}</div>`;
+  else if (used >= 75) rh = `<div class="result-box rb-warn">${t.warn(used, remain)}</div>`;
+  else rh = `<div class="result-box rb-ok">${t.ok(used, remain, fmtS(winStart), fmtS(today))}</div>`;
   $('result-box').innerHTML = rh;
 
-  const bkRows = $('bk-rows');
-  bkRows.innerHTML = '';
+  const bkRows = $('bk-rows'); bkRows.innerHTML = '';
   periods.forEach((p, i) => {
-    const inW = daysInWin([p], wStart, wEnd);
-    const div = document.createElement('div');
-    div.className = 'bk-row';
-    div.innerHTML = `<span>Séjour ${i + 1} — ${fmt(p.d1)} → ${fmt(p.d2)}</span><span>${inW} j</span>`;
+    const s = new Date(Math.max(p.d1, winStart));
+    const e = new Date(Math.min(p.d2, today));
+    const inW = e >= s ? Math.round((e - s) / 86400000) + 1 : 0;
+    const tot = daysBetween(p.d1, p.d2);
+    const div = document.createElement('div'); div.className = 'bk-row';
+    const num = currentLang === 'ar' ? `إقامة ${i + 1}` : `Séjour ${i + 1}`;
+    if (inW > 0) {
+      div.innerHTML = `<span>${num} — ${fmt(p.d1)} → ${fmt(p.d2)} (${tot}${currentLang === 'ar' ? 'ي' : 'j'})</span><span class="in-win">${t.inWin(inW)}</span>`;
+    } else {
+      div.innerHTML = `<span style="opacity:.45;">${num} — ${fmt(p.d1)} → ${fmt(p.d2)}</span><span style="opacity:.45;">${t.outWin}</span>`;
+    }
     bkRows.appendChild(div);
   });
-  const tot = document.createElement('div');
-  tot.className = 'bk-row';
-  tot.innerHTML = `<span>Total fenêtre active</span><span>${used} / 90 j</span>`;
-  bkRows.appendChild(tot);
+  const totDiv = document.createElement('div'); totDiv.className = 'bk-row';
+  totDiv.innerHTML = `<span>${t.total}</span><span style="color:var(--red)">${used} / 90 ${currentLang === 'ar' ? 'يوم' : 'j'}</span>`;
+  bkRows.appendChild(totDiv);
   $('breakdown').style.display = 'block';
   sw.classList.remove('hidden');
+
+  // Mettre à jour la règle box avec used mis à jour
+  const rb = $('regle-box');
+  if (rb.style.display !== 'none') {
+    rb.innerHTML = T[currentLang].regle(fmtS(winStart), fmtS(today), used);
+  }
+  runSimulation();
 }
 
+/* ── SIMULATION ── */
+function runSimulation() {
+  const se = $('sim-entry').value;
+  const sx = $('sim-exit').value;
+  const sr = $('sim-result');
+  const t = T[currentLang];
+  if (!se) { sr.style.display = 'none'; return; }
+
+  const entryDate = new Date(se);
+  const periods = getPeriods();
+  const usedAtEntry = daysInGlidingWindow(periods, entryDate);
+  const remainAtEntry = Math.max(0, 90 - usedAtEntry);
+
+  if (!sx) {
+    // Juste date d'entrée
+    sr.style.display = 'block';
+    if (usedAtEntry >= 90) {
+      sr.className = 'sim-result danger';
+      sr.innerHTML = t.simDanger(fmt(entryDate), usedAtEntry);
+    } else if (usedAtEntry >= 75) {
+      sr.className = 'sim-result warn';
+      sr.innerHTML = t.simWarn(fmt(entryDate), usedAtEntry, remainAtEntry, remainAtEntry);
+    } else {
+      sr.className = 'sim-result ok';
+      sr.innerHTML = t.simOk(fmt(entryDate), usedAtEntry, remainAtEntry, remainAtEntry);
+    }
+    return;
+  }
+
+  // Avec date de sortie
+  const exitDate = new Date(sx);
+  if (exitDate < entryDate) { sr.style.display = 'none'; return; }
+  const tripDays = daysBetween(entryDate, exitDate);
+
+  // Simuler le séjour prévu dans la fenêtre de la date de sortie
+  const simPeriods = [...periods, { d1: entryDate, d2: exitDate }];
+  const usedAtExit = daysInGlidingWindow(simPeriods, exitDate);
+  const remainAfter = Math.max(0, 90 - usedAtExit);
+
+  sr.style.display = 'block';
+  let html = t.simCheck(fmt(entryDate), fmt(exitDate), usedAtEntry, tripDays, usedAtExit, remainAfter);
+  if (usedAtExit > 90) {
+    sr.className = 'sim-result danger';
+    html += t.simCheckDanger();
+  } else {
+    sr.className = usedAtExit >= 75 ? 'sim-result warn' : 'sim-result ok';
+    html += t.simCheckOk(remainAfter);
+  }
+  sr.innerHTML = html;
+}
+
+/* ── RESET ── */
 function resetAll() {
-  $('visa-start').value = '';
-  $('visa-end').value = '';
-  $('visa-info').style.display = 'none';
-  $('windows-wrap').style.display = 'none';
-  $('windows-list').innerHTML = '';
-  entries = [{ id: 1, e: '', s: '' }];
-  renderEntries();
-  $('stats-wrap').classList.add('hidden');
-  $('breakdown').style.display = 'none';
-  $('result-box').innerHTML = '';
+  $('visa-start').value = ''; $('visa-end').value = '';
+  $('visa-info').style.display = 'none'; $('regle-box').style.display = 'none';
+  $('sim-box').style.display = 'none'; $('sim-entry').value = ''; $('sim-exit').value = '';
+  $('sim-result').style.display = 'none';
+  entries = [{ id: 1, e: '', s: '' }]; renderEntries();
+  $('stats-wrap').classList.add('hidden'); $('breakdown').style.display = 'none'; $('result-box').innerHTML = '';
 }
 
 renderEntries();
