@@ -3,579 +3,593 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Calculateur Schengen 90/180</title>
+<title>Calculateur Schengen — AUTRANSA</title>
 <style>
-:root {
-  --red: #cc0000;
-  --red-dark: #990000;
-  --red-light: #fff0f0;
-  --red-mid: #ffb3b3;
-  --white: #ffffff;
-  --gray-bg: #f2f2f2;
-  --gray-light: #f7f7f7;
-  --gray-mid: #d1d5db;
-  --gray-dark: #374151;
-  --text: #111827;
-  --text2: #555;
-  --border: #e0e0e0;
-  --green: #0b6e3f;
-  --green-light: #e6f7ee;
-  --green-mid: #4caf7d;
-  --amber: #7a4a00;
-  --amber-light: #fff8e6;
-  --amber-mid: #f0b429;
-  --danger-light: #fff0f0;
-  --danger-mid: #f87171;
-  --radius: 14px;
-  --radius-sm: 9px;
-  --font: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+:root{
+  --red:#cc0000;--red-dark:#990000;--red-light:#fff0f0;--red-mid:#ffb3b3;
+  --white:#fff;--bg:#f0f0f0;--gray:#f7f7f7;--border:#e0e0e0;
+  --text:#111;--text2:#666;
+  --green:#0b6e3f;--gbg:#e8f7ee;--gbd:#4caf7d;
+  --amber:#7a4a00;--abg:#fff8e6;--abd:#f0b429;
+  --err:#9b1c1c;--ebg:#fff0f0;--ebd:#f87171;
+  --blue:#1a4f8a;--bbg:#f0f7ff;--bbd:#90c4f9;
+  --teal:#0e6b6b;--tbg:#e6f7f7;--tbd:#4cb8b8;
+  --r:14px;--rs:10px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html[dir="rtl"] { font-family: 'Noto Kufi Arabic', 'Tahoma', var(--font); }
-html[dir="ltr"] { font-family: var(--font); }
-body { background: var(--gray-bg); color: var(--text); min-height: 100vh; padding-bottom: 50px; font-size: 15px; }
+*{box-sizing:border-box;margin:0;padding:0;}
+html[dir="rtl"]{font-family:'Noto Kufi Arabic','Tahoma',sans-serif;}
+html[dir="ltr"]{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;padding-bottom:20px;}
 
-/* HEADER */
-.header { background: var(--red); padding: 0; position: relative; overflow: hidden; }
-.header::after { content: ''; position: absolute; bottom: 0; right: 0; width: 160px; height: 100%; background: var(--red-dark); clip-path: polygon(40% 0%, 100% 0%, 100% 100%, 0% 100%); opacity: .35; }
-.header-inner { padding: 20px 18px 18px; position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; }
-.header-left {}
-.header-title { font-size: 20px; font-weight: 800; color: white; letter-spacing: .3px; }
-.header-sub { font-size: 13px; color: rgba(255,255,255,.8); margin-top: 3px; }
-.header-logo { background: white; color: var(--red); font-size: 13px; font-weight: 900; padding: 6px 12px; border-radius: 8px; letter-spacing: .5px; white-space: nowrap; }
+.lang-bar{background:var(--red-dark);display:flex;justify-content:flex-end;padding:7px 16px;gap:8px;}
+html[dir="rtl"] .lang-bar{justify-content:flex-start;}
+.lb{background:none;border:1.5px solid rgba(255,255,255,.35);color:rgba(255,255,255,.7);font-size:13px;font-weight:700;padding:4px 16px;border-radius:20px;cursor:pointer;}
+.lb.on{background:white;color:var(--red);border-color:white;}
 
-/* LANG SWITCH */
-.lang-bar { background: var(--red-dark); display: flex; justify-content: flex-end; padding: 6px 18px; gap: 6px; }
-.lang-btn { background: none; border: 1.5px solid rgba(255,255,255,.4); color: rgba(255,255,255,.75); font-size: 13px; font-weight: 700; padding: 4px 14px; border-radius: 20px; cursor: pointer; transition: all .2s; }
-.lang-btn.active { background: white; color: var(--red); border-color: white; }
+.hdr{background:var(--red);padding:18px 16px 16px;position:relative;overflow:hidden;}
+.hdr::after{content:'';position:absolute;top:0;right:0;width:140px;height:100%;background:var(--red-dark);clip-path:polygon(35% 0,100% 0,100% 100%,0 100%);opacity:.35;}
+html[dir="rtl"] .hdr::after{right:auto;left:0;clip-path:polygon(0 0,65% 0,100% 100%,0 100%);}
+.hdr-in{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;}
+.hdr-logo{background:white;color:var(--red);font-size:14px;font-weight:900;padding:7px 14px;border-radius:9px;letter-spacing:.5px;flex-shrink:0;}
 
-/* CONTAINER */
-.container { max-width: 480px; margin: 0 auto; padding: 16px; }
+.box{max-width:480px;margin:0 auto;padding:14px;}
+.card{background:var(--white);border-radius:var(--r);padding:16px;margin-bottom:12px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.card-t{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px;padding-bottom:12px;border-bottom:2.5px solid var(--red-light);}
+.num{background:var(--red);color:white;width:26px;height:26px;border-radius:50%;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 
-/* CARD */
-.card { background: var(--white); border-radius: var(--radius); padding: 18px; margin-bottom: 14px; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,.05); }
-.card-title { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2.5px solid var(--red-light); }
-.badge { background: var(--red); color: white; width: 26px; height: 26px; border-radius: 50%; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.fl label{font-size:12px;color:var(--text2);font-weight:600;display:block;margin-bottom:5px;}
+.fl input[type="date"]{width:100%;font-size:15px;padding:11px 12px;border:1.5px solid var(--border);border-radius:var(--rs);background:var(--gray);color:var(--text);}
+.fl input[type="date"]:focus{outline:none;border-color:var(--red);background:white;}
 
-/* FORM */
-.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.field label { font-size: 12px; color: var(--text2); font-weight: 600; display: block; margin-bottom: 5px; }
-.field input[type="date"] { width: 100%; font-size: 15px; padding: 11px 13px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--gray-light); color: var(--text); transition: border-color .2s; }
-.field input[type="date"]:focus { outline: none; border-color: var(--red); background: white; }
+/* VISA INFO — couleur neutre/verte, pas rouge */
+.vi{background:var(--tbg);border:1.5px solid var(--tbd);border-radius:var(--rs);padding:10px 13px;margin-top:10px;font-size:14px;color:var(--teal);display:none;line-height:1.7;}
+.vi strong{font-weight:700;}
+.vi-days{font-size:22px;font-weight:800;color:var(--teal);}
 
-/* INFO BOXES */
-.info-visa { background: var(--red-light); border: 1.5px solid var(--red-mid); border-radius: var(--radius-sm); padding: 10px 13px; margin-top: 12px; font-size: 14px; color: var(--red-dark); display: none; line-height: 1.7; }
-.info-visa strong { font-weight: 700; }
-.regle-box { background: var(--gray-light); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin-top: 12px; font-size: 13px; color: var(--text2); line-height: 1.8; display: none; }
-.regle-box strong { color: var(--text); font-weight: 600; }
-.fenetre-pill { display: inline-block; background: var(--red-light); border: 1px solid var(--red-mid); border-radius: 20px; padding: 3px 10px; color: var(--red-dark); font-weight: 700; font-size: 13px; }
+.eh{display:grid;grid-template-columns:1fr 1fr 54px 32px;gap:6px;margin-bottom:6px;}
+.eh span{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;}
+.er{display:grid;grid-template-columns:1fr 1fr 54px 32px;gap:6px;align-items:center;margin-bottom:8px;}
+.er input{font-size:13px;padding:9px 7px;border:1.5px solid var(--border);border-radius:var(--rs);background:var(--gray);color:var(--text);width:100%;}
+.er input:focus{outline:none;border-color:var(--red);}
+.dj{text-align:center;font-size:14px;font-weight:700;padding:9px 4px;border-radius:var(--rs);background:var(--gray);color:var(--text2);}
+.dj.ok{background:var(--gbg);color:var(--green);}
+.dj.wn{background:var(--abg);color:var(--amber);}
+.dj.dn{background:var(--ebg);color:var(--err);}
+.xb{width:32px;height:36px;background:none;border:1.5px solid var(--border);border-radius:var(--rs);color:var(--text2);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;}
+.xb:hover{background:var(--ebg);color:var(--err);border-color:var(--ebd);}
+.ab{width:100%;background:none;border:2px dashed var(--border);border-radius:var(--rs);color:var(--text2);font-size:14px;padding:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:2px;font-weight:600;}
+.ab:hover{background:var(--red-light);color:var(--red);border-color:var(--red-mid);}
 
-/* ENTRIES */
-.entry-header { display: grid; grid-template-columns: 1fr 1fr 58px 32px; gap: 6px; margin-bottom: 6px; }
-.entry-header span { font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: .05em; }
-.entry-row { display: grid; grid-template-columns: 1fr 1fr 58px 32px; gap: 6px; align-items: center; margin-bottom: 8px; }
-.entry-row input { font-size: 13px; padding: 9px 7px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--gray-light); color: var(--text); width: 100%; }
-.entry-row input:focus { outline: none; border-color: var(--red); background: white; }
-.days-badge { text-align: center; font-size: 14px; font-weight: 700; padding: 9px 4px; border-radius: var(--radius-sm); background: var(--gray-light); color: var(--text2); }
-.days-badge.ok { background: var(--green-light); color: var(--green); }
-.days-badge.warn { background: var(--amber-light); color: var(--amber); }
-.days-badge.danger { background: var(--danger-light); color: #9b1c1c; }
-.del-btn { width: 34px; height: 38px; background: none; border: 1.5px solid var(--border); border-radius: var(--radius-sm); color: var(--text2); cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all .15s; }
-.del-btn:hover { background: var(--danger-light); color: #9b1c1c; border-color: var(--danger-mid); }
-.add-btn { width: 100%; background: none; border: 2px dashed var(--gray-mid); border-radius: var(--radius-sm); color: var(--text2); font-size: 14px; padding: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 4px; font-weight: 600; transition: all .15s; }
-.add-btn:hover { background: var(--red-light); color: var(--red); border-color: var(--red-mid); }
+.sim{background:var(--abg);border:1.5px solid var(--abd);border-radius:var(--rs);padding:13px;margin-top:12px;display:none;}
+.sim-t{font-size:13px;font-weight:700;color:var(--amber);margin-bottom:10px;}
+.sim-res{margin-top:10px;font-size:13px;line-height:1.8;padding:11px 13px;border-radius:var(--rs);display:none;border:1.5px solid;}
+.sim-res.ok{background:var(--gbg);color:var(--green);border-color:var(--gbd);}
+.sim-res.wn{background:var(--abg);color:var(--amber);border-color:var(--abd);}
+.sim-res.dn{background:var(--ebg);color:var(--err);border-color:var(--ebd);}
 
-/* SIMULATION */
-.sim-box { background: #fff8f0; border: 1.5px solid #f6c157; border-radius: var(--radius-sm); padding: 12px 14px; margin-top: 14px; }
-.sim-title { font-size: 13px; font-weight: 700; color: var(--amber); margin-bottom: 10px; }
-.sim-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
-.sim-btn { width: 100%; background: var(--amber-mid); border: none; border-radius: var(--radius-sm); padding: 10px; font-size: 14px; font-weight: 700; color: white; cursor: pointer; transition: background .15s; }
-.sim-btn:hover { background: #d4920f; }
-.sim-result { margin-top: 10px; font-size: 13px; line-height: 1.7; padding: 10px 12px; border-radius: var(--radius-sm); display: none; }
-.sim-result.ok { background: var(--green-light); color: var(--green); border: 1px solid var(--green-mid); }
-.sim-result.danger { background: var(--danger-light); color: #9b1c1c; border: 1px solid var(--danger-mid); }
-.sim-result.warn { background: var(--amber-light); color: var(--amber); border: 1px solid var(--amber-mid); }
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.sc{background:white;border-radius:var(--rs);padding:14px;border:1px solid var(--border);text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.sl{font-size:11px;color:var(--text2);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em;}
+.sv{font-size:32px;font-weight:800;line-height:1;}
+.su{font-size:12px;color:var(--text2);margin-top:3px;}
+.c-ok{color:var(--green);}
+.c-wn{color:var(--amber);}
+.c-dn{color:var(--err);}
+.c-rd{color:var(--red);}
+.c-tl{color:var(--teal);}
 
-/* STATS */
-.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-.stat { background: var(--white); border-radius: var(--radius-sm); padding: 14px; border: 1px solid var(--border); text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
-.stat-label { font-size: 12px; color: var(--text2); font-weight: 600; margin-bottom: 5px; text-transform: uppercase; letter-spacing: .04em; }
-.stat-val { font-size: 32px; font-weight: 800; line-height: 1; }
-.stat-unit { font-size: 12px; color: var(--text2); margin-top: 3px; }
-.sv-ok { color: var(--green); }
-.sv-warn { color: var(--amber); }
-.sv-danger { color: #9b1c1c; }
-.sv-red { color: var(--red); }
+.gw{background:white;border:1px solid var(--border);border-radius:var(--rs);padding:13px;margin-bottom:12px;}
+.gl{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--text2);margin-bottom:8px;}
+.gt{height:16px;background:var(--gray);border-radius:8px;overflow:hidden;}
+.gf{height:100%;border-radius:8px;transition:width .5s,background .3s;}
+.gok{background:var(--gbd);}
+.gwn{background:var(--abd);}
+.gdn{background:var(--ebd);}
+.gs{font-size:13px;color:var(--text2);margin-top:6px;text-align:center;}
 
-/* GAUGE */
-.gauge-wrap { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; margin-bottom: 14px; }
-.gauge-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 8px; }
-.gauge-track { height: 16px; background: var(--gray-light); border-radius: 8px; overflow: hidden; }
-.gauge-fill { height: 100%; border-radius: 8px; transition: width .5s, background .3s; }
-.gf-ok { background: var(--green-mid); }
-.gf-warn { background: var(--amber-mid); }
-.gf-danger { background: var(--danger-mid); }
-.gauge-sub { font-size: 13px; color: var(--text2); margin-top: 6px; text-align: center; }
+.rb{border-radius:var(--rs);padding:13px;margin-bottom:12px;border:1.5px solid;font-size:14px;line-height:1.7;}
+.rb strong{font-weight:700;}
+.rb.ok{background:var(--gbg);border-color:var(--gbd);color:var(--green);}
+.rb.wn{background:var(--abg);border-color:var(--abd);color:var(--amber);}
+.rb.dn{background:var(--ebg);border-color:var(--ebd);color:var(--err);}
 
-/* RESULT */
-.result-box { border-radius: var(--radius-sm); padding: 14px; margin-bottom: 14px; border: 1.5px solid; font-size: 14px; line-height: 1.7; }
-.result-box strong { font-weight: 700; }
-.rb-ok { background: var(--green-light); border-color: var(--green-mid); color: var(--green); }
-.rb-warn { background: var(--amber-light); border-color: var(--amber-mid); color: var(--amber); }
-.rb-danger { background: var(--danger-light); border-color: var(--danger-mid); color: #9b1c1c; }
+/* PROCHAINE FENETRE */
+.next-box{background:var(--bbg);border:1.5px solid var(--bbd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;font-size:14px;color:var(--blue);display:none;line-height:1.8;}
+.next-box strong{font-weight:700;}
+.next-date{font-size:20px;font-weight:800;color:var(--blue);display:block;margin-top:4px;}
 
-/* BREAKDOWN */
-.breakdown { background: var(--gray-light); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 14px; display: none; }
-.bk-title { font-size: 12px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
-.bk-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--text2); padding: 5px 0; border-bottom: 1px solid var(--border); }
-.bk-row:last-child { border: none; font-weight: 700; color: var(--text); margin-top: 4px; font-size: 14px; }
-.bk-row .in-win { color: var(--red); font-weight: 700; }
+.bk{background:var(--gray);border-radius:var(--rs);padding:12px 13px;margin-bottom:12px;display:none;}
+.bt{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;}
+.br{display:flex;justify-content:space-between;font-size:13px;color:var(--text2);padding:5px 0;border-bottom:1px solid var(--border);}
+.br:last-child{border:none;font-weight:700;color:var(--text);font-size:14px;margin-top:3px;}
+.iw{color:var(--red);font-weight:700;}
 
-/* RESET */
-.reset-btn { width: 100%; background: none; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px; font-size: 14px; color: var(--text2); cursor: pointer; font-weight: 600; transition: all .15s; }
-.reset-btn:hover { background: var(--danger-light); color: #9b1c1c; border-color: var(--danger-mid); }
+.share-btn{width:100%;background:var(--red);color:white;border:none;border-radius:var(--rs);padding:13px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;}
+.share-btn:hover{background:var(--red-dark);}
+.share-btn:active{transform:scale(.98);}
 
-/* FOOTER */
-.footer { background: var(--gray-dark); color: rgba(255,255,255,.7); text-align: center; padding: 18px 16px; font-size: 13px; line-height: 1.9; margin-top: 8px; }
-.footer strong { color: white; font-size: 14px; }
-.footer .sep { color: var(--red); margin: 0 6px; }
+.rst{width:100%;background:none;border:1.5px solid var(--border);border-radius:var(--rs);padding:11px;font-size:14px;color:var(--text2);cursor:pointer;font-weight:600;}
+.rst:hover{background:var(--ebg);color:var(--err);border-color:var(--ebd);}
 
-/* ALERT */
-.alert-rule { background: var(--red-light); border: 1px solid var(--red-mid); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 13px; color: #7f1111; line-height: 1.8; margin-bottom: 14px; }
-.alert-rule strong { font-weight: 700; }
+/* FOOTER — sans partenaires, sans poste */
+.footer{background:#1a1a2e;margin-top:8px;}
+.footer-top{background:var(--red);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.footer-brand{display:flex;align-items:center;gap:12px;}
+.footer-logo-box{background:white;color:var(--red);font-size:16px;font-weight:900;padding:7px 14px;border-radius:9px;letter-spacing:.5px;}
+.footer-since{font-size:11px;color:rgba(255,255,255,.75);margin-top:2px;}
+.footer-name{font-size:15px;font-weight:700;color:white;}
+.footer-mid{background:#111827;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.footer-addr{font-size:12px;color:rgba(255,255,255,.6);line-height:1.8;}
+.footer-addr strong{color:rgba(255,255,255,.85);}
+.footer-email{font-size:12px;color:#f87171;font-weight:500;}
+.footer-bot{background:#080810;padding:9px 18px;text-align:center;font-size:11px;color:rgba(255,255,255,.3);}
 
-/* RTL adjustments */
-html[dir="rtl"] .header-inner { flex-direction: row-reverse; }
-html[dir="rtl"] .entry-header span { text-align: right; }
-html[dir="rtl"] .bk-row { flex-direction: row-reverse; }
-html[dir="rtl"] .gauge-label { flex-direction: row-reverse; }
-html[dir="rtl"] .lang-bar { justify-content: flex-start; }
+html[dir="rtl"] .footer-top{flex-direction:row-reverse;}
+html[dir="rtl"] .footer-brand{flex-direction:row-reverse;}
+html[dir="rtl"] .footer-mid{flex-direction:row-reverse;}
+html[dir="rtl"] .footer-name{text-align:left;}
 
-.hidden { display: none !important; }
+.hidden{display:none!important;}
 </style>
 </head>
 <body>
 
 <div class="lang-bar">
-  <button class="lang-btn active" id="btn-fr" onclick="setLang('fr')">FR</button>
-  <button class="lang-btn" id="btn-ar" onclick="setLang('ar')">ع</button>
+  <button class="lb on" id="bfr" onclick="setLang('fr')">FR</button>
+  <button class="lb" id="bar" onclick="setLang('ar')">ع</button>
 </div>
 
-<div class="header">
-  <div class="header-inner">
-    <div class="header-left">
-      <div class="header-title" data-fr="🛂 Calculateur Schengen" data-ar="🛂 حاسبة شنغن">🛂 Calculateur Schengen</div>
-      <div class="header-sub" data-fr="Règle 90/180 jours — Chauffeur routier" data-ar="قاعدة 90/180 يوم — سائق النقل الدولي">Règle 90/180 jours — Chauffeur routier</div>
+<div class="hdr">
+  <div class="hdr-in">
+    <div>
+      <div style="font-size:20px;font-weight:800;color:white;" id="h-title">🛂 Calculateur Schengen</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.8);margin-top:3px;" id="h-sub">Règle 90/180 jours — Chauffeur routier</div>
     </div>
-    <div class="header-logo">AUTRANSA</div>
+    <div class="hdr-logo">AUTRANSA</div>
   </div>
 </div>
 
-<div class="container">
+<div class="box">
 
-  <!-- ÉTAPE 1 : VISA -->
+  <!-- ÉTAPE 1 -->
   <div class="card">
-    <div class="card-title">
-      <span class="badge">1</span>
-      <span data-fr="Dates du visa" data-ar="تواريخ التأشيرة">Dates du visa</span>
+    <div class="card-t">
+      <span class="num">1</span>
+      <span id="t1">Dates du visa</span>
     </div>
-    <div class="row2">
-      <div class="field">
-        <label data-fr="📅 Début du visa" data-ar="📅 بداية التأشيرة">📅 Début du visa</label>
-        <input type="date" id="visa-start" onchange="onVisaChange()"/>
+    <div class="r2">
+      <div class="fl">
+        <label id="l-vs">📅 Début</label>
+        <input type="date" id="vs" onchange="onVC()"/>
       </div>
-      <div class="field">
-        <label data-fr="📅 Fin du visa" data-ar="📅 نهاية التأشيرة">📅 Fin du visa</label>
-        <input type="date" id="visa-end" onchange="onVisaChange()"/>
+      <div class="fl">
+        <label id="l-ve">📅 Fin</label>
+        <input type="date" id="ve" onchange="onVC()"/>
       </div>
     </div>
-    <div class="info-visa" id="visa-info"></div>
-    <div class="regle-box" id="regle-box"></div>
+    <div class="vi" id="vi"></div>
   </div>
 
-  <!-- ÉTAPE 2 : TAMPONS -->
+  <!-- ÉTAPE 2 -->
   <div class="card">
-    <div class="card-title">
-      <span class="badge">2</span>
-      <span data-fr="Tampons passeport — Entrées / Sorties Schengen" data-ar="أختام جواز السفر — دخول / خروج شنغن">Tampons passeport — Entrées / Sorties Schengen</span>
+    <div class="card-t">
+      <span class="num">2</span>
+      <span id="t2">Tampons passeport</span>
     </div>
-    <div class="entry-header">
-      <span data-fr="Entrée" data-ar="دخول">Entrée</span>
-      <span data-fr="Sortie" data-ar="خروج">Sortie</span>
-      <span style="text-align:center;" data-fr="Jours" data-ar="أيام">Jours</span>
+    <div class="eh">
+      <span id="h-in">Entrée</span>
+      <span id="h-out">Sortie</span>
+      <span style="text-align:center;" id="h-days">Jours</span>
       <span></span>
     </div>
-    <div id="entries-list"></div>
-    <button class="add-btn" onclick="addEntry()">
+    <div id="elist"></div>
+    <button class="ab" onclick="addE()">
       <span style="font-size:18px;">＋</span>
-      <span data-fr="Ajouter un séjour" data-ar="إضافة إقامة">Ajouter un séjour</span>
+      <span id="add-lbl">Ajouter un séjour</span>
     </button>
 
-    <!-- SIMULATION -->
-    <div class="sim-box" id="sim-box" style="display:none;">
-      <div class="sim-title">
-        <span data-fr="🔮 Mode simulation — Planifier une future entrée" data-ar="🔮 محاكاة — تخطيط دخول مستقبلي">🔮 Mode simulation — Planifier une future entrée</span>
-      </div>
-      <div class="sim-row">
-        <div class="field">
-          <label data-fr="📅 Date d'entrée prévue" data-ar="📅 تاريخ الدخول المخطط">📅 Date d'entrée prévue</label>
-          <input type="date" id="sim-entry" style="width:100%;font-size:15px;padding:11px 13px;border:1.5px solid #e0e0e0;border-radius:9px;background:#f7f7f7;color:#111827;" onchange="runSimulation()"/>
+    <div class="sim" id="sim">
+      <div class="sim-t" id="sim-t">🔮 Simulation — Prochaine entrée</div>
+      <div class="r2">
+        <div class="fl">
+          <label id="l-se">📅 Entrée prévue</label>
+          <input type="date" id="se" onchange="runSim()" style="width:100%;font-size:14px;padding:10px;border:1.5px solid #e0e0e0;border-radius:10px;background:#f7f7f7;color:#111;"/>
         </div>
-        <div class="field">
-          <label data-fr="📅 Date de sortie prévue" data-ar="📅 تاريخ الخروج المخطط">📅 Date de sortie prévue</label>
-          <input type="date" id="sim-exit" style="width:100%;font-size:15px;padding:11px 13px;border:1.5px solid #e0e0e0;border-radius:9px;background:#f7f7f7;color:#111827;" onchange="runSimulation()"/>
+        <div class="fl">
+          <label id="l-sx">📅 Sortie prévue</label>
+          <input type="date" id="sx" onchange="runSim()" style="width:100%;font-size:14px;padding:10px;border:1.5px solid #e0e0e0;border-radius:10px;background:#f7f7f7;color:#111;"/>
         </div>
       </div>
-      <div class="sim-result" id="sim-result"></div>
+      <div class="sim-res" id="sr"></div>
     </div>
   </div>
 
   <!-- RÉSULTATS -->
-  <div id="stats-wrap" class="hidden">
-    <div class="stats">
-      <div class="stat">
-        <div class="stat-label" data-fr="Jours consommés" data-ar="الأيام المستهلكة">Jours consommés</div>
-        <div class="stat-val sv-ok" id="s-used">0</div>
-        <div class="stat-unit" data-fr="sur 90 autorisés" data-ar="من 90 مسموحاً">sur 90 autorisés</div>
+  <div id="sw" class="hidden">
+    <div class="sg">
+      <div class="sc">
+        <div class="sl" id="sl1">Jours consommés</div>
+        <div class="sv c-ok" id="s1">0</div>
+        <div class="su" id="su1">sur 90</div>
       </div>
-      <div class="stat">
-        <div class="stat-label" data-fr="Jours restants" data-ar="الأيام المتبقية">Jours restants</div>
-        <div class="stat-val sv-ok" id="s-remain">90</div>
-        <div class="stat-unit" data-fr="disponibles" data-ar="متاحة">disponibles</div>
+      <div class="sc">
+        <div class="sl" id="sl2">Jours restants</div>
+        <div class="sv c-ok" id="s2">90</div>
+        <div class="su" id="su2">disponibles</div>
       </div>
-      <div class="stat">
-        <div class="stat-label" data-fr="Quota utilisé" data-ar="نسبة الاستهلاك">Quota utilisé</div>
-        <div class="stat-val sv-ok" id="s-pct">0</div>
-        <div class="stat-unit">%</div>
+      <div class="sc">
+        <div class="sl" id="sl3">Quota</div>
+        <div class="sv c-ok" id="s3">0</div>
+        <div class="su">%</div>
       </div>
-      <div class="stat">
-        <div class="stat-label" data-fr="Avant fin visa" data-ar="قبل انتهاء التأشيرة">Avant fin visa</div>
-        <div class="stat-val sv-red" id="s-vr">—</div>
-        <div class="stat-unit" data-fr="jours" data-ar="يوم">jours</div>
+      <div class="sc">
+        <div class="sl" id="sl4">Fin visa</div>
+        <div class="sv c-tl" id="s4">—</div>
+        <div class="su" id="su4">jours</div>
       </div>
     </div>
 
-    <div class="gauge-wrap">
-      <div class="gauge-label">
-        <span data-fr="0 jour" data-ar="0 يوم">0 jour</span>
-        <span id="gauge-txt" style="font-weight:700;color:#111827;">0 / 90</span>
-        <span data-fr="90 jours MAX" data-ar="90 يوم الحد الأقصى">90 jours MAX</span>
+    <div class="gw">
+      <div class="gl">
+        <span>0</span>
+        <span id="gtxt" style="color:#111;font-size:13px;font-weight:700;">0 / 90</span>
+        <span>90 MAX</span>
       </div>
-      <div class="gauge-track">
-        <div class="gauge-fill gf-ok" id="gauge-fill" style="width:0%"></div>
-      </div>
-      <div class="gauge-sub" id="gauge-sub"></div>
+      <div class="gt"><div class="gf gok" id="gf" style="width:0%"></div></div>
+      <div class="gs" id="gsub"></div>
     </div>
 
-    <div id="result-box"></div>
+    <div id="rbox"></div>
 
-    <div class="breakdown" id="breakdown">
-      <div class="bk-title" data-fr="Détail des séjours — fenêtre glissante active" data-ar="تفاصيل الإقامات — النافذة الزمنية الحالية">Détail des séjours — fenêtre glissante active</div>
-      <div id="bk-rows"></div>
+    <!-- PROCHAINE FENÊTRE DISPONIBLE -->
+    <div class="next-box" id="next-box"></div>
+
+    <div class="bk" id="bk">
+      <div class="bt" id="bkt">Détail des séjours</div>
+      <div id="brows"></div>
     </div>
 
-    <button class="reset-btn" onclick="resetAll()">
-      ↺ <span data-fr="Réinitialiser tout" data-ar="إعادة تعيين">Réinitialiser tout</span>
+    <button class="share-btn" id="share-btn" onclick="shareReport()">
+      📤 <span id="share-lbl">Partager le rapport</span>
+    </button>
+
+    <button class="rst" onclick="resetAll()">
+      ↺ <span id="rst-lbl">Réinitialiser</span>
     </button>
   </div>
 
-  <div class="alert-rule">
-    <strong data-fr="📌 Règle ESS — Fenêtre glissante :" data-ar="📌 قاعدة ESS — النافذة الزمنية المتحركة :">📌 Règle ESS — Fenêtre glissante :</strong>
-    <span data-fr=" À n'importe quelle date, le système remonte 180 jours en arrière et vérifie que le total en Schengen ne dépasse pas 90 jours. La fenêtre se décale chaque jour automatiquement." data-ar=" في أي تاريخ، يرجع النظام 180 يوماً للوراء ويتحقق من أن مجموع أيام الإقامة في شنغن لا يتجاوز 90 يوماً. تتحرك النافذة تلقائياً كل يوم."> À n'importe quelle date, le système remonte 180 jours en arrière et vérifie que le total en Schengen ne dépasse pas 90 jours. La fenêtre se décale chaque jour automatiquement.</span>
-  </div>
-
 </div>
 
+<!-- FOOTER -->
 <div class="footer">
-  <strong>LAKCHER AHMED &nbsp;—&nbsp; AUTRANSA MAROC</strong><br>
-  <span data-fr="Application indicative — Se référer aux autorités compétentes en cas de doute." data-ar="تطبيق استرشادي — يرجى الرجوع إلى السلطات المختصة عند الشك.">Application indicative — Se référer aux autorités compétentes en cas de doute.</span>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo-box">AUTRANSA</div>
+      <div class="footer-since" id="f-since">group since 1980</div>
+    </div>
+    <div>
+      <div class="footer-name">LAKCHER AHMED</div>
+    </div>
+  </div>
+  <div class="footer-mid">
+    <div class="footer-addr">
+      <strong id="f-addr-t">Adresse :</strong><br/>
+      Pol. In. Cortijo Real, Calle Capricho 6<br/>
+      11206 Algeciras (Cádiz) — España
+    </div>
+    <div class="footer-email">administracion.maroc@autransasl.com</div>
+  </div>
+  <div class="footer-bot" id="f-bot">Application indicative — AUTRANSA MAROC © 2026</div>
 </div>
 
 <script>
-let entries = [{ id: 1, e: '', s: '' }];
-let currentLang = 'fr';
-const $ = id => document.getElementById(id);
+let entries=[{id:1,e:'',s:''}];
+let lang='fr';
+const $=id=>document.getElementById(id);
 
-/* ── TRADUCTIONS ── */
-const T = {
-  fr: {
-    usedOn: (u) => `${u} jours sur 90 dans la fenêtre active`,
-    remain: (r) => `Il reste ${r} jour(s) disponible(s).`,
-    none: 'Quota épuisé — aucun jour disponible.',
-    ok: (u, r, ws, we) => `<strong>✅ Conforme ESS — ${u}/90 jours</strong><br>Fenêtre active : ${ws} → ${we} &nbsp;|&nbsp; Solde : <strong>${r} jours disponibles</strong>`,
-    warn: (u, r) => `<strong>⚠️ Seuil critique — ${u}/90 jours</strong><br>Il reste <strong>${r} jours</strong>. Planifier avec précaution.`,
-    danger: (u) => `<strong>🚫 Dépassement — ${u} jours sur 90 !</strong><br>Règle ESS violée. Entrée en Schengen refusée.`,
-    inWin: (n) => `${n}j dans fenêtre`,
-    outWin: 'hors fenêtre',
-    total: 'Total fenêtre glissante',
-    regle: (ws, we, u) => `<strong>📌 Règle ESS — Fenêtre glissante</strong><br>
-      À <strong>n'importe quelle date</strong>, le système remonte <strong>180 jours en arrière</strong> et compte les jours en Schengen. Si total > <strong style="color:var(--red)">90 jours → refus d'entrée</strong>.<br>
-      Il n'y a <strong>pas de fenêtres fixes</strong> — la fenêtre se décale chaque jour.<br>
-      <span style="margin-top:6px;display:block;padding-top:6px;border-top:1px solid #e0e0e0;">
-        🔍 <strong>Fenêtre active aujourd'hui :</strong>
-        <span style="background:#fff0f0;border:1px solid #ffb3b3;border-radius:20px;padding:2px 10px;color:#7f1111;font-weight:700;font-size:13px;">${ws} → ${we}</span>
-        &nbsp;→&nbsp;
-        <span style="background:#fff0f0;border:1px solid #ffb3b3;border-radius:20px;padding:2px 10px;color:#7f1111;font-weight:700;font-size:13px;">${u} / 90 jours</span>
-      </span>`,
-    simOk: (entry, used, remain, maxStay) => `<strong>✅ Entrée possible le ${entry}</strong><br>Jours déjà utilisés dans la fenêtre de cette date : <strong>${used}/90</strong><br>Solde disponible : <strong>${remain} jours</strong><br>Séjour maximum possible : <strong>${maxStay} jours</strong>`,
-    simWarn: (entry, used, remain, maxStay) => `<strong>⚠️ Entrée possible mais attention le ${entry}</strong><br>Jours utilisés : <strong>${used}/90</strong> — Solde : <strong>${remain} jours</strong><br>Ne pas dépasser <strong>${maxStay} jours</strong> de séjour.`,
-    simDanger: (entry, used) => `<strong>🚫 Entrée impossible le ${entry}</strong><br>Jours déjà consommés dans la fenêtre : <strong>${used}/90</strong>. Quota dépassé.`,
-    simCheck: (entry, exit, used, inTrip, total, remain) => `<strong>🔍 Vérification du séjour prévu</strong><br>
-      Entrée : <strong>${entry}</strong> &nbsp;→&nbsp; Sortie : <strong>${exit}</strong> (${inTrip} jours)<br>
-      Jours avant ce séjour : ${used} &nbsp;+&nbsp; Ce séjour : ${inTrip} &nbsp;=&nbsp; <strong>Total : ${total}/90</strong><br>`,
-    simCheckOk: (remain) => `✅ <strong>Séjour autorisé</strong> — Solde après : <strong>${remain} jours</strong>`,
-    simCheckDanger: () => `🚫 <strong>Séjour refusé</strong> — Dépasse les 90 jours autorisés`,
+const TX={
+  fr:{
+    htitle:'🛂 Calculateur Schengen',hsub:'Règle 90/180 jours — Chauffeur routier',
+    t1:'Dates du visa',t2:'Tampons passeport',
+    lvs:'📅 Début',lve:'📅 Fin',
+    hin:'Entrée',hout:'Sortie',hdays:'Jours',add:'Ajouter un séjour',
+    simt:'🔮 Simulation — Prochaine entrée',lse:'📅 Entrée prévue',lsx:'📅 Sortie prévue',
+    sl1:'Jours consommés',su1:'sur 90',sl2:'Jours restants',su2:'disponibles',
+    sl3:'Quota',sl4:'Fin visa',su4:'jours',
+    gtxt:(u)=>`${u} / 90 jours`,
+    gsok:(r)=>`✅ ${r} jour(s) disponible(s)`,
+    gswn:(r)=>`⚠️ Attention — ${r} jours restants`,
+    gsdn:'🚫 Quota épuisé',
+    rok:(u,r,ws,we)=>`<strong>✅ Conforme — ${u}/90 jours</strong><br>Fenêtre : ${ws} → ${we} &nbsp;|&nbsp; Solde : <strong>${r} jours</strong>`,
+    rwn:(u,r)=>`<strong>⚠️ Seuil critique — ${u}/90</strong><br>Solde : <strong>${r} jours</strong>. Planifier avec précaution.`,
+    rdn:(u)=>`<strong>🚫 Dépassement — ${u}/90 jours !</strong><br>Entrée en Schengen refusée.`,
+    nextlbl:'🗓️ Prochaine fenêtre disponible :',
+    nextdays:(d,n)=>`À partir du <strong class="next-date">${d}</strong>dans <strong>${n} jours</strong>`,
+    bkt:'Détail des séjours',inw:(n)=>`${n}j ✓`,outw:'hors fenêtre',btotal:'Total',
+    sharelbl:'Partager le rapport',rst:'Réinitialiser',
+    vi:(d,s,e,rem)=>`Visa de <strong>${d} jours</strong> — du <strong>${s}</strong> au <strong>${e}</strong><br>Jours restants sur le visa : <strong>${rem} jours</strong>`,
+    simok:(se,u,r,ms)=>`✅ <strong>Entrée possible le ${se}</strong><br>Utilisé : ${u}/90 — Solde : <strong>${r} jours</strong> (max ${ms}j)`,
+    simwn:(se,u,r,ms)=>`⚠️ <strong>Attention le ${se}</strong><br>Utilisé : ${u}/90 — Max séjour : <strong>${ms} jours</strong>`,
+    simdn:(se,u,nd,nn)=>`🚫 <strong>Entrée impossible le ${se}</strong><br>Quota atteint : ${u}/90<br>🗓️ Prochaine entrée possible : <strong>${nd}</strong> (dans ${nn} jours)`,
+    simchk:(se,sx,u,trip,tot)=>`🔍 <strong>${se} → ${sx}</strong> (${trip} jours)<br>${u} + ${trip} = <strong>${tot}/90</strong>`,
+    simchkok:(r)=>` ✅ <strong>Autorisé</strong> — solde : ${r}j`,
+    simchkdn:(nd,nn)=>` 🚫 <strong>Refusé</strong> — dépasse 90j<br>🗓️ Entrée possible à partir du <strong>${nd}</strong> (dans ${nn} jours)`,
+    fadrt:'Adresse :',
+    fbot:'Application indicative — AUTRANSA MAROC © 2026',
+    report:(used,remain,ws,we,vr)=>`🛂 RAPPORT SCHENGEN — AUTRANSA\n━━━━━━━━━━━━━━━━━━━━\n📊 Fenêtre : ${ws} → ${we}\n✅ Jours consommés : ${used}/90\n🟢 Solde disponible : ${remain} jours\n⏳ Avant fin visa : ${vr} jours\n━━━━━━━━━━━━━━━━━━━━\nLAKCHER AHMED — AUTRANSA MAROC\nadministracion.maroc@autransasl.com`,
   },
-  ar: {
-    usedOn: (u) => `${u} يوماً من أصل 90 في النافذة الحالية`,
-    remain: (r) => `متبقي ${r} يوم متاح.`,
-    none: 'استُنفد الحصة — لا أيام متاحة.',
-    ok: (u, r, ws, we) => `<strong>✅ مطابق ESS — ${u}/90 يوم</strong><br>النافذة الحالية : ${ws} → ${we} &nbsp;|&nbsp; الرصيد : <strong>${r} يوم متاح</strong>`,
-    warn: (u, r) => `<strong>⚠️ حد حرج — ${u}/90 يوم</strong><br>متبقي <strong>${r} يوم</strong>. تخطيط بحذر.`,
-    danger: (u) => `<strong>🚫 تجاوز — ${u} يوم من أصل 90 !</strong><br>قاعدة ESS منتهكة. رفض الدخول إلى شنغن.`,
-    inWin: (n) => `${n} يوم في النافذة`,
-    outWin: 'خارج النافذة',
-    total: 'المجموع في النافذة المتحركة',
-    regle: (ws, we, u) => `<strong>📌 قاعدة ESS — النافذة المتحركة</strong><br>
-      في <strong>أي تاريخ</strong>، يرجع النظام <strong>180 يوماً للوراء</strong> ويحسب أيام الإقامة في شنغن. إذا تجاوز المجموع <strong style="color:var(--red)">90 يوماً → رفض الدخول</strong>.<br>
-      <strong>لا توجد نوافذ ثابتة</strong> — تتحرك النافذة تلقائياً كل يوم.<br>
-      <span style="margin-top:6px;display:block;padding-top:6px;border-top:1px solid #e0e0e0;">
-        🔍 <strong>النافذة الحالية اليوم :</strong>
-        <span style="background:#fff0f0;border:1px solid #ffb3b3;border-radius:20px;padding:2px 10px;color:#7f1111;font-weight:700;font-size:13px;">${ws} → ${we}</span>
-        &nbsp;→&nbsp;
-        <span style="background:#fff0f0;border:1px solid #ffb3b3;border-radius:20px;padding:2px 10px;color:#7f1111;font-weight:700;font-size:13px;">${u} / 90 يوم</span>
-      </span>`,
-    simOk: (entry, used, remain, maxStay) => `<strong>✅ الدخول ممكن في ${entry}</strong><br>الأيام المستهلكة في نافذة هذا التاريخ : <strong>${used}/90</strong><br>الرصيد المتاح : <strong>${remain} يوم</strong><br>أقصى إقامة ممكنة : <strong>${maxStay} يوم</strong>`,
-    simWarn: (entry, used, remain, maxStay) => `<strong>⚠️ الدخول ممكن لكن انتبه في ${entry}</strong><br>الأيام المستهلكة : <strong>${used}/90</strong> — الرصيد : <strong>${remain} يوم</strong><br>لا تتجاوز <strong>${maxStay} يوم</strong> إقامة.`,
-    simDanger: (entry, used) => `<strong>🚫 الدخول مستحيل في ${entry}</strong><br>الأيام المستهلكة في النافذة : <strong>${used}/90</strong>. تجاوز الحصة.`,
-    simCheck: (entry, exit, used, inTrip, total, remain) => `<strong>🔍 التحقق من الرحلة المخططة</strong><br>
-      دخول : <strong>${entry}</strong> &nbsp;→&nbsp; خروج : <strong>${exit}</strong> (${inTrip} يوم)<br>
-      أيام قبل هذه الرحلة : ${used} &nbsp;+&nbsp; هذه الرحلة : ${inTrip} &nbsp;=&nbsp; <strong>المجموع : ${total}/90</strong><br>`,
-    simCheckOk: (remain) => `✅ <strong>الرحلة مسموحة</strong> — الرصيد بعدها : <strong>${remain} يوم</strong>`,
-    simCheckDanger: () => `🚫 <strong>الرحلة مرفوضة</strong> — تتجاوز الـ 90 يوماً المسموحة`,
+  ar:{
+    htitle:'🛂 حاسبة شنغن',hsub:'قاعدة 90/180 يوم — سائق النقل الدولي',
+    t1:'تواريخ التأشيرة',t2:'أختام جواز السفر',
+    lvs:'📅 بداية',lve:'📅 نهاية',
+    hin:'دخول',hout:'خروج',hdays:'أيام',add:'إضافة إقامة',
+    simt:'🔮 محاكاة — دخول مستقبلي',lse:'📅 دخول مخطط',lsx:'📅 خروج مخطط',
+    sl1:'الأيام المستهلكة',su1:'من 90 يوم',sl2:'الأيام المتبقية',su2:'متاحة',
+    sl3:'النسبة',sl4:'انتهاء التأشيرة',su4:'يوم',
+    gtxt:(u)=>`${u} / 90 يوم`,
+    gsok:(r)=>`✅ متبقي ${r} يوم`,
+    gswn:(r)=>`⚠️ انتبه — ${r} أيام فقط`,
+    gsdn:'🚫 استُنفدت الحصة',
+    rok:(u,r,ws,we)=>`<strong>✅ مطابق — ${u}/90 يوم</strong><br>النافذة : ${ws} → ${we} &nbsp;|&nbsp; الرصيد : <strong>${r} يوم</strong>`,
+    rwn:(u,r)=>`<strong>⚠️ حد حرج — ${u}/90</strong><br>الرصيد : <strong>${r} يوم</strong>. تخطيط بحذر.`,
+    rdn:(u)=>`<strong>🚫 تجاوز — ${u}/90 يوم !</strong><br>رفض الدخول إلى شنغن.`,
+    nextlbl:'🗓️ أقرب موعد للدخول إلى شنغن :',
+    nextdays:(d,n)=>`ابتداءً من <strong class="next-date">${d}</strong>بعد <strong>${n} يوم</strong>`,
+    bkt:'تفاصيل الإقامات',inw:(n)=>`${n} يوم ✓`,outw:'خارج النافذة',btotal:'المجموع',
+    sharelbl:'مشاركة التقرير',rst:'إعادة تعيين',
+    vi:(d,s,e,rem)=>`تأشيرة <strong>${d} يوماً</strong> — من <strong>${s}</strong> إلى <strong>${e}</strong><br>الأيام المتبقية على التأشيرة : <strong>${rem} يوم</strong>`,
+    simok:(se,u,r,ms)=>`✅ <strong>الدخول ممكن في ${se}</strong><br>مستهلك : ${u}/90 — الرصيد : <strong>${r} يوم</strong> (أقصى ${ms} يوم)`,
+    simwn:(se,u,r,ms)=>`⚠️ <strong>انتبه في ${se}</strong><br>مستهلك : ${u}/90 — أقصى إقامة : <strong>${ms} يوم</strong>`,
+    simdn:(se,u,nd,nn)=>`🚫 <strong>الدخول مستحيل في ${se}</strong><br>الحصة ممتلئة : ${u}/90<br>🗓️ أقرب موعد للدخول : <strong>${nd}</strong> (بعد ${nn} يوم)`,
+    simchk:(se,sx,u,trip,tot)=>`🔍 <strong>${se} → ${sx}</strong> (${trip} أيام)<br>${u} + ${trip} = <strong>${tot}/90</strong>`,
+    simchkok:(r)=>` ✅ <strong>مسموح</strong> — الرصيد : ${r} يوم`,
+    simchkdn:(nd,nn)=>` 🚫 <strong>مرفوض</strong> — يتجاوز 90 يوماً<br>🗓️ الدخول ممكن من <strong>${nd}</strong> (بعد ${nn} يوم)`,
+    fadrt:'العنوان :',
+    fbot:'تطبيق استرشادي — AUTRANSA MAROC © 2026',
+    report:(used,remain,ws,we,vr)=>`🛂 تقرير شنغن — AUTRANSA\n━━━━━━━━━━━━━━━━━━━━\n📊 النافذة : ${ws} → ${we}\n✅ الأيام المستهلكة : ${used}/90\n🟢 الرصيد المتاح : ${remain} يوم\n⏳ قبل انتهاء التأشيرة : ${vr} يوم\n━━━━━━━━━━━━━━━━━━━━\nLAKCHER AHMED — AUTRANSA MAROC\nadministracion.maroc@autransasl.com`,
   }
 };
 
-/* ── LANGUE ── */
-function setLang(lang) {
-  currentLang = lang;
-  const html = document.documentElement;
-  html.setAttribute('lang', lang);
-  html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-  $('btn-fr').classList.toggle('active', lang === 'fr');
-  $('btn-ar').classList.toggle('active', lang === 'ar');
-  document.querySelectorAll('[data-fr]').forEach(el => {
-    const key = 'data-' + lang;
-    if (el.hasAttribute(key)) el.textContent = el.getAttribute(key);
-  });
-  onVisaChange();
-  renderEntries();
+function fmt(d){if(!d)return'—';return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'});}
+function fmtS(d){if(!d)return'—';return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit'});}
+function addD(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
+function diff(d1,d2){return Math.round((d2-d1)/86400000);}
+function dBet(d1,d2){return Math.max(0,Math.round((d2-d1)/86400000)+1);}
+function today(){const t=new Date();t.setHours(0,0,0,0);return t;}
+
+function getVisa(){
+  const vs=$('vs').value,ve=$('ve').value;
+  if(!vs||!ve)return null;
+  const d1=new Date(vs),d2=new Date(ve);
+  return d2>d1?{s:d1,e:d2}:null;
 }
 
-/* ── UTILS ── */
-function fmt(d) { if (!d) return '—'; return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' }); }
-function fmtS(d) { if (!d) return '—'; return d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: '2-digit' }); }
-function addDays(d, n) { const r = new Date(d); r.setDate(r.getDate() + n); return r; }
-function diffDays(d1, d2) { return Math.round((d2 - d1) / 86400000); }
-function daysBetween(d1, d2) { return Math.max(0, Math.round((d2 - d1) / 86400000) + 1); }
-
-function getToday() { const t = new Date(); t.setHours(0, 0, 0, 0); return t; }
-function getVisa() {
-  const vs = $('visa-start').value, ve = $('visa-end').value;
-  if (!vs || !ve) return null;
-  const d1 = new Date(vs), d2 = new Date(ve);
-  if (d2 <= d1) return null;
-  return { start: d1, end: d2 };
+function daysInWin(periods,ref){
+  const ws=addD(ref,-179);
+  return periods.reduce((t,p)=>{
+    const s=new Date(Math.max(p.d1,ws));
+    const e=new Date(Math.min(p.d2,ref));
+    return e>=s?t+Math.round((e-s)/86400000)+1:t;
+  },0);
 }
 
-/* ── CALCUL ESS : fenêtre glissante depuis refDate - 179 → refDate ── */
-function daysInGlidingWindow(periods, refDate) {
-  const winStart = addDays(refDate, -179);
-  return periods.reduce((tot, p) => {
-    const s = new Date(Math.max(p.d1, winStart));
-    const e = new Date(Math.min(p.d2, refDate));
-    return e >= s ? tot + Math.round((e - s) / 86400000) + 1 : tot;
-  }, 0);
-}
-
-/* ── VISA CHANGE ── */
-function onVisaChange() {
-  const v = getVisa();
-  const vi = $('visa-info'), rb = $('regle-box');
-  if (!v) { vi.style.display = 'none'; rb.style.display = 'none'; return; }
-  const dur = daysBetween(v.start, v.end);
-  const today = getToday();
-  const winStart = addDays(today, -179);
-  const periods = getPeriods();
-  const used = daysInGlidingWindow(periods, today);
-  if (currentLang === 'ar') {
-    vi.innerHTML = `تأشيرة <strong>${dur} يوماً</strong> &nbsp;|&nbsp; من <strong>${fmt(v.start)}</strong> إلى <strong>${fmt(v.end)}</strong>`;
-  } else {
-    vi.innerHTML = `Visa de <strong>${dur} jours</strong> &nbsp;|&nbsp; Du <strong>${fmt(v.start)}</strong> au <strong>${fmt(v.end)}</strong>`;
+/* PROCHAIN JOUR OÙ USED < 90 */
+function nextAvailDate(periods){
+  const td=today();
+  for(let i=1;i<=365;i++){
+    const d=addD(td,i);
+    if(daysInWin(periods,d)<90) return d;
   }
-  vi.style.display = 'block';
-  rb.innerHTML = T[currentLang].regle(fmtS(winStart), fmtS(today), used);
-  rb.style.display = 'block';
-  $('sim-box').style.display = 'block';
+  return null;
 }
 
-/* ── ENTRIES ── */
-function addEntry() { entries.push({ id: Date.now(), e: '', s: '' }); renderEntries(); }
-function removeEntry(id) {
-  if (entries.length === 1) { entries[0] = { id: entries[0].id, e: '', s: '' }; renderEntries(); calculate(); return; }
-  entries = entries.filter(x => x.id !== id); renderEntries(); calculate();
+/* SAUVEGARDE AUTO */
+function save(){
+  try{localStorage.setItem('sch_aut',JSON.stringify({vs:$('vs').value,ve:$('ve').value,entries}));}catch(e){}
 }
-function upd(id, f, v) { const e = entries.find(x => x.id === id); if (e) { e[f] = v; renderEntries(); calculate(); } }
+function load(){
+  try{
+    const raw=localStorage.getItem('sch_aut');
+    if(!raw)return;
+    const v=JSON.parse(raw);
+    if(v.vs)$('vs').value=v.vs;
+    if(v.ve)$('ve').value=v.ve;
+    if(v.entries&&v.entries.length>0)entries=v.entries;
+    renderE();onVC();
+  }catch(e){}
+}
 
-function renderEntries() {
-  const list = $('entries-list'); list.innerHTML = '';
-  entries.forEach(en => {
-    const d1 = en.e ? new Date(en.e) : null;
-    const d2 = en.s ? new Date(en.s) : null;
-    const days = (d1 && d2 && d2 >= d1) ? daysBetween(d1, d2) : null;
-    let cls = 'days-badge', dc = days ? (days > 30 ? ' danger' : days > 15 ? ' warn' : ' ok') : '';
-    const row = document.createElement('div');
-    row.className = 'entry-row';
-    row.innerHTML = `
+function setLang(l){
+  lang=l;
+  const tx=TX[l];
+  document.documentElement.setAttribute('lang',l);
+  document.documentElement.setAttribute('dir',l==='ar'?'rtl':'ltr');
+  $('bfr').classList.toggle('on',l==='fr');
+  $('bar').classList.toggle('on',l==='ar');
+  $('h-title').textContent=tx.htitle;$('h-sub').textContent=tx.hsub;
+  $('t1').textContent=tx.t1;$('t2').textContent=tx.t2;
+  $('l-vs').textContent=tx.lvs;$('l-ve').textContent=tx.lve;
+  $('h-in').textContent=tx.hin;$('h-out').textContent=tx.hout;$('h-days').textContent=tx.hdays;
+  $('add-lbl').textContent=tx.add;
+  $('sim-t').textContent=tx.simt;$('l-se').textContent=tx.lse;$('l-sx').textContent=tx.lsx;
+  $('sl1').textContent=tx.sl1;$('su1').textContent=tx.su1;
+  $('sl2').textContent=tx.sl2;$('su2').textContent=tx.su2;
+  $('sl3').textContent=tx.sl3;$('sl4').textContent=tx.sl4;$('su4').textContent=tx.su4;
+  $('bkt').textContent=tx.bkt;
+  $('share-lbl').textContent=tx.sharelbl;
+  $('rst-lbl').textContent=tx.rst;
+  $('f-addr-t').textContent=tx.fadrt;
+  $('f-bot').textContent=tx.fbot;
+  onVC();renderE();calc();runSim();
+}
+
+function onVC(){
+  const v=getVisa();
+  const vi=$('vi');
+  if(!v){vi.style.display='none';$('sim').style.display='none';return;}
+  const td=today();
+  const visaRemain=Math.max(0,diff(td,v.e));
+  const dur=dBet(v.s,v.e);
+  vi.innerHTML=TX[lang].vi(dur,fmt(v.s),fmt(v.e),visaRemain);
+  vi.style.display='block';
+  $('sim').style.display='block';
+  calc();save();
+}
+
+function addE(){entries.push({id:Date.now(),e:'',s:''});renderE();}
+function removeE(id){
+  if(entries.length===1){entries[0]={id:entries[0].id,e:'',s:''};renderE();calc();return;}
+  entries=entries.filter(x=>x.id!==id);renderE();calc();
+}
+function upd(id,f,v){const e=entries.find(x=>x.id===id);if(e){e[f]=v;renderE();calc();save();}}
+
+function renderE(){
+  const list=$('elist');list.innerHTML='';
+  const suf=lang==='ar'?'ي':'j';
+  entries.forEach(en=>{
+    const d1=en.e?new Date(en.e):null;
+    const d2=en.s?new Date(en.s):null;
+    const days=(d1&&d2&&d2>=d1)?dBet(d1,d2):null;
+    const cls='dj'+(days?days>30?' dn':days>15?' wn':' ok':'');
+    const row=document.createElement('div');row.className='er';
+    row.innerHTML=`
       <input type="date" value="${en.e}" onchange="upd(${en.id},'e',this.value)"/>
       <input type="date" value="${en.s}" onchange="upd(${en.id},'s',this.value)"/>
-      <div class="${cls+dc}">${days != null ? days + (currentLang === 'ar' ? 'ي' : 'j') : '—'}</div>
-      <button class="del-btn" onclick="removeEntry(${en.id})" title="Supprimer">✕</button>
+      <div class="${cls}">${days!=null?days+suf:'—'}</div>
+      <button class="xb" onclick="removeE(${en.id})">✕</button>
     `;
     list.appendChild(row);
   });
 }
 
-function getPeriods() {
-  return entries.filter(e => e.e && e.s).map(e => ({ d1: new Date(e.e), d2: new Date(e.s) })).filter(p => p.d2 >= p.d1);
+function getP(){
+  return entries.filter(e=>e.e&&e.s).map(e=>({d1:new Date(e.e),d2:new Date(e.s)})).filter(p=>p.d2>=p.d1);
 }
 
-/* ── CALCULATE ── */
-function calculate() {
-  const v = getVisa();
-  const periods = getPeriods();
-  const sw = $('stats-wrap');
-  if (periods.length === 0) { sw.classList.add('hidden'); $('breakdown').style.display = 'none'; $('result-box').innerHTML = ''; onVisaChange(); return; }
+function calc(){
+  const v=getVisa();const periods=getP();const sw=$('sw');
+  if(periods.length===0){sw.classList.add('hidden');$('bk').style.display='none';$('rbox').innerHTML='';$('next-box').style.display='none';return;}
+  const tx=TX[lang];
+  const td=today();const ws=addD(td,-179);
+  const used=daysInWin(periods,td);
+  const remain=Math.max(0,90-used);
+  const pct=Math.min(100,Math.round(used/90*100));
+  const vr=v?Math.max(0,diff(td,v.e)):null;
+  const suf=lang==='ar'?'ي':'j';
 
-  const today = getToday();
-  const winStart = addDays(today, -179);
-  const used = daysInGlidingWindow(periods, today);
-  const remain = Math.max(0, 90 - used);
-  const pct = Math.min(100, Math.round(used / 90 * 100));
-  const vr = v ? Math.max(0, diffDays(today, v.end)) : null;
-  const t = T[currentLang];
+  const s1=$('s1');s1.textContent=used;s1.className='sv '+(used>=90?'c-dn':used>=75?'c-wn':'c-ok');
+  const s2=$('s2');s2.textContent=remain;s2.className='sv '+(remain<=10?'c-dn':remain<=20?'c-wn':'c-ok');
+  const s3=$('s3');s3.textContent=pct;s3.className='sv '+(pct>=100?'c-dn':pct>=83?'c-wn':'c-ok');
+  $('s4').textContent=vr!==null?vr:'—';
 
-  const su = $('s-used'); su.textContent = used;
-  su.className = 'stat-val ' + (used >= 90 ? 'sv-danger' : used >= 75 ? 'sv-warn' : 'sv-ok');
-  const sr = $('s-remain'); sr.textContent = remain;
-  sr.className = 'stat-val ' + (remain <= 10 ? 'sv-danger' : remain <= 20 ? 'sv-warn' : 'sv-ok');
-  const sp = $('s-pct'); sp.textContent = pct;
-  sp.className = 'stat-val ' + (pct >= 100 ? 'sv-danger' : pct >= 83 ? 'sv-warn' : 'sv-ok');
-  $('s-vr').textContent = vr !== null ? vr : '—';
+  const gf=$('gf');gf.style.width=pct+'%';gf.className='gf '+(pct>=100?'gdn':pct>=83?'gwn':'gok');
+  $('gtxt').textContent=tx.gtxt(used);
+  $('gsub').textContent=remain>0?(pct>=83?tx.gswn(remain):tx.gsok(remain)):tx.gsdn;
 
-  const gf = $('gauge-fill');
-  gf.style.width = pct + '%';
-  gf.className = 'gauge-fill ' + (pct >= 100 ? 'gf-danger' : pct >= 83 ? 'gf-warn' : 'gf-ok');
-  $('gauge-txt').textContent = t.usedOn(used);
-  $('gauge-sub').textContent = remain > 0 ? t.remain(remain) : t.none;
+  let rh='';
+  if(used>=90)rh=`<div class="rb dn">${tx.rdn(used)}</div>`;
+  else if(used>=75)rh=`<div class="rb wn">${tx.rwn(used,remain)}</div>`;
+  else rh=`<div class="rb ok">${tx.rok(used,remain,fmtS(ws),fmtS(td))}</div>`;
+  $('rbox').innerHTML=rh;
 
-  let rh = '';
-  if (used >= 90) rh = `<div class="result-box rb-danger">${t.danger(used)}</div>`;
-  else if (used >= 75) rh = `<div class="result-box rb-warn">${t.warn(used, remain)}</div>`;
-  else rh = `<div class="result-box rb-ok">${t.ok(used, remain, fmtS(winStart), fmtS(today))}</div>`;
-  $('result-box').innerHTML = rh;
+  /* PROCHAINE FENÊTRE — visible seulement si quota dépassé ou critique */
+  const nb=$('next-box');
+  if(used>=90){
+    const nd=nextAvailDate(periods);
+    if(nd){
+      const daysUntil=diff(td,nd);
+      nb.innerHTML=`${tx.nextlbl}<br>${tx.nextdays(fmt(nd),daysUntil)}`;
+      nb.style.display='block';
+    } else { nb.style.display='none'; }
+  } else { nb.style.display='none'; }
 
-  const bkRows = $('bk-rows'); bkRows.innerHTML = '';
-  periods.forEach((p, i) => {
-    const s = new Date(Math.max(p.d1, winStart));
-    const e = new Date(Math.min(p.d2, today));
-    const inW = e >= s ? Math.round((e - s) / 86400000) + 1 : 0;
-    const tot = daysBetween(p.d1, p.d2);
-    const div = document.createElement('div'); div.className = 'bk-row';
-    const num = currentLang === 'ar' ? `إقامة ${i + 1}` : `Séjour ${i + 1}`;
-    if (inW > 0) {
-      div.innerHTML = `<span>${num} — ${fmt(p.d1)} → ${fmt(p.d2)} (${tot}${currentLang === 'ar' ? 'ي' : 'j'})</span><span class="in-win">${t.inWin(inW)}</span>`;
-    } else {
-      div.innerHTML = `<span style="opacity:.45;">${num} — ${fmt(p.d1)} → ${fmt(p.d2)}</span><span style="opacity:.45;">${t.outWin}</span>`;
-    }
-    bkRows.appendChild(div);
+  const br=$('brows');br.innerHTML='';
+  periods.forEach((p,i)=>{
+    const s=new Date(Math.max(p.d1,ws));const e=new Date(Math.min(p.d2,td));
+    const inW=e>=s?Math.round((e-s)/86400000)+1:0;
+    const tot=dBet(p.d1,p.d2);
+    const div=document.createElement('div');div.className='br';
+    const lbl=lang==='ar'?`إقامة ${i+1}`:`Séjour ${i+1}`;
+    if(inW>0){div.innerHTML=`<span>${lbl} — ${fmt(p.d1)} → ${fmt(p.d2)} (${tot}${suf})</span><span class="iw">${tx.inw(inW)}</span>`;}
+    else{div.innerHTML=`<span style="opacity:.4">${lbl} — ${fmt(p.d1)} → ${fmt(p.d2)}</span><span style="opacity:.4">${tx.outw}</span>`;}
+    br.appendChild(div);
   });
-  const totDiv = document.createElement('div'); totDiv.className = 'bk-row';
-  totDiv.innerHTML = `<span>${t.total}</span><span style="color:var(--red)">${used} / 90 ${currentLang === 'ar' ? 'يوم' : 'j'}</span>`;
-  bkRows.appendChild(totDiv);
-  $('breakdown').style.display = 'block';
-  sw.classList.remove('hidden');
-
-  // Mettre à jour la règle box avec used mis à jour
-  const rb = $('regle-box');
-  if (rb.style.display !== 'none') {
-    rb.innerHTML = T[currentLang].regle(fmtS(winStart), fmtS(today), used);
-  }
-  runSimulation();
+  const totDiv=document.createElement('div');totDiv.className='br';
+  totDiv.innerHTML=`<span>${tx.btotal}</span><span style="color:var(--red)">${used} / 90 ${suf}</span>`;
+  br.appendChild(totDiv);
+  $('bk').style.display='block';sw.classList.remove('hidden');
 }
 
-/* ── SIMULATION ── */
-function runSimulation() {
-  const se = $('sim-entry').value;
-  const sx = $('sim-exit').value;
-  const sr = $('sim-result');
-  const t = T[currentLang];
-  if (!se) { sr.style.display = 'none'; return; }
+function runSim(){
+  const se=$('se').value,sx=$('sx').value;
+  const sr=$('sr');const tx=TX[lang];
+  if(!se){sr.style.display='none';return;}
+  const ed=new Date(se);const periods=getP();const td=today();
+  const usedAtE=daysInWin(periods,ed);
+  const remAtE=Math.max(0,90-usedAtE);
 
-  const entryDate = new Date(se);
-  const periods = getPeriods();
-  const usedAtEntry = daysInGlidingWindow(periods, entryDate);
-  const remainAtEntry = Math.max(0, 90 - usedAtEntry);
+  // Calcul prochaine date dispo si refus
+  const nd=nextAvailDate(periods);
+  const ndStr=nd?fmt(nd):'—';
+  const ndDays=nd?diff(td,nd):0;
 
-  if (!sx) {
-    // Juste date d'entrée
-    sr.style.display = 'block';
-    if (usedAtEntry >= 90) {
-      sr.className = 'sim-result danger';
-      sr.innerHTML = t.simDanger(fmt(entryDate), usedAtEntry);
-    } else if (usedAtEntry >= 75) {
-      sr.className = 'sim-result warn';
-      sr.innerHTML = t.simWarn(fmt(entryDate), usedAtEntry, remainAtEntry, remainAtEntry);
-    } else {
-      sr.className = 'sim-result ok';
-      sr.innerHTML = t.simOk(fmt(entryDate), usedAtEntry, remainAtEntry, remainAtEntry);
-    }
+  if(!sx){
+    sr.style.display='block';
+    if(usedAtE>=90){sr.className='sim-res dn';sr.innerHTML=tx.simdn(fmt(ed),usedAtE,ndStr,ndDays);}
+    else if(usedAtE>=75){sr.className='sim-res wn';sr.innerHTML=tx.simwn(fmt(ed),usedAtE,remAtE,remAtE);}
+    else{sr.className='sim-res ok';sr.innerHTML=tx.simok(fmt(ed),usedAtE,remAtE,remAtE);}
     return;
   }
+  const xd=new Date(sx);if(xd<ed){sr.style.display='none';return;}
+  const trip=dBet(ed,xd);
+  const simP=[...periods,{d1:ed,d2:xd}];
+  const usedAtX=daysInWin(simP,xd);
+  const remAfter=Math.max(0,90-usedAtX);
 
-  // Avec date de sortie
-  const exitDate = new Date(sx);
-  if (exitDate < entryDate) { sr.style.display = 'none'; return; }
-  const tripDays = daysBetween(entryDate, exitDate);
+  // Prochaine date si voyage refusé
+  const ndSim=usedAtX>90?nextAvailDate([...periods,{d1:ed,d2:xd}]):null;
+  const ndSimStr=ndSim?fmt(ndSim):'—';
+  const ndSimDays=ndSim?diff(td,ndSim):0;
 
-  // Simuler le séjour prévu dans la fenêtre de la date de sortie
-  const simPeriods = [...periods, { d1: entryDate, d2: exitDate }];
-  const usedAtExit = daysInGlidingWindow(simPeriods, exitDate);
-  const remainAfter = Math.max(0, 90 - usedAtExit);
+  sr.style.display='block';
+  let html=tx.simchk(fmt(ed),fmt(xd),usedAtE,trip,usedAtX);
+  if(usedAtX>90){sr.className='sim-res dn';html+=tx.simchkdn(ndSimStr,ndSimDays);}
+  else{sr.className=usedAtX>=75?'sim-res wn':'sim-res ok';html+=tx.simchkok(remAfter);}
+  sr.innerHTML=html;
+}
 
-  sr.style.display = 'block';
-  let html = t.simCheck(fmt(entryDate), fmt(exitDate), usedAtEntry, tripDays, usedAtExit, remainAfter);
-  if (usedAtExit > 90) {
-    sr.className = 'sim-result danger';
-    html += t.simCheckDanger();
-  } else {
-    sr.className = usedAtExit >= 75 ? 'sim-result warn' : 'sim-result ok';
-    html += t.simCheckOk(remainAfter);
+function shareReport(){
+  const v=getVisa();const periods=getP();
+  const td=today();const ws=addD(td,-179);
+  const used=daysInWin(periods,td);
+  const remain=Math.max(0,90-used);
+  const vr=v?Math.max(0,diff(td,v.e)):0;
+  const msg=TX[lang].report(used,remain,fmtS(ws),fmtS(td),vr);
+  if(navigator.share){
+    navigator.share({title:'Rapport Schengen — AUTRANSA',text:msg}).catch(()=>{});
+  } else if(navigator.clipboard){
+    navigator.clipboard.writeText(msg).then(()=>{
+      const btn=$('share-btn');
+      const orig=btn.innerHTML;
+      btn.innerHTML='✅ <span>'+(lang==='ar'?'تم النسخ !':'Copié !')+'</span>';
+      setTimeout(()=>{btn.innerHTML=orig;},2000);
+    });
   }
-  sr.innerHTML = html;
 }
 
-/* ── RESET ── */
-function resetAll() {
-  $('visa-start').value = ''; $('visa-end').value = '';
-  $('visa-info').style.display = 'none'; $('regle-box').style.display = 'none';
-  $('sim-box').style.display = 'none'; $('sim-entry').value = ''; $('sim-exit').value = '';
-  $('sim-result').style.display = 'none';
-  entries = [{ id: 1, e: '', s: '' }]; renderEntries();
-  $('stats-wrap').classList.add('hidden'); $('breakdown').style.display = 'none'; $('result-box').innerHTML = '';
+function resetAll(){
+  $('vs').value='';$('ve').value='';
+  $('vi').style.display='none';$('sim').style.display='none';
+  $('se').value='';$('sx').value='';$('sr').style.display='none';
+  entries=[{id:1,e:'',s:''}];renderE();
+  $('sw').classList.add('hidden');$('bk').style.display='none';
+  $('rbox').innerHTML='';$('next-box').style.display='none';
+  try{localStorage.removeItem('sch_aut');}catch(e){}
 }
 
-renderEntries();
+window.addEventListener('load',()=>{load();});
+renderE();
 </script>
 </body>
 </html>
