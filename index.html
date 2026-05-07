@@ -378,10 +378,15 @@ const TX={
     quotaAlert:'🚫 <strong>Quota dépassé</strong> — 90 jours consommés sur 180.',
     simok:(se,u,r,ms)=>`✅ <strong>Entrée possible le ${se}</strong><br>Déjà utilisé : ${u}/90 &nbsp;|&nbsp; Solde : <strong>${r} jours</strong><br>Séjour max autorisé : <strong>${ms} jours</strong>`,
     simwn:(se,u,r,ms)=>`⚠️ <strong>Attention — ${se}</strong><br>Utilisé : ${u}/90 &nbsp;|&nbsp; Max séjour : <strong>${ms} jours</strong>`,
-    simdn:(se,u,nd,nn)=>`🚫 <strong>Entrée impossible le ${se}</strong><br>Quota : ${u}/90<br>🗓️ Prochaine entrée : <strong>${nd}</strong> (dans ${nn} jours)`,
+    simdn:(se,u,nd1,nn1,nd2,nn2,trip)=>{
+      let h=`🚫 <strong>Entrée impossible le ${se}</strong><br>Quota : ${u}/90<br>`;
+      h+=`🗓️ Entrée possible (1 jour) : <strong>${nd1}</strong> (dans ${nn1} jours)`;
+      if(nd2&&nd2!==nd1) h+=`<br>🗓️ Pour ${trip} jours : <strong>${nd2}</strong> (dans ${nn2} jours)`;
+      return h;
+    },
     simchk:(se,sx,u,trip,tot)=>`🔍 <strong>${se} → ${sx}</strong> (${trip} jours)<br>${u}j déjà + ${trip}j séjour = <strong>${tot}/90</strong>`,
     simchkok:r=>`<br>✅ <strong>Autorisé</strong> — Solde après : <strong>${r} jours</strong>`,
-    simchkdn:(nd,nn)=>`<br>🚫 <strong>Refusé</strong> — Dépasse 90j<br>🗓️ Possible à partir du <strong>${nd}</strong> (dans ${nn} jours)`,
+    simchkdn:(nd,nn,trip)=>`<br>🚫 <strong>Refusé</strong> — Dépasse 90j<br>🗓️ Pour ${trip} jours : possible à partir du <strong>${nd}</strong> (dans ${nn} jours)`,
     fadrt:'Adresse :',fbot:'Application indicative — AUTRANSA MAROC © 2026',
     confirmReset:'Réinitialiser ? Toutes les données seront effacées.',
     report:(used,remain,ws,we,vr,list)=>{
@@ -425,10 +430,15 @@ const TX={
     quotaAlert:'🚫 <strong>تجاوز الحصة</strong> — استُهلكت 90 يوماً من أصل 180.',
     simok:(se,u,r,ms)=>`✅ <strong>الدخول ممكن في ${se}</strong><br>مستهلك : ${u}/90 &nbsp;|&nbsp; الرصيد : <strong>${r} يوم</strong><br>أقصى إقامة مسموحة : <strong>${ms} يوم</strong>`,
     simwn:(se,u,r,ms)=>`⚠️ <strong>انتبه — ${se}</strong><br>مستهلك : ${u}/90 &nbsp;|&nbsp; أقصى إقامة : <strong>${ms} يوم</strong>`,
-    simdn:(se,u,nd,nn)=>`🚫 <strong>الدخول مستحيل في ${se}</strong><br>الحصة : ${u}/90<br>🗓️ أقرب موعد : <strong>${nd}</strong> (بعد ${nn} يوم)`,
+    simdn:(se,u,nd1,nn1,nd2,nn2,trip)=>{
+      let h=`🚫 <strong>الدخول مستحيل في ${se}</strong><br>الحصة : ${u}/90<br>`;
+      h+=`🗓️ ممكن (يوم واحد) : <strong>${nd1}</strong> (بعد ${nn1} يوم)`;
+      if(nd2&&nd2!==nd1) h+=`<br>🗓️ لـ ${trip} أيام : <strong>${nd2}</strong> (بعد ${nn2} يوم)`;
+      return h;
+    },
     simchk:(se,sx,u,trip,tot)=>`🔍 <strong>${se} → ${sx}</strong> (${trip} أيام)<br>${u}ي مستهلك + ${trip}ي هذه الرحلة = <strong>${tot}/90</strong>`,
     simchkok:r=>`<br>✅ <strong>مسموح</strong> — الرصيد بعدها : <strong>${r} يوم</strong>`,
-    simchkdn:(nd,nn)=>`<br>🚫 <strong>مرفوض</strong> — يتجاوز 90 يوماً<br>🗓️ الدخول ممكن من <strong>${nd}</strong> (بعد ${nn} يوم)`,
+    simchkdn:(nd,nn,trip)=>`<br>🚫 <strong>مرفوض</strong> — يتجاوز 90 يوماً<br>🗓️ لـ ${trip} أيام : ممكن من <strong>${nd}</strong> (بعد ${nn} يوم)`,
     fadrt:'العنوان :',fbot:'تطبيق استرشادي — AUTRANSA MAROC © 2026',
     confirmReset:'إعادة تعيين؟ سيتم حذف جميع البيانات.',
     report:(used,remain,ws,we,vr,list)=>{
@@ -640,14 +650,22 @@ function runSim(){
   const merged=getMerged();
   const usedAtE=SCH.daysInWindow(merged,ed);
   const remAtE=Math.max(0,90-usedAtE);
-  const nd=SCH.nextAvailable(merged,1);
-  const ndStr=nd?D.fmt(nd):'—',ndDays=nd?D.diff(td,nd):0;
+  // Prochaine date pour 1 jour (entrée minimale)
+  const nd1=SCH.nextAvailable(merged,1);
+  const nd1Str=nd1?D.fmt(nd1):'—',nd1Days=nd1?D.diff(td,nd1):0;
 
   if(!sxVal){
     sr.style.display='block';
-    if(usedAtE>=90){sr.className='sim-res dn';sr.innerHTML=tx.simdn(D.fmt(ed),usedAtE,ndStr,ndDays);}
-    else if(usedAtE>=75){sr.className='sim-res wn';sr.innerHTML=tx.simwn(D.fmt(ed),usedAtE,remAtE,remAtE);}
-    else{sr.className='sim-res ok';sr.innerHTML=tx.simok(D.fmt(ed),usedAtE,remAtE,remAtE);}
+    if(usedAtE>=90){
+      sr.className='sim-res dn';
+      sr.innerHTML=tx.simdn(D.fmt(ed),usedAtE,nd1Str,nd1Days,null,null,1);
+    } else if(usedAtE>=75){
+      sr.className='sim-res wn';
+      sr.innerHTML=tx.simwn(D.fmt(ed),usedAtE,remAtE,remAtE);
+    } else {
+      sr.className='sim-res ok';
+      sr.innerHTML=tx.simok(D.fmt(ed),usedAtE,remAtE,remAtE);
+    }
     return;
   }
   const xd=D.parse(sxVal);
@@ -664,13 +682,21 @@ function runSim(){
   const simMerged=SCH.merge([...merged,{d1:ed,d2:xd}]);
   const usedAtX=SCH.daysInWindow(simMerged,xd);
   const remAfter=Math.max(0,90-usedAtX);
-  const ndSim=usedAtX>90?SCH.nextAvailable(merged,trip):null;
-  const ndSimStr=ndSim?D.fmt(ndSim):'—',ndSimDays=ndSim?D.diff(td,ndSim):0;
+
+  // Prochaine date pour la durée exacte du voyage
+  const ndTrip=usedAtX>90?SCH.nextAvailable(merged,trip):null;
+  const ndTripStr=ndTrip?D.fmt(ndTrip):'—';
+  const ndTripDays=ndTrip?D.diff(td,ndTrip):0;
 
   sr.style.display='block';
   let html=tx.simchk(D.fmt(ed),D.fmt(xd),usedAtE,trip,usedAtX);
-  if(usedAtX>90){sr.className='sim-res dn';html+=tx.simchkdn(ndSimStr,ndSimDays);}
-  else{sr.className=usedAtX>=75?'sim-res wn':'sim-res ok';html+=tx.simchkok(remAfter);}
+  if(usedAtX>90){
+    sr.className='sim-res dn';
+    html+=tx.simchkdn(ndTripStr,ndTripDays,trip);
+  } else {
+    sr.className=usedAtX>=75?'sim-res wn':'sim-res ok';
+    html+=tx.simchkok(remAfter);
+  }
   sr.innerHTML=html;
 }
 
