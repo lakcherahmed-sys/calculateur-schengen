@@ -34,7 +34,6 @@ html[dir="rtl"] .hdr::after{right:auto;left:0;clip-path:polygon(0 0,65% 0,100% 1
 .hdr-logo{background:white;color:var(--red);font-size:14px;font-weight:900;padding:7px 14px;border-radius:9px;letter-spacing:.5px;flex-shrink:0;}
 
 .box{max-width:480px;margin:0 auto;padding:14px;}
-
 .card{background:var(--white);border-radius:var(--r);padding:16px;margin-bottom:12px;border:1px solid var(--bdr);box-shadow:0 2px 10px rgba(0,0,0,.06);}
 .card-t{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px;padding-bottom:12px;border-bottom:2.5px solid var(--red-lt);}
 .num{background:var(--red);color:white;width:26px;height:26px;border-radius:50%;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -46,7 +45,13 @@ html[dir="rtl"] .hdr::after{right:auto;left:0;clip-path:polygon(0 0,65% 0,100% 1
 
 .vi{background:var(--tbg);border:1.5px solid var(--tbd);border-radius:var(--rs);padding:11px 13px;margin-top:10px;font-size:14px;color:var(--teal);display:none;line-height:1.8;}
 .vi strong{font-weight:700;}
-.vi .vi-status{font-size:13px;margin-top:5px;padding-top:6px;border-top:1px solid var(--tbd);}
+.vi-status{font-size:13px;margin-top:5px;padding-top:6px;border-top:1px solid var(--tbd);}
+
+/* FENÊTRE GLISSANTE ACTIVE */
+.win-box{background:#f0f7ff;border:1.5px solid #90c4f9;border-radius:var(--rs);padding:10px 13px;margin-top:8px;font-size:13px;color:#1a4f8a;display:none;line-height:1.8;}
+.win-box strong{font-weight:700;}
+.win-warn{background:#fff8e6;border:1.5px solid #f0b429;border-radius:var(--rs);padding:9px 12px;margin-top:6px;font-size:12px;color:#7a4a00;display:none;line-height:1.7;}
+
 .abox{border-radius:var(--rs);padding:10px 13px;font-size:13px;line-height:1.7;border:1.5px solid;margin-top:8px;display:none;}
 .abox.danger{background:var(--ebg);border-color:var(--ebd);color:var(--err);}
 
@@ -60,7 +65,7 @@ html[dir="rtl"] .hdr::after{right:auto;left:0;clip-path:polygon(0 0,65% 0,100% 1
 .dj.ok{background:var(--gbg);color:var(--green);}
 .dj.wn{background:var(--abg);color:var(--amber);}
 .dj.dn{background:var(--ebg);color:var(--err);}
-.err-row{grid-column:1/4;font-size:11px;color:var(--err);padding:2px 2px 0;display:none;}
+.err-row{grid-column:1/4;font-size:11px;color:var(--err);padding:2px 2px 0;}
 .xb{width:32px;height:36px;background:none;border:1.5px solid var(--bdr);border-radius:var(--rs);color:var(--text2);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .xb:hover{background:var(--ebg);color:var(--err);border-color:var(--ebd);}
 .ab{width:100%;background:none;border:2px dashed var(--bdr);border-radius:var(--rs);color:var(--text2);font-size:14px;padding:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;font-weight:600;transition:all .15s;}
@@ -141,7 +146,6 @@ html[dir="rtl"] .ft{flex-direction:row-reverse;}
 html[dir="rtl"] .fl-brand{flex-direction:row-reverse;}
 html[dir="rtl"] .fm{flex-direction:row-reverse;}
 html[dir="rtl"] .fl-name{text-align:left;}
-
 .hidden{display:none!important;}
 </style>
 </head>
@@ -164,6 +168,7 @@ html[dir="rtl"] .fl-name{text-align:left;}
 
 <div class="box">
 
+  <!-- ÉTAPE 1 -->
   <div class="card">
     <div class="card-t">
       <span class="num">1</span>
@@ -180,9 +185,13 @@ html[dir="rtl"] .fl-name{text-align:left;}
       </div>
     </div>
     <div class="vi" id="vi"></div>
+    <!-- FENÊTRE GLISSANTE ACTIVE -->
+    <div class="win-box" id="win-box"></div>
+    <div class="win-warn" id="win-warn"></div>
     <div class="abox danger" id="visa-err"></div>
   </div>
 
+  <!-- ÉTAPE 2 -->
   <div class="card">
     <div class="card-t">
       <span class="num">2</span>
@@ -200,7 +209,6 @@ html[dir="rtl"] .fl-name{text-align:left;}
       <span style="font-size:18px;">＋</span>
       <span id="add-lbl">Ajouter un séjour</span>
     </button>
-
     <div class="sim" id="sim">
       <div class="sim-t" id="sim-t">🔮 Simulation — Prochaine entrée</div>
       <div class="r2">
@@ -217,36 +225,17 @@ html[dir="rtl"] .fl-name{text-align:left;}
     </div>
   </div>
 
+  <!-- RÉSULTATS -->
   <div id="sw" class="hidden">
     <div class="visa-alerts" id="visa-alerts"></div>
     <div class="sg">
-      <div class="sc">
-        <div class="sl" id="sl1">Jours consommés</div>
-        <div class="sv c-ok" id="s1">0</div>
-        <div class="su" id="su1">sur 90</div>
-      </div>
-      <div class="sc">
-        <div class="sl" id="sl2">Jours restants</div>
-        <div class="sv c-ok" id="s2">90</div>
-        <div class="su" id="su2">disponibles</div>
-      </div>
-      <div class="sc">
-        <div class="sl" id="sl3">Quota</div>
-        <div class="sv c-ok" id="s3">0</div>
-        <div class="su">%</div>
-      </div>
-      <div class="sc">
-        <div class="sl" id="sl4">Fin visa</div>
-        <div class="sv c-tl" id="s4">—</div>
-        <div class="su" id="su4">jours</div>
-      </div>
+      <div class="sc"><div class="sl" id="sl1">Jours consommés</div><div class="sv c-ok" id="s1">0</div><div class="su" id="su1">sur 90</div></div>
+      <div class="sc"><div class="sl" id="sl2">Jours restants</div><div class="sv c-ok" id="s2">90</div><div class="su" id="su2">disponibles</div></div>
+      <div class="sc"><div class="sl" id="sl3">Quota</div><div class="sv c-ok" id="s3">0</div><div class="su">%</div></div>
+      <div class="sc"><div class="sl" id="sl4">Fin visa</div><div class="sv c-tl" id="s4">—</div><div class="su" id="su4">jours</div></div>
     </div>
     <div class="gw">
-      <div class="gl">
-        <span>0</span>
-        <span id="gtxt" style="color:#111;font-size:13px;font-weight:700;">0 / 90</span>
-        <span>90 MAX</span>
-      </div>
+      <div class="gl"><span>0</span><span id="gtxt" style="color:#111;font-size:13px;font-weight:700;">0 / 90</span><span>90 MAX</span></div>
       <div class="gt"><div class="gf gok" id="gf" style="width:0%"></div></div>
       <div class="gs" id="gsub"></div>
     </div>
@@ -272,11 +261,7 @@ html[dir="rtl"] .fl-name{text-align:left;}
     <div><div class="fl-name">LAKCHER AHMED</div></div>
   </div>
   <div class="fm">
-    <div class="fm-addr">
-      <strong id="f-addr-t">Adresse :</strong><br/>
-      Pol. In. Cortijo Real, Calle Capricho 6<br/>
-      11206 Algeciras (Cádiz) — España
-    </div>
+    <div class="fm-addr"><strong id="f-addr-t">Adresse :</strong><br/>Pol. In. Cortijo Real, Calle Capricho 6<br/>11206 Algeciras (Cádiz) — España</div>
     <div class="fm-email">administracion.maroc@autransasl.com</div>
   </div>
   <div class="fb" id="f-bot">Application indicative — AUTRANSA MAROC © 2026</div>
@@ -285,7 +270,7 @@ html[dir="rtl"] .fl-name{text-align:left;}
 <script>
 'use strict';
 
-/* ══ MODULE DATES — UTC, zéro bug timezone ══ */
+/* ══ DATES UTC ══ */
 const D={
   parse(s){if(!s)return null;const[y,m,d]=s.split('-').map(Number);return Date.UTC(y,m-1,d);},
   today(){const n=new Date();return Date.UTC(n.getFullYear(),n.getMonth(),n.getDate());},
@@ -297,7 +282,7 @@ const D={
   isValid(ts){return typeof ts==='number'&&isFinite(ts);}
 };
 
-/* ══ MODULE SCHENGEN ══ */
+/* ══ SCHENGEN ══ */
 const SCH={
   merge(periods){
     if(!periods.length)return[];
@@ -376,23 +361,25 @@ const TX={
     visaExpiredAlert:'⛔ <strong>Visa expiré</strong> — Entrée impossible même si quota disponible.',
     visaExpiringSoon:n=>`⚠️ <strong>Attention</strong> — Visa expire dans <strong>${n} jours</strong>`,
     quotaAlert:'🚫 <strong>Quota dépassé</strong> — 90 jours consommés sur 180.',
-    simok:(se,u,r,ms)=>`✅ <strong>Entrée possible le ${se}</strong><br>Déjà utilisé : ${u}/90 &nbsp;|&nbsp; Solde : <strong>${r} jours</strong><br>Séjour max autorisé : <strong>${ms} jours</strong>`,
-    simwn:(se,u,r,ms)=>`⚠️ <strong>Attention — ${se}</strong><br>Utilisé : ${u}/90 &nbsp;|&nbsp; Max séjour : <strong>${ms} jours</strong>`,
+    winbox:(ws,we)=>`🔍 <strong>Fenêtre glissante active :</strong> ${ws} → ${we}`,
+    winwarn:(ws,firstEntry)=>`⚠️ La fenêtre remonte au <strong>${ws}</strong>. Avez-vous des séjours Schengen entre le <strong>${ws}</strong> et le <strong>${firstEntry}</strong> ? Si oui, ajoutez-les pour un calcul exact.`,
     simdn:(se,u,nd1,nn1,nd2,nn2,trip)=>{
       let h=`🚫 <strong>Entrée impossible le ${se}</strong><br>Quota : ${u}/90<br>`;
       h+=`🗓️ Entrée possible (1 jour) : <strong>${nd1}</strong> (dans ${nn1} jours)`;
-      if(nd2&&nd2!==nd1) h+=`<br>🗓️ Pour ${trip} jours : <strong>${nd2}</strong> (dans ${nn2} jours)`;
+      if(nd2&&nd2!==nd1)h+=`<br>🗓️ Pour ${trip} jours : <strong>${nd2}</strong> (dans ${nn2} jours)`;
       return h;
     },
-    simchk:(se,sx,u,trip,tot)=>`🔍 <strong>${se} → ${sx}</strong> (${trip} jours)<br>${u}j déjà + ${trip}j séjour = <strong>${tot}/90</strong>`,
+    simwn:(se,u,r,ms)=>`⚠️ <strong>Attention — ${se}</strong><br>Utilisé : ${u}/90 &nbsp;|&nbsp; Max séjour : <strong>${ms} jours</strong>`,
+    simok:(se,u,r,ms)=>`✅ <strong>Entrée possible le ${se}</strong><br>Déjà utilisé : ${u}/90 &nbsp;|&nbsp; Solde : <strong>${r} jours</strong><br>Séjour max autorisé : <strong>${ms} jours</strong>`,
+    simchk:(se,sx,u,trip,tot)=>`🔍 <strong>${se} → ${sx}</strong> (${trip} jours)<br>${u}j déjà + ${trip}j = <strong>${tot}/90</strong>`,
     simchkok:r=>`<br>✅ <strong>Autorisé</strong> — Solde après : <strong>${r} jours</strong>`,
-    simchkdn:(nd,nn,trip)=>`<br>🚫 <strong>Refusé</strong> — Dépasse 90j<br>🗓️ Pour ${trip} jours : possible à partir du <strong>${nd}</strong> (dans ${nn} jours)`,
+    simchkdn:(nd,nn,trip)=>`<br>🚫 <strong>Refusé</strong> — Dépasse 90j<br>🗓️ Pour ${trip} jours : à partir du <strong>${nd}</strong> (dans ${nn} jours)`,
     fadrt:'Adresse :',fbot:'Application indicative — AUTRANSA MAROC © 2026',
     confirmReset:'Réinitialiser ? Toutes les données seront effacées.',
-    report:(used,remain,ws,we,vr,list)=>{
-      let r=`🛂 RAPPORT SCHENGEN — AUTRANSA\n${'━'.repeat(24)}\n📊 Fenêtre : ${ws} → ${we}\n✅ Consommé : ${used}/90 jours\n🟢 Solde : ${remain} jours\n⏳ Fin visa : ${vr} jours\n`;
-      if(list.length){r+=`\n📋 Séjours :\n`;list.forEach((e,i)=>r+=`${i+1}. ${e}\n`);}
-      r+=`${'━'.repeat(24)}\nLAKCHER AHMED — AUTRANSA MAROC\nadministracion.maroc@autransasl.com`;
+    report:(used,remain,ws,we,vr,list,winWs,winWe)=>{
+      let r=`RAPPORT SCHENGEN — AUTRANSA\n${'='.repeat(30)}\nFenetre active : ${winWs} => ${winWe}\nVisa fin dans : ${vr} jours\n${'-'.repeat(30)}\nConsomme : ${used}/90 jours\nSolde : ${remain} jours\nQuota : ${Math.round(used/90*100)}%\n${'-'.repeat(30)}\nSejours :\n`;
+      list.forEach((e,i)=>r+=`${i+1}. ${e}\n`);
+      r+=`${'='.repeat(30)}\nLAKCHER AHMED - AUTRANSA MAROC\nadministracion.maroc@autransasl.com\nApplication indicative`;
       return r;
     }
   },
@@ -428,23 +415,25 @@ const TX={
     visaExpiredAlert:'⛔ <strong>التأشيرة منتهية</strong> — الدخول مستحيل حتى لو الحصة متاحة.',
     visaExpiringSoon:n=>`⚠️ <strong>انتبه</strong> — التأشيرة تنتهي بعد <strong>${n} يوم</strong>`,
     quotaAlert:'🚫 <strong>تجاوز الحصة</strong> — استُهلكت 90 يوماً من أصل 180.',
-    simok:(se,u,r,ms)=>`✅ <strong>الدخول ممكن في ${se}</strong><br>مستهلك : ${u}/90 &nbsp;|&nbsp; الرصيد : <strong>${r} يوم</strong><br>أقصى إقامة مسموحة : <strong>${ms} يوم</strong>`,
-    simwn:(se,u,r,ms)=>`⚠️ <strong>انتبه — ${se}</strong><br>مستهلك : ${u}/90 &nbsp;|&nbsp; أقصى إقامة : <strong>${ms} يوم</strong>`,
+    winbox:(ws,we)=>`🔍 <strong>النافذة الزمنية الحالية :</strong> ${ws} → ${we}`,
+    winwarn:(ws,firstEntry)=>`⚠️ النافذة ترجع إلى <strong>${ws}</strong>. هل لديك إقامات شنغن بين <strong>${ws}</strong> و <strong>${firstEntry}</strong> ؟ إذا نعم، أضفها لحساب دقيق.`,
     simdn:(se,u,nd1,nn1,nd2,nn2,trip)=>{
       let h=`🚫 <strong>الدخول مستحيل في ${se}</strong><br>الحصة : ${u}/90<br>`;
       h+=`🗓️ ممكن (يوم واحد) : <strong>${nd1}</strong> (بعد ${nn1} يوم)`;
-      if(nd2&&nd2!==nd1) h+=`<br>🗓️ لـ ${trip} أيام : <strong>${nd2}</strong> (بعد ${nn2} يوم)`;
+      if(nd2&&nd2!==nd1)h+=`<br>🗓️ لـ ${trip} أيام : <strong>${nd2}</strong> (بعد ${nn2} يوم)`;
       return h;
     },
-    simchk:(se,sx,u,trip,tot)=>`🔍 <strong>${se} → ${sx}</strong> (${trip} أيام)<br>${u}ي مستهلك + ${trip}ي هذه الرحلة = <strong>${tot}/90</strong>`,
+    simwn:(se,u,r,ms)=>`⚠️ <strong>انتبه — ${se}</strong><br>مستهلك : ${u}/90 &nbsp;|&nbsp; أقصى إقامة : <strong>${ms} يوم</strong>`,
+    simok:(se,u,r,ms)=>`✅ <strong>الدخول ممكن في ${se}</strong><br>مستهلك : ${u}/90 &nbsp;|&nbsp; الرصيد : <strong>${r} يوم</strong><br>أقصى إقامة : <strong>${ms} يوم</strong>`,
+    simchk:(se,sx,u,trip,tot)=>`🔍 <strong>${se} → ${sx}</strong> (${trip} أيام)<br>${u}ي + ${trip}ي = <strong>${tot}/90</strong>`,
     simchkok:r=>`<br>✅ <strong>مسموح</strong> — الرصيد بعدها : <strong>${r} يوم</strong>`,
-    simchkdn:(nd,nn,trip)=>`<br>🚫 <strong>مرفوض</strong> — يتجاوز 90 يوماً<br>🗓️ لـ ${trip} أيام : ممكن من <strong>${nd}</strong> (بعد ${nn} يوم)`,
+    simchkdn:(nd,nn,trip)=>`<br>🚫 <strong>مرفوض</strong> — يتجاوز 90 يوماً<br>🗓️ لـ ${trip} أيام : من <strong>${nd}</strong> (بعد ${nn} يوم)`,
     fadrt:'العنوان :',fbot:'تطبيق استرشادي — AUTRANSA MAROC © 2026',
     confirmReset:'إعادة تعيين؟ سيتم حذف جميع البيانات.',
     report:(used,remain,ws,we,vr,list)=>{
-      let r=`🛂 تقرير شنغن — AUTRANSA\n${'━'.repeat(24)}\n📊 النافذة : ${ws} → ${we}\n✅ مستهلك : ${used}/90\n🟢 الرصيد : ${remain} يوم\n⏳ نهاية التأشيرة : ${vr} يوم\n`;
-      if(list.length){r+=`\n📋 الإقامات :\n`;list.forEach((e,i)=>r+=`${i+1}. ${e}\n`);}
-      r+=`${'━'.repeat(24)}\nLAKCHER AHMED — AUTRANSA MAROC\nadministracion.maroc@autransasl.com`;
+      let r=`RAPPORT SCHENGEN - AUTRANSA\n${'='.repeat(30)}\nFenetre : ${ws} => ${we}\nFin visa : ${vr} jours\n${'-'.repeat(30)}\nConsomme : ${used}/90\nSolde : ${remain} jours\n${'-'.repeat(30)}\nSejours :\n`;
+      list.forEach((e,i)=>r+=`${i+1}. ${e}\n`);
+      r+=`${'='.repeat(30)}\nLAKCHER AHMED - AUTRANSA MAROC\nadministracion.maroc@autransasl.com`;
       return r;
     }
   }
@@ -490,10 +479,40 @@ function setLang(l){
 }
 
 /* ══ VISA ══ */
+function updateWinBox(){
+  const v=getVisa();
+  const wb=$('win-box'),ww=$('win-warn');
+  wb.style.display='none';ww.style.display='none';
+  if(!v)return;
+  const td=D.today();
+  // Fenêtre active = 180j en arrière depuis aujourd'hui
+  // mais limitée par le début du visa
+  const rawWs=D.add(td,-179);
+  const ws=Math.max(rawWs,v.s); // Ne pas aller avant le début du visa
+  const we=td;
+  const tx=TX[lang];
+  wb.innerHTML=tx.winbox(D.fmt(ws),D.fmt(we));
+  wb.style.display='block';
+  // Avertissement si la fenêtre remonte avant le premier séjour saisi
+  const periods=getPeriods();
+  if(periods.length>0){
+    const firstEntry=periods.sort((a,b)=>a.d1-b.d1)[0].d1;
+    if(rawWs<firstEntry){
+      // La fenêtre réelle (sans limitation visa) remonte avant le 1er séjour saisi
+      const warnStart=D.fmt(rawWs);
+      const warnEnd=D.fmt(D.add(firstEntry,-1));
+      ww.innerHTML=tx.winwarn(D.fmt(rawWs),D.fmt(firstEntry));
+      ww.style.display='block';
+    }
+  }
+}
+
 function onVC(){
   const vi=$('vi'),ve=$('visa-err');
   vi.innerHTML='';vi.style.display='none';
   ve.innerHTML='';ve.style.display='none';
+  $('win-box').style.display='none';
+  $('win-warn').style.display='none';
   $('sim').style.display='none';
   const vsVal=$('vs').value,veVal=$('ve').value;
   if(!vsVal||!veVal)return;
@@ -507,32 +526,26 @@ function onVC(){
   if(status==='future') sl=`<div class="vi-status">${TX[lang].visaFuture(D.diff(td,v.s))}</div>`;
   else if(status==='active') sl=`<div class="vi-status">${TX[lang].visaActive(D.diff(td,v.e))}</div>`;
   else sl=`<div class="vi-status" style="color:var(--err);font-weight:700;">${TX[lang].visaExpired}</div>`;
-  const durLbl=lang==='ar'?`${dur} يوماً`:`${dur} jours`;
-  vi.innerHTML=`Visa <strong>${durLbl}</strong> — <strong>${D.fmt(v.s)}</strong> → <strong>${D.fmt(v.e)}</strong>${sl}`;
+  const dl=lang==='ar'?`${dur} يوماً`:`${dur} jours`;
+  vi.innerHTML=`Visa <strong>${dl}</strong> — <strong>${D.fmt(v.s)}</strong> → <strong>${D.fmt(v.e)}</strong>${sl}`;
   vi.style.display='block';
   $('sim').style.display='block';
+  updateWinBox();
   calc();save();
 }
 
 /* ══ ENTRIES ══ */
-function addE(){
-  entries.push({id:++uid,e:'',s:'',err:false});
-  renderE();
-  save();
-}
+function addE(){entries.push({id:++uid,e:'',s:'',err:false});renderE();save();}
 function removeE(id){
-  if(entries.length===1){entries[0]={id:entries[0].id,e:'',s:'',err:false};}
+  if(entries.length===1)entries[0]={id:entries[0].id,e:'',s:'',err:false};
   else entries=entries.filter(x=>x.id!==id);
   renderE();calc();save();
 }
 function upd(id,f,v){
-  const e=entries.find(x=>x.id===id);
-  if(!e)return;
+  const e=entries.find(x=>x.id===id);if(!e)return;
   e[f]=v;
-  if(e.e&&e.s){
-    const d1=D.parse(e.e),d2=D.parse(e.s);
-    e.err=D.isValid(d1)&&D.isValid(d2)&&d2<d1;
-  } else e.err=false;
+  if(e.e&&e.s){const d1=D.parse(e.e),d2=D.parse(e.s);e.err=D.isValid(d1)&&D.isValid(d2)&&d2<d1;}
+  else e.err=false;
   renderE();calc();save();
 }
 
@@ -541,40 +554,32 @@ function renderE(){
   const suf=lang==='ar'?'ي':'j';
   const raw=getPeriods(),merged=SCH.merge(raw);
   const hasMerge=raw.length>0&&merged.length<raw.length;
-  const mn=$('merge-notice');
-  mn.textContent=TX[lang].mergeNotice;
-  mn.style.display=hasMerge?'block':'none';
-
+  const mn=$('merge-notice');mn.textContent=TX[lang].mergeNotice;mn.style.display=hasMerge?'block':'none';
   entries.forEach(en=>{
     const d1=D.parse(en.e),d2=D.parse(en.s);
     const valid=D.isValid(d1)&&D.isValid(d2)&&d2>=d1;
     const days=valid?D.span(d1,d2):null;
     const djCls='dj'+(en.err?' dn':days!==null?days>30?' dn':days>15?' wn':' ok':'');
     const inCls=en.err?'ei':'';
-
-    const row=document.createElement('div');
-    row.className='er';
-    row.style.cssText=en.err?'grid-template-rows:auto auto;':'';
+    const row=document.createElement('div');row.className='er';
     row.innerHTML=`
       <input type="date" value="${en.e}" min="2020-01-01" max="2035-12-31" class="${inCls}" oninput="upd(${en.id},'e',this.value)"/>
       <input type="date" value="${en.s}" min="2020-01-01" max="2035-12-31" class="${inCls}" oninput="upd(${en.id},'s',this.value)"/>
       <div class="${djCls}">${en.err?'⚠️':days!==null?days+suf:'—'}</div>
       <button class="xb" onclick="removeE(${en.id})">✕</button>
-      <div class="err-row" style="display:${en.err?'block':'none'}">${TX[lang].errEntryOrder}</div>
+      ${en.err?`<div class="err-row">${TX[lang].errEntryOrder}</div>`:''}
     `;
     list.appendChild(row);
   });
+  updateWinBox();
 }
 
 /* ══ CALCUL ══ */
 function calc(){
   const v=getVisa(),merged=getMerged(),sw=$('sw');
   if(merged.length===0){
-    sw.classList.add('hidden');
-    $('bk').style.display='none';
-    $('rbox').innerHTML='';
-    $('next-box').style.display='none';
-    $('visa-alerts').innerHTML='';
+    sw.classList.add('hidden');$('bk').style.display='none';
+    $('rbox').innerHTML='';$('next-box').style.display='none';$('visa-alerts').innerHTML='';
     return;
   }
   const tx=TX[lang],td=D.today(),ws=D.add(td,-179);
@@ -585,26 +590,22 @@ function calc(){
   const vr=v&&status==='active'?Math.max(0,D.diff(td,v.e)):null;
   const suf=lang==='ar'?'ي':'j';
 
-  // Stats
   $('s1').textContent=used;$('s1').className='sv '+(used>=90?'c-dn':used>=75?'c-wn':'c-ok');
   $('s2').textContent=remain;$('s2').className='sv '+(remain<=10?'c-dn':remain<=20?'c-wn':'c-ok');
   $('s3').textContent=pct;$('s3').className='sv '+(pct>=100?'c-dn':pct>=83?'c-wn':'c-ok');
   $('s4').textContent=vr!==null?vr:'—';
 
-  // Gauge
   const gf=$('gf');gf.style.width=pct+'%';
   gf.className='gf '+(pct>=100?'gdn':pct>=83?'gwn':'gok');
   $('gtxt').textContent=tx.gtxt(used);
   $('gsub').textContent=remain>0?(pct>=83?tx.gswn(remain):tx.gsok(remain)):tx.gsdn;
 
-  // Alertes visa séparées
   let alerts='';
   if(status==='expired')alerts+=`<div class="valert expired">${tx.visaExpiredAlert}</div>`;
   else if(status==='active'&&vr!==null&&vr<=15)alerts+=`<div class="valert warn">${tx.visaExpiringSoon(vr)}</div>`;
   if(used>=90)alerts+=`<div class="valert quota">${tx.quotaAlert}</div>`;
   $('visa-alerts').innerHTML=alerts;
 
-  // Résultat
   let rh='';
   if(status==='expired')rh=`<div class="rb dn">${tx.rdn(used)}</div>`;
   else if(used>=90)rh=`<div class="rb dn">${tx.rdn(used)}</div>`;
@@ -612,7 +613,6 @@ function calc(){
   else rh=`<div class="rb ok">${tx.rok(used,remain,D.fmtS(ws),D.fmtS(td))}</div>`;
   $('rbox').innerHTML=rh;
 
-  // Prochaine entrée
   const nb=$('next-box');
   if(used>=90){
     const nd=SCH.nextAvailable(merged,1);
@@ -620,7 +620,6 @@ function calc(){
     else nb.style.display='none';
   } else nb.style.display='none';
 
-  // Détail
   const br=$('brows');br.innerHTML='';
   merged.forEach((p,i)=>{
     const s=Math.max(p.d1,ws),e=Math.min(p.d2,td);
@@ -636,8 +635,7 @@ function calc(){
   const tot=document.createElement('div');tot.className='br';
   tot.innerHTML=`<span>${tx.btotal}</span><span style="color:var(--red);font-weight:800;">${used} / 90 ${suf}</span>`;
   br.appendChild(tot);
-  $('bk').style.display='block';
-  sw.classList.remove('hidden');
+  $('bk').style.display='block';sw.classList.remove('hidden');
 }
 
 /* ══ SIMULATION ══ */
@@ -650,49 +648,36 @@ function runSim(){
   const merged=getMerged();
   const usedAtE=SCH.daysInWindow(merged,ed);
   const remAtE=Math.max(0,90-usedAtE);
-  // Prochaine date pour 1 jour (entrée minimale)
   const nd1=SCH.nextAvailable(merged,1);
   const nd1Str=nd1?D.fmt(nd1):'—',nd1Days=nd1?D.diff(td,nd1):0;
 
   if(!sxVal){
     sr.style.display='block';
-    if(usedAtE>=90){
-      sr.className='sim-res dn';
-      sr.innerHTML=tx.simdn(D.fmt(ed),usedAtE,nd1Str,nd1Days,null,null,1);
-    } else if(usedAtE>=75){
-      sr.className='sim-res wn';
-      sr.innerHTML=tx.simwn(D.fmt(ed),usedAtE,remAtE,remAtE);
-    } else {
-      sr.className='sim-res ok';
-      sr.innerHTML=tx.simok(D.fmt(ed),usedAtE,remAtE,remAtE);
-    }
+    if(usedAtE>=90){sr.className='sim-res dn';sr.innerHTML=tx.simdn(D.fmt(ed),usedAtE,nd1Str,nd1Days,null,null,1);}
+    else if(usedAtE>=75){sr.className='sim-res wn';sr.innerHTML=tx.simwn(D.fmt(ed),usedAtE,remAtE,remAtE);}
+    else{sr.className='sim-res ok';sr.innerHTML=tx.simok(D.fmt(ed),usedAtE,remAtE,remAtE);}
     return;
   }
   const xd=D.parse(sxVal);
   if(!D.isValid(xd)||xd<ed){sr.style.display='block';sr.className='sim-res dn';sr.innerHTML=tx.errSimOrder;return;}
-
-  // Vérification visa pendant tout le séjour
   const v=getVisa();
   if(v){
     if(ed<v.s){sr.style.display='block';sr.className='sim-res dn';sr.innerHTML=tx.errVisaStart(D.fmt(v.s));return;}
     if(xd>v.e){sr.style.display='block';sr.className='sim-res dn';sr.innerHTML=tx.errVisaEnd(D.fmt(v.e));return;}
   }
-
   const trip=D.span(ed,xd);
   const simMerged=SCH.merge([...merged,{d1:ed,d2:xd}]);
   const usedAtX=SCH.daysInWindow(simMerged,xd);
   const remAfter=Math.max(0,90-usedAtX);
-
-  // Prochaine date pour la durée exacte du voyage
   const ndTrip=usedAtX>90?SCH.nextAvailable(merged,trip):null;
-  const ndTripStr=ndTrip?D.fmt(ndTrip):'—';
-  const ndTripDays=ndTrip?D.diff(td,ndTrip):0;
-
+  const ndTripStr=ndTrip?D.fmt(ndTrip):'—',ndTripDays=ndTrip?D.diff(td,ndTrip):0;
   sr.style.display='block';
   let html=tx.simchk(D.fmt(ed),D.fmt(xd),usedAtE,trip,usedAtX);
   if(usedAtX>90){
     sr.className='sim-res dn';
+    // Prochaine date pour 1 jour aussi
     html+=tx.simchkdn(ndTripStr,ndTripDays,trip);
+    if(nd1&&nd1Str!==ndTripStr) html+=`<br>🗓️ ${lang==='ar'?'ممكن (يوم واحد)':'Possible (1 jour)'} : <strong>${nd1Str}</strong> (${lang==='ar'?'بعد':'dans'} ${nd1Days} ${lang==='ar'?'يوم':'jours'})`;
   } else {
     sr.className=usedAtX>=75?'sim-res wn':'sim-res ok';
     html+=tx.simchkok(remAfter);
@@ -707,10 +692,10 @@ function shareReport(){
   const used=SCH.daysInWindow(merged,td);
   const remain=Math.max(0,90-used);
   const vr=v?Math.max(0,D.diff(td,v.e)):0;
-  const list=merged.map(p=>`${D.fmt(p.d1)} → ${D.fmt(p.d2)} (${D.span(p.d1,p.d2)}j)`);
-  const msg=TX[lang].report(used,remain,D.fmtS(ws),D.fmtS(td),vr,list);
+  const list=merged.map(p=>`${D.fmt(p.d1)} -> ${D.fmt(p.d2)} (${D.span(p.d1,p.d2)}j)`);
+  const msg=TX[lang].report(used,remain,D.fmtS(ws),D.fmtS(td),vr,list,D.fmtS(ws),D.fmtS(td));
   if(navigator.share){
-    navigator.share({title:'Rapport Schengen — AUTRANSA',text:msg}).catch(()=>{});
+    navigator.share({title:'Rapport Schengen AUTRANSA',text:msg}).catch(()=>{});
   } else if(navigator.clipboard){
     navigator.clipboard.writeText(msg).then(()=>{
       const btn=$('btn-share'),orig=btn.innerHTML;
@@ -720,7 +705,7 @@ function shareReport(){
   }
 }
 
-/* ══ PDF ══ */
+/* ══ PDF — toujours en français ══ */
 function genPDF(){
   const v=getVisa(),merged=getMerged();
   const td=D.today(),ws=D.add(td,-179);
@@ -729,39 +714,46 @@ function genPDF(){
   const pct=Math.min(100,Math.round(used/90*100));
   const vr=v?Math.max(0,D.diff(td,v.e)):null;
   const status=v?SCH.visaStatus(v):null;
-  const isAr=lang==='ar';
+  // PDF toujours en français — jsPDF ne supporte pas l'arabe
+  const FR=TX.fr;
 
   try{
     const{jsPDF}=window.jspdf;
     const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
     const W=210,ml=15,mr=195;let y=15;
 
-    // Header
+    // En-tête
     doc.setFillColor(204,0,0);doc.rect(0,0,W,32,'F');
     doc.setFillColor(153,0,0);doc.rect(130,0,80,32,'F');
     doc.setTextColor(255,255,255);
     doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('AUTRANSA',ml,13);
     doc.setFontSize(10);doc.setFont('helvetica','normal');
-    doc.text(isAr?'حاسبة شنغن — قاعدة 90/180 يوم':'Calculateur Schengen — Règle 90/180 jours',ml,21);
-    doc.setFontSize(8);doc.text(`${isAr?'تاريخ التقرير':'Rapport du'} : ${D.fmt(td)}`,mr,27,{align:'right'});
+    doc.text('Calculateur Schengen — Regle 90/180 jours',ml,21);
+    doc.setFontSize(8);doc.text(`Rapport du : ${D.fmt(td)}`,mr,27,{align:'right'});
     y=42;
 
     // Visa
     if(v){
       doc.setFillColor(230,247,247);doc.rect(ml,y-5,mr-ml,13,'F');
       doc.setFontSize(9);doc.setFont('helvetica','bold');doc.setTextColor(14,107,107);
-      doc.text(`${isAr?'التأشيرة':'Visa'} : ${D.fmt(v.s)} → ${D.fmt(v.e)}`,ml+3,y+1);
-      const stLbl=status==='active'?(isAr?'سارية':'Actif'):status==='expired'?(isAr?'منتهية':'Expiré'):(isAr?'لم تبدأ':'Futur');
-      doc.text(`${isAr?'الحالة':'Statut'} : ${stLbl}`,mr-3,y+1,{align:'right'});
+      doc.text(`Visa : ${D.fmt(v.s)} -> ${D.fmt(v.e)}`,ml+3,y+1);
+      const stLbl=status==='active'?'Actif':status==='expired'?'Expire':'Futur';
+      doc.text(`Statut : ${stLbl}`,mr-3,y+1,{align:'right'});
       y+=18;
     }
 
+    // Fenêtre active
+    doc.setFillColor(240,247,255);doc.rect(ml,y-4,mr-ml,10,'F');
+    doc.setFontSize(9);doc.setFont('helvetica','bold');doc.setTextColor(26,79,138);
+    doc.text(`Fenetre active : ${D.fmt(ws)} -> ${D.fmt(td)}`,ml+3,y+2);
+    y+=14;
+
     // Stats
     const statData=[
-      {l:isAr?'مستهلك':'Consommés',v:`${used}/90`,c:used>=90?[204,0,0]:used>=75?[122,74,0]:[11,110,63]},
-      {l:isAr?'متبقي':'Restants',v:`${remain}j`,c:[11,110,63]},
-      {l:isAr?'النسبة':'Quota',v:`${pct}%`,c:used>=90?[204,0,0]:used>=75?[122,74,0]:[11,110,63]},
-      {l:isAr?'نهاية التأشيرة':'Fin visa',v:vr!==null?`${vr}j`:'—',c:[14,107,107]},
+      {l:'Consommes',v:`${used}/90`,c:used>=90?[204,0,0]:used>=75?[122,74,0]:[11,110,63]},
+      {l:'Restants',v:`${remain}j`,c:[11,110,63]},
+      {l:'Quota',v:`${pct}%`,c:used>=90?[204,0,0]:used>=75?[122,74,0]:[11,110,63]},
+      {l:'Fin visa',v:vr!==null?`${vr}j`:'—',c:[14,107,107]},
     ];
     const bw=(mr-ml-9)/4;
     statData.forEach((s,i)=>{
@@ -774,13 +766,13 @@ function genPDF(){
     });
     y+=26;
 
-    // Gauge
+    // Jauge
     doc.setFillColor(240,240,240);doc.rect(ml,y,mr-ml,5,'F');
     const bw2=Math.min(1,used/90)*(mr-ml);
     doc.setFillColor(used>=90?204:used>=75?240:76,used>=90?0:used>=75?180:207,used>=90?0:used>=75?41:154);
     doc.rect(ml,y,bw2,5,'F');
     doc.setFontSize(8);doc.setTextColor(100,100,100);doc.setFont('helvetica','normal');
-    doc.text(`${used} / 90 ${isAr?'يوم':'jours'}`,W/2,y+9,{align:'center'});
+    doc.text(`${used} / 90 jours`,W/2,y+9,{align:'center'});
     y+=18;
 
     // Résultat
@@ -788,25 +780,24 @@ function genPDF(){
     const rb=used>=90?[253,232,232]:used>=75?[255,248,230]:[232,247,238];
     doc.setFillColor(...rb);doc.rect(ml,y-3,mr-ml,11,'F');
     doc.setFontSize(10);doc.setFont('helvetica','bold');doc.setTextColor(...rc);
-    const rtx=used>=90?(isAr?`🚫 تجاوز — ${used}/90`:`🚫 Quota dépassé — ${used}/90`):used>=75?(isAr?`⚠️ حد حرج — ${remain} يوم`:`⚠️ Critique — ${remain}j restants`):(isAr?`✅ مطابق — ${remain} يوم متاح`:`✅ Conforme — ${remain}j disponibles`);
+    const rtx=used>=90?`Quota depasse — ${used}/90`:used>=75?`Seuil critique — ${remain}j restants`:`Conforme — ${remain}j disponibles`;
     doc.text(rtx,ml+3,y+4);
     y+=18;
 
-    // Séjours
+    // Détail séjours
     doc.setTextColor(30,30,30);doc.setFontSize(10);doc.setFont('helvetica','bold');
-    doc.text(isAr?'تفاصيل الإقامات :':'Détail des séjours :',ml,y);y+=7;
+    doc.text('Detail des sejours :',ml,y);y+=7;
     doc.setFontSize(9);doc.setFont('helvetica','normal');
     merged.forEach((p,i)=>{
       const s=Math.max(p.d1,ws),e=Math.min(p.d2,td);
       const inW=e>=s?Math.round((e-s)/86400000)+1:0;
       const tot=D.span(p.d1,p.d2);
-      const lbl=isAr?`إقامة ${i+1}`:`Séjour ${i+1}`;
       i%2===0?doc.setFillColor(248,248,248):doc.setFillColor(255,255,255);
       doc.rect(ml,y-4,mr-ml,7,'F');
       doc.setTextColor(50,50,50);
-      doc.text(`${lbl} : ${D.fmt(p.d1)} → ${D.fmt(p.d2)} (${tot}j)`,ml+3,y);
+      doc.text(`Sejour ${i+1} : ${D.fmt(p.d1)} -> ${D.fmt(p.d2)} (${tot}j)`,ml+3,y);
       doc.setTextColor(inW>0?204:150,0,0);
-      doc.text(inW>0?`${inW}j ✓`:(isAr?'خارج النافذة':'hors fenêtre'),mr-3,y,{align:'right'});
+      doc.text(inW>0?`${inW}j v`:'hors fenetre',mr-3,y,{align:'right'});
       y+=7;if(y>270){doc.addPage();y=20;}
     });
 
@@ -814,19 +805,19 @@ function genPDF(){
     y+=3;
     doc.setFillColor(204,0,0);doc.rect(ml,y-4,mr-ml,8,'F');
     doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(10);
-    doc.text(isAr?'المجموع :':'Total fenêtre :',ml+3,y+1);
-    doc.text(`${used} / 90 ${isAr?'يوم':'j'}`,mr-3,y+1,{align:'right'});
+    doc.text('Total fenetre :',ml+3,y+1);
+    doc.text(`${used} / 90 j`,mr-3,y+1,{align:'right'});
     y+=14;
 
-    // Footer PDF
+    // Pied de page
     doc.setTextColor(120,120,120);doc.setFont('helvetica','normal');doc.setFontSize(8);
-    doc.text(`${isAr?'النافذة الحالية':'Fenêtre active'} : ${D.fmt(ws)} → ${D.fmt(td)}`,W/2,y,{align:'center'});
+    doc.text(`Fenetre active : ${D.fmt(ws)} -> ${D.fmt(td)}`,W/2,y,{align:'center'});
     doc.text('LAKCHER AHMED — AUTRANSA MAROC | administracion.maroc@autransasl.com',W/2,y+5,{align:'center'});
-    doc.text(isAr?'تطبيق استرشادي — AUTRANSA MAROC © 2026':'Application indicative — AUTRANSA MAROC © 2026',W/2,y+10,{align:'center'});
+    doc.text('Application indicative — AUTRANSA MAROC © 2026',W/2,y+10,{align:'center'});
 
     doc.save(`Schengen_AUTRANSA_${D.fmt(td).replace(/\//g,'-')}.pdf`);
   } catch(err){
-    alert(lang==='ar'?'خطأ في توليد PDF':'Erreur génération PDF');
+    alert('Erreur generation PDF. Reessayez.');
     console.error(err);
   }
 }
@@ -836,6 +827,7 @@ function resetAll(){
   if(!confirm(TX[lang].confirmReset))return;
   $('vs').value='';$('ve').value='';
   $('vi').style.display='none';$('visa-err').style.display='none';
+  $('win-box').style.display='none';$('win-warn').style.display='none';
   $('sim').style.display='none';$('se').value='';$('sx').value='';$('sr').style.display='none';
   entries=[{id:1,e:'',s:'',err:false}];
   renderE();$('sw').classList.add('hidden');$('bk').style.display='none';
