@@ -161,11 +161,11 @@ html[dir="rtl"] .footer-name{text-align:left;}
     <div class="r2">
       <div class="fl">
         <label id="l-vs">📅 Début</label>
-        <input type="date" id="vs" onchange="onVC()"/>
+        <input type="date" id="vs" onchange="onVC();"/>
       </div>
       <div class="fl">
         <label id="l-ve">📅 Fin</label>
-        <input type="date" id="ve" onchange="onVC()"/>
+        <input type="date" id="ve" onchange="onVC();"/>
       </div>
     </div>
     <div class="vi" id="vi"></div>
@@ -308,7 +308,7 @@ const TX={
     nextdays:(d,n)=>`À partir du <strong class="next-date">${d}</strong>dans <strong>${n} jours</strong>`,
     bkt:'Détail des séjours',inw:(n)=>`${n}j ✓`,outw:'hors fenêtre',btotal:'Total',
     sharelbl:'Partager le rapport',rst:'Réinitialiser',
-    vi:(d,s,e,rem)=>`Visa de <strong>${d} jours</strong> — du <strong>${s}</strong> au <strong>${e}</strong><br>Jours restants sur le visa : <strong>${rem} jours</strong>`,
+    vi:(d,s,e)=>`Visa de <strong>${d} jours</strong> — du <strong>${s}</strong> au <strong>${e}</strong>`,
     simok:(se,u,r,ms)=>`✅ <strong>Entrée possible le ${se}</strong><br>Utilisé : ${u}/90 — Solde : <strong>${r} jours</strong> (max ${ms}j)`,
     simwn:(se,u,r,ms)=>`⚠️ <strong>Attention le ${se}</strong><br>Utilisé : ${u}/90 — Max séjour : <strong>${ms} jours</strong>`,
     simdn:(se,u,nd,nn)=>`🚫 <strong>Entrée impossible le ${se}</strong><br>Quota atteint : ${u}/90<br>🗓️ Prochaine entrée possible : <strong>${nd}</strong> (dans ${nn} jours)`,
@@ -338,7 +338,7 @@ const TX={
     nextdays:(d,n)=>`ابتداءً من <strong class="next-date">${d}</strong>بعد <strong>${n} يوم</strong>`,
     bkt:'تفاصيل الإقامات',inw:(n)=>`${n} يوم ✓`,outw:'خارج النافذة',btotal:'المجموع',
     sharelbl:'مشاركة التقرير',rst:'إعادة تعيين',
-    vi:(d,s,e,rem)=>`تأشيرة <strong>${d} يوماً</strong> — من <strong>${s}</strong> إلى <strong>${e}</strong><br>الأيام المتبقية على التأشيرة : <strong>${rem} يوم</strong>`,
+    vi:(d,s,e)=>`تأشيرة <strong>${d} يوماً</strong> — من <strong>${s}</strong> إلى <strong>${e}</strong>`,
     simok:(se,u,r,ms)=>`✅ <strong>الدخول ممكن في ${se}</strong><br>مستهلك : ${u}/90 — الرصيد : <strong>${r} يوم</strong> (أقصى ${ms} يوم)`,
     simwn:(se,u,r,ms)=>`⚠️ <strong>انتبه في ${se}</strong><br>مستهلك : ${u}/90 — أقصى إقامة : <strong>${ms} يوم</strong>`,
     simdn:(se,u,nd,nn)=>`🚫 <strong>الدخول مستحيل في ${se}</strong><br>الحصة ممتلئة : ${u}/90<br>🗓️ أقرب موعد للدخول : <strong>${nd}</strong> (بعد ${nn} يوم)`,
@@ -427,14 +427,36 @@ function setLang(l){
 function onVC(){
   const v=getVisa();
   const vi=$('vi');
-  if(!v){vi.style.display='none';$('sim').style.display='none';return;}
+  vi.innerHTML='';
+  vi.style.display='none';
+  $('sim').style.display='none';
+  if(!v) return;
   const td=today();
-  const visaRemain=Math.max(0,diff(td,v.e));
   const dur=dBet(v.s,v.e);
-  vi.innerHTML=TX[lang].vi(dur,fmt(v.s),fmt(v.e),visaRemain);
+  let visaLine='';
+  if(td < v.s){
+    // Visa pas encore commencé
+    const daysUntilStart=diff(td,v.s);
+    visaLine=lang==='ar'
+      ?`التأشيرة تبدأ بعد <strong>${daysUntilStart} يوم</strong>`
+      :`Visa démarre dans <strong>${daysUntilStart} jours</strong>`;
+  } else if(td > v.e){
+    // Visa expiré
+    visaLine=lang==='ar'
+      ?`<span style="color:#9b1c1c;font-weight:700;">⚠️ التأشيرة منتهية الصلاحية</span>`
+      :`<span style="color:#9b1c1c;font-weight:700;">⚠️ Visa expiré</span>`;
+  } else {
+    // Visa en cours
+    const visaRemain=Math.max(0,diff(td,v.e));
+    visaLine=lang==='ar'
+      ?`الأيام المتبقية على التأشيرة : <strong>${visaRemain} يوم</strong>`
+      :`Jours restants sur le visa : <strong>${visaRemain} jours</strong>`;
+  }
+  vi.innerHTML=TX[lang].vi(dur,fmt(v.s),fmt(v.e))+'<br>'+visaLine;
   vi.style.display='block';
   $('sim').style.display='block';
-  calc();save();
+  calc();
+  save();
 }
 
 function addE(){entries.push({id:Date.now(),e:'',s:''});renderE();}
@@ -464,7 +486,11 @@ function renderE(){
 }
 
 function getP(){
-  return entries.filter(e=>e.e&&e.s).map(e=>({d1:new Date(e.e),d2:new Date(e.s)})).filter(p=>p.d2>=p.d1);
+  return entries
+    .filter(e=>e.e&&e.s)
+    .map(e=>({d1:new Date(e.e),d2:new Date(e.s)}))
+    .filter(p=>p.d2>=p.d1)
+    .sort((a,b)=>a.d1-b.d1); // TRI AUTOMATIQUE PAR DATE
 }
 
 function calc(){
