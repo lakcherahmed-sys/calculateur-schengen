@@ -485,23 +485,19 @@ function updateWinBox(){
   wb.style.display='none';ww.style.display='none';
   if(!v)return;
   const td=D.today();
-  // Fenêtre active = 180j en arrière depuis aujourd'hui
-  // mais limitée par le début du visa
-  const rawWs=D.add(td,-179);
-  const ws=Math.max(rawWs,v.s); // Ne pas aller avant le début du visa
+  // Fenêtre glissante = toujours 180j en arrière depuis aujourd'hui
+  // PAS limitée au début du visa — les anciens séjours comptent !
+  const ws=D.add(td,-179);
   const we=td;
   const tx=TX[lang];
   wb.innerHTML=tx.winbox(D.fmt(ws),D.fmt(we));
   wb.style.display='block';
-  // Avertissement si la fenêtre remonte avant le premier séjour saisi
+  // Avertissement si des séjours antérieurs au premier tampon saisi sont possibles
   const periods=getPeriods();
   if(periods.length>0){
     const firstEntry=periods.sort((a,b)=>a.d1-b.d1)[0].d1;
-    if(rawWs<firstEntry){
-      // La fenêtre réelle (sans limitation visa) remonte avant le 1er séjour saisi
-      const warnStart=D.fmt(rawWs);
-      const warnEnd=D.fmt(D.add(firstEntry,-1));
-      ww.innerHTML=tx.winwarn(D.fmt(rawWs),D.fmt(firstEntry));
+    if(ws<firstEntry){
+      ww.innerHTML=tx.winwarn(D.fmt(ws),D.fmt(firstEntry));
       ww.style.display='block';
     }
   }
