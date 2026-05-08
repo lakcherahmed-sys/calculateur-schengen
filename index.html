@@ -174,13 +174,17 @@ html[dir="rtl"] .fl-name{text-align:left;}
       <span class="num">1</span>
       <span id="t1">Dates du visa</span>
     </div>
+    <div class="fl" style="margin-bottom:10px;">
+      <label id="l-drv">&#128100; Nom &amp; Prénom du chauffeur</label>
+      <input type="text" id="drv" placeholder="Ex: Mohammed Alaoui" style="width:100%;font-size:15px;padding:11px 12px;border:1.5px solid var(--bdr);border-radius:var(--rs);background:var(--gray);color:var(--text);transition:border-color .2s;" oninput="save()"/>
+    </div>
     <div class="r2">
       <div class="fl">
-        <label id="l-vs">📅 Début</label>
+        <label id="l-vs">&#128197; Début visa</label>
         <input type="date" id="vs" min="2020-01-01" max="2035-12-31" oninput="onVC()"/>
       </div>
       <div class="fl">
-        <label id="l-ve">📅 Fin</label>
+        <label id="l-ve">&#128197; Fin visa</label>
         <input type="date" id="ve" min="2020-01-01" max="2035-12-31" oninput="onVC()"/>
       </div>
     </div>
@@ -710,108 +714,244 @@ function genPDF(){
   const pct=Math.min(100,Math.round(used/90*100));
   const vr=v?Math.max(0,D.diff(td,v.e)):null;
   const status=v?SCH.visaStatus(v):null;
-  // PDF toujours en français — jsPDF ne supporte pas l'arabe
-  const FR=TX.fr;
+  const driverName=($('drv')&&$('drv').value.trim())?$('drv').value.trim():'';
 
   try{
     const{jsPDF}=window.jspdf;
     const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-    const W=210,ml=15,mr=195;let y=15;
+    const W=210,ml=15,mr=195;let y=0;
 
-    // En-tête
-    doc.setFillColor(204,0,0);doc.rect(0,0,W,32,'F');
-    doc.setFillColor(153,0,0);doc.rect(130,0,80,32,'F');
+    // ══ EN-TÊTE ══
+    // Bande rouge principale
+    doc.setFillColor(204,0,0);
+    doc.rect(0,0,W,42,'F');
+    // Bande foncée droite décorative
+    doc.setFillColor(153,0,0);
+    doc.rect(145,0,65,42,'F');
+
+    // Logo AUTRANSA
+    doc.setFillColor(255,255,255);
+    doc.rect(ml,8,38,14,'F');
+    doc.setTextColor(204,0,0);
+    doc.setFontSize(13);doc.setFont('helvetica','bold');
+    doc.text('AUTRANSA',ml+19,17.5,{align:'center'});
+
+    // Titre rapport
     doc.setTextColor(255,255,255);
-    doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('AUTRANSA',ml,13);
-    doc.setFontSize(10);doc.setFont('helvetica','normal');
-    doc.text('Calculateur Schengen — Regle 90/180 jours',ml,21);
-    doc.setFontSize(8);doc.text(`Rapport du : ${D.fmt(td)}`,mr,27,{align:'right'});
-    y=42;
+    doc.setFontSize(16);doc.setFont('helvetica','bold');
+    doc.text('RAPPORT SCHENGEN',ml+44,14);
+    doc.setFontSize(9.5);doc.setFont('helvetica','normal');
+    doc.text('Regle 90 / 180 jours — Transport International',ml+44,21);
 
-    // Visa
-    if(v){
-      doc.setFillColor(230,247,247);doc.rect(ml,y-5,mr-ml,13,'F');
-      doc.setFontSize(9);doc.setFont('helvetica','bold');doc.setTextColor(14,107,107);
-      doc.text(`Visa : ${D.fmt(v.s)} -> ${D.fmt(v.e)}`,ml+3,y+1);
-      const stLbl=status==='active'?'Actif':status==='expired'?'Expire':'Futur';
-      doc.text(`Statut : ${stLbl}`,mr-3,y+1,{align:'right'});
-      y+=18;
+    // Date + chauffeur en haut à droite
+    doc.setFontSize(8.5);doc.setFont('helvetica','normal');
+    doc.text(`Date : ${D.fmt(td)}`,mr,31,{align:'right'});
+    if(driverName){
+      doc.setFontSize(9);doc.setFont('helvetica','bold');
+      doc.text(`Chauffeur : ${driverName}`,mr,38,{align:'right'});
+    }
+    y=52;
+
+    // ══ BLOC CHAUFFEUR (si renseigné) ══
+    if(driverName){
+      doc.setFillColor(26,26,46);
+      doc.rect(ml,y-4,mr-ml,14,'F');
+      doc.setTextColor(255,255,255);
+      doc.setFontSize(10);doc.setFont('helvetica','bold');
+      doc.text('CHAUFFEUR',ml+4,y+3);
+      doc.setFontSize(12);
+      doc.text(driverName.toUpperCase(),ml+40,y+3);
+      doc.setFontSize(8.5);doc.setFont('helvetica','normal');
+      doc.setTextColor(180,180,180);
+      doc.text(`Rapport genere le ${D.fmt(td)}`,mr-2,y+3,{align:'right'});
+      y+=20;
     }
 
-    // Fenêtre active
-    doc.setFillColor(240,247,255);doc.rect(ml,y-4,mr-ml,10,'F');
-    doc.setFontSize(9);doc.setFont('helvetica','bold');doc.setTextColor(26,79,138);
-    doc.text(`Fenetre active : ${D.fmt(ws)} -> ${D.fmt(td)}`,ml+3,y+2);
-    y+=14;
+    // ══ BLOC VISA ══
+    if(v){
+      doc.setFillColor(230,247,247);
+      doc.rect(ml,y-4,mr-ml,16,'F');
+      // Bordure gauche colorée
+      doc.setFillColor(14,107,107);
+      doc.rect(ml,y-4,3,16,'F');
+      doc.setTextColor(14,107,107);
+      doc.setFontSize(8);doc.setFont('helvetica','bold');
+      doc.text('VISA SCHENGEN',ml+6,y+1);
+      doc.setFontSize(11);doc.setFont('helvetica','bold');
+      doc.text(`${D.fmt(v.s)}  ->  ${D.fmt(v.e)}`,ml+6,y+8);
+      const stLbl=status==='active'?'ACTIF':status==='expired'?'EXPIRE':'FUTUR';
+      const stC=status==='active'?[11,110,63]:status==='expired'?[204,0,0]:[122,74,0];
+      doc.setTextColor(...stC);
+      doc.setFontSize(10);doc.setFont('helvetica','bold');
+      doc.text(stLbl,mr-4,y+8,{align:'right'});
+      y+=22;
+    }
 
-    // Stats
+    // ══ FENÊTRE GLISSANTE ══
+    doc.setFillColor(240,247,255);
+    doc.rect(ml,y-4,mr-ml,13,'F');
+    doc.setFillColor(26,79,138);
+    doc.rect(ml,y-4,3,13,'F');
+    doc.setTextColor(26,79,138);
+    doc.setFontSize(8);doc.setFont('helvetica','bold');
+    doc.text('FENETRE GLISSANTE ACTIVE (180 jours)',ml+6,y+1);
+    doc.setFontSize(11);doc.setFont('helvetica','bold');
+    doc.text(`${D.fmt(ws)}   ->   ${D.fmt(td)}`,ml+6,y+8);
+    y+=20;
+
+    // ══ STATISTIQUES — 4 cartes ══
     const statData=[
-      {l:'Consommes',v:`${used}/90`,c:used>=90?[204,0,0]:used>=75?[122,74,0]:[11,110,63]},
-      {l:'Restants',v:`${remain}j`,c:[11,110,63]},
-      {l:'Quota',v:`${pct}%`,c:used>=90?[204,0,0]:used>=75?[122,74,0]:[11,110,63]},
-      {l:'Fin visa',v:vr!==null?`${vr}j`:'—',c:[14,107,107]},
+      {l:'JOURS CONSOMMES',v:`${used}`,u:'/90',c:used>=90?[204,0,0]:used>=75?[180,100,0]:[11,110,63],bg:used>=90?[253,232,232]:used>=75?[255,244,220]:[232,247,238]},
+      {l:'JOURS RESTANTS', v:`${remain}`,u:'jours',c:[11,110,63],bg:[232,247,238]},
+      {l:'QUOTA UTILISE',  v:`${pct}`,u:'%',c:used>=90?[204,0,0]:used>=75?[180,100,0]:[11,110,63],bg:used>=90?[253,232,232]:used>=75?[255,244,220]:[232,247,238]},
+      {l:'FIN VISA DANS',  v:vr!==null?`${vr}`:'—',u:'jours',c:[14,107,107],bg:[230,247,247]},
     ];
-    const bw=(mr-ml-9)/4;
+    const cardW=(mr-ml-9)/4;
     statData.forEach((s,i)=>{
-      const bx=ml+i*(bw+3);
-      doc.setFillColor(245,245,245);doc.rect(bx,y-5,bw,18,'F');
-      doc.setFontSize(8);doc.setFont('helvetica','normal');doc.setTextColor(100,100,100);
-      doc.text(s.l,bx+bw/2,y+1,{align:'center'});
-      doc.setFontSize(14);doc.setFont('helvetica','bold');doc.setTextColor(...s.c);
-      doc.text(s.v,bx+bw/2,y+10,{align:'center'});
+      const bx=ml+i*(cardW+3);
+      // Fond carte
+      doc.setFillColor(...s.bg);
+      doc.rect(bx,y-4,cardW,24,'F');
+      // Bordure top colorée
+      doc.setFillColor(...s.c);
+      doc.rect(bx,y-4,cardW,2,'F');
+      // Label
+      doc.setFontSize(7);doc.setFont('helvetica','bold');
+      doc.setTextColor(100,100,100);
+      doc.text(s.l,bx+cardW/2,y+4,{align:'center'});
+      // Valeur
+      doc.setFontSize(22);doc.setFont('helvetica','bold');
+      doc.setTextColor(...s.c);
+      doc.text(s.v,bx+cardW/2,y+16,{align:'center'});
+      // Unité
+      doc.setFontSize(7.5);doc.setFont('helvetica','normal');
+      doc.setTextColor(120,120,120);
+      doc.text(s.u,bx+cardW/2,y+21,{align:'center'});
     });
-    y+=26;
+    y+=32;
 
-    // Jauge
-    doc.setFillColor(240,240,240);doc.rect(ml,y,mr-ml,5,'F');
-    const bw2=Math.min(1,used/90)*(mr-ml);
-    doc.setFillColor(used>=90?204:used>=75?240:76,used>=90?0:used>=75?180:207,used>=90?0:used>=75?41:154);
-    doc.rect(ml,y,bw2,5,'F');
-    doc.setFontSize(8);doc.setTextColor(100,100,100);doc.setFont('helvetica','normal');
-    doc.text(`${used} / 90 jours`,W/2,y+9,{align:'center'});
-    y+=18;
+    // ══ JAUGE VISUELLE ══
+    const gaugeH=8;
+    // Fond jauge
+    doc.setFillColor(230,230,230);
+    doc.rect(ml,y,mr-ml,gaugeH,'F');
+    // Remplissage
+    const fillW=Math.min(1,used/90)*(mr-ml);
+    const gc=used>=90?[204,0,0]:used>=75?[240,140,0]:[76,175,80];
+    doc.setFillColor(...gc);
+    doc.rect(ml,y,fillW,gaugeH,'F');
+    // Texte sur la jauge
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(8);doc.setFont('helvetica','bold');
+    if(fillW>25)doc.text(`${used} / 90 jours`,ml+fillW/2,y+5.5,{align:'center'});
+    // Marqueur 75j
+    doc.setFillColor(255,200,0);
+    doc.rect(ml+(75/90)*(mr-ml),y,0.8,gaugeH,'F');
+    // Labels dessous
+    doc.setTextColor(100,100,100);doc.setFontSize(7.5);doc.setFont('helvetica','normal');
+    doc.text('0',ml,y+gaugeH+4);
+    doc.text('75j (seuil)',ml+(75/90)*(mr-ml)-8,y+gaugeH+4);
+    doc.text('90 MAX',mr,y+gaugeH+4,{align:'right'});
+    y+=20;
 
-    // Résultat
-    const rc=used>=90?[204,0,0]:used>=75?[122,74,0]:[11,110,63];
-    const rb=used>=90?[253,232,232]:used>=75?[255,248,230]:[232,247,238];
-    doc.setFillColor(...rb);doc.rect(ml,y-3,mr-ml,11,'F');
-    doc.setFontSize(10);doc.setFont('helvetica','bold');doc.setTextColor(...rc);
-    const rtx=used>=90?`Quota depasse — ${used}/90`:used>=75?`Seuil critique — ${remain}j restants`:`Conforme — ${remain}j disponibles`;
-    doc.text(rtx,ml+3,y+4);
-    y+=18;
-
-    // Détail séjours
-    doc.setTextColor(30,30,30);doc.setFontSize(10);doc.setFont('helvetica','bold');
-    doc.text('Detail des sejours :',ml,y);y+=7;
+    // ══ RÉSULTAT PRINCIPAL ══
+    const rc=used>=90?[204,0,0]:used>=75?[140,80,0]:[11,110,63];
+    const rbg=used>=90?[253,232,232]:used>=75?[255,244,220]:[232,247,238];
+    const rIcon=used>=90?'QUOTA DEPASSE':used>=75?'SEUIL CRITIQUE':'CONFORME';
+    const rMsg=used>=90?`${used}/90 jours utilises — Entree en Schengen refusee`:
+               used>=75?`${used}/90 jours utilises — ${remain} jours restants, planifier avec precaution`:
+               `${used}/90 jours utilises — ${remain} jours disponibles`;
+    doc.setFillColor(...rbg);
+    doc.rect(ml,y-3,mr-ml,16,'F');
+    doc.setFillColor(...rc);
+    doc.rect(ml,y-3,4,16,'F');
+    doc.setTextColor(...rc);
+    doc.setFontSize(11);doc.setFont('helvetica','bold');
+    doc.text(rIcon,ml+8,y+5);
     doc.setFontSize(9);doc.setFont('helvetica','normal');
+    doc.setTextColor(60,60,60);
+    doc.text(rMsg,ml+8,y+11);
+    y+=24;
+
+    // ══ TABLEAU SÉJOURS ══
+    // En-tête tableau
+    doc.setFillColor(26,26,46);
+    doc.rect(ml,y-4,mr-ml,10,'F');
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(9);doc.setFont('helvetica','bold');
+    doc.text('DETAIL DES SEJOURS',ml+4,y+2.5);
+    doc.text('DANS FENETRE',mr-4,y+2.5,{align:'right'});
+    y+=12;
+
+    // Colonnes header
+    doc.setFillColor(240,240,240);
+    doc.rect(ml,y-3,mr-ml,8,'F');
+    doc.setTextColor(80,80,80);
+    doc.setFontSize(8);doc.setFont('helvetica','bold');
+    doc.text('N°',ml+4,y+2);
+    doc.text('DATE ENTREE',ml+16,y+2);
+    doc.text('DATE SORTIE',ml+58,y+2);
+    doc.text('DUREE',ml+100,y+2);
+    doc.text('JOURS COMPTABILISES',mr-4,y+2,{align:'right'});
+    y+=10;
+
+    // Lignes séjours
+    doc.setFontSize(9.5);
     merged.forEach((p,i)=>{
+      if(y>268){doc.addPage();y=20;}
       const s=Math.max(p.d1,ws),e=Math.min(p.d2,td);
       const inW=e>=s?Math.round((e-s)/86400000)+1:0;
       const tot=D.span(p.d1,p.d2);
-      i%2===0?doc.setFillColor(248,248,248):doc.setFillColor(255,255,255);
-      doc.rect(ml,y-4,mr-ml,7,'F');
-      doc.setTextColor(50,50,50);
-      doc.text(`Sejour ${i+1} : ${D.fmt(p.d1)} -> ${D.fmt(p.d2)} (${tot}j)`,ml+3,y);
-      doc.setTextColor(inW>0?204:150,0,0);
-      doc.text(inW>0?`${inW}j v`:'hors fenetre',mr-3,y,{align:'right'});
-      y+=7;if(y>270){doc.addPage();y=20;}
+      const rowH=10;
+      // Fond alterné
+      if(i%2===0){doc.setFillColor(250,250,250);}else{doc.setFillColor(255,255,255);}
+      doc.rect(ml,y-3,mr-ml,rowH,'F');
+      // Bordure gauche colorée si dans fenêtre
+      if(inW>0){doc.setFillColor(76,175,80);doc.rect(ml,y-3,2.5,rowH,'F');}
+      else{doc.setFillColor(200,200,200);doc.rect(ml,y-3,2.5,rowH,'F');}
+
+      doc.setTextColor(50,50,50);doc.setFont('helvetica','normal');
+      doc.text(`${i+1}`,ml+5.5,y+3.5,{align:'center'});
+      doc.text(D.fmt(p.d1),ml+16,y+3.5);
+      doc.text(D.fmt(p.d2),ml+58,y+3.5);
+      doc.text(`${tot} jours`,ml+100,y+3.5);
+
+      if(inW>0){
+        doc.setTextColor(11,110,63);doc.setFont('helvetica','bold');
+        doc.text(`${inW} j  v`,mr-4,y+3.5,{align:'right'});
+      } else {
+        doc.setTextColor(160,160,160);doc.setFont('helvetica','normal');
+        doc.text('hors fenetre',mr-4,y+3.5,{align:'right'});
+      }
+      y+=rowH;
     });
 
-    // Total
-    y+=3;
-    doc.setFillColor(204,0,0);doc.rect(ml,y-4,mr-ml,8,'F');
-    doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(10);
-    doc.text('Total fenetre :',ml+3,y+1);
-    doc.text(`${used} / 90 j`,mr-3,y+1,{align:'right'});
-    y+=14;
+    // ══ LIGNE TOTAL ══
+    y+=2;
+    doc.setFillColor(204,0,0);
+    doc.rect(ml,y-3,mr-ml,12,'F');
+    doc.setTextColor(255,255,255);
+    doc.setFont('helvetica','bold');doc.setFontSize(11);
+    doc.text('TOTAL FENETRE GLISSANTE :',ml+4,y+4.5);
+    doc.setFontSize(14);
+    doc.text(`${used} / 90 jours`,mr-4,y+4.5,{align:'right'});
+    y+=18;
 
-    // Pied de page
-    doc.setTextColor(120,120,120);doc.setFont('helvetica','normal');doc.setFontSize(8);
-    doc.text(`Fenetre active : ${D.fmt(ws)} -> ${D.fmt(td)}`,W/2,y,{align:'center'});
-    doc.text('LAKCHER AHMED — AUTRANSA MAROC | administracion.maroc@autransasl.com',W/2,y+5,{align:'center'});
-    doc.text('Application indicative — AUTRANSA MAROC © 2026',W/2,y+10,{align:'center'});
+    // ══ PIED DE PAGE ══
+    // Ligne séparatrice
+    doc.setFillColor(204,0,0);
+    doc.rect(ml,y,mr-ml,1,'F');
+    y+=5;
+    doc.setTextColor(80,80,80);doc.setFont('helvetica','bold');doc.setFontSize(8.5);
+    doc.text('LAKCHER AHMED — Administrativo Trafico Maroc',ml,y);
+    doc.setFont('helvetica','normal');
+    doc.text('AUTRANSA MAROC | administracion.maroc@autransasl.com',ml,y+5);
+    doc.text('Pol. In. Cortijo Real, Calle Capricho 6, 11206 Algeciras (Cadiz) — Espana',ml,y+10);
+    doc.setTextColor(160,160,160);doc.setFontSize(7.5);
+    doc.text('Application indicative — AUTRANSA MAROC © 2026',W/2,y+16,{align:'center'});
 
-    doc.save(`Schengen_AUTRANSA_${D.fmt(td).replace(/\//g,'-')}.pdf`);
+    const drvSuffix=driverName?`_${driverName.replace(/\s+/g,'_')}`:'';
+    doc.save(`Schengen_AUTRANSA_${D.fmt(td).replace(/\//g,'-')}${drvSuffix}.pdf`);
   } catch(err){
     alert('Erreur generation PDF. Reessayez.');
     console.error(err);
@@ -822,6 +962,7 @@ function genPDF(){
 function resetAll(){
   if(!confirm(TX[lang].confirmReset))return;
   $('vs').value='';$('ve').value='';
+  if($('drv'))$('drv').value='';
   $('vi').style.display='none';$('visa-err').style.display='none';
   $('win-box').style.display='none';$('win-warn').style.display='none';
   $('sim').style.display='none';$('se').value='';$('sx').value='';$('sr').style.display='none';
@@ -834,7 +975,7 @@ function resetAll(){
 
 /* ══ PERSISTENCE ══ */
 function save(){
-  try{localStorage.setItem('sch_v2',JSON.stringify({vs:$('vs').value,ve:$('ve').value,entries,lang}));}catch(e){}
+  try{localStorage.setItem('sch_v2',JSON.stringify({vs:$('vs').value,ve:$('ve').value,entries,lang,drv:$('drv')?$('drv').value:''}));}catch(e){}
 }
 function load(){
   try{
@@ -842,6 +983,7 @@ function load(){
     const d=JSON.parse(raw);
     if(d.vs)$('vs').value=d.vs;
     if(d.ve)$('ve').value=d.ve;
+    if(d.drv&&$('drv'))$('drv').value=d.drv;
     if(d.entries&&d.entries.length)entries=d.entries.map(e=>({...e,err:false}));
     if(d.lang)setLang(d.lang);else{renderE();onVC();}
   }catch(e){}
