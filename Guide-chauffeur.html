@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>دليل السائق — AUTRANSA شنغن</title>
+<title>دليل السائق — شنغن 90/180 يوم</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;900&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --red:#cc0000;--red-dk:#990000;--red-lt:#fff0f0;
-  --dark:#1a1a2e;--white:#fff;--bg:#f2f2f2;
-  --green:#0b6e3f;--gbg:#e8f7ee;--gbd:#4caf7d;
-  --amber:#7a4a00;--abg:#fff8e6;--abd:#f0b429;
-  --err:#9b1c1c;--ebg:#fff0f0;--ebd:#f87171;
-  --blue:#1a4f8a;
+  --blue:#2563eb;--blue-dk:#1d4ed8;--blue-lt:#eff6ff;--blue-md:#bfdbfe;
+  --dark:#0f172a;--white:#fff;--bg:#f1f5f9;
+  --green:#166534;--gbg:#f0fdf4;--gbd:#86efac;
+  --amber:#92400e;--abg:#fffbeb;--abd:#fcd34d;
+  --err:#991b1b;--ebg:#fef2f2;--ebd:#fca5a5;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
 }
 body{
   font-family:'Noto Kufi Arabic','Tahoma',sans-serif;
@@ -26,277 +26,174 @@ body{
 
 /* ══ HEADER ══ */
 .hdr{
-  background:var(--red);
-  padding:0;
-  position:relative;
-  overflow:hidden;
+  background:linear-gradient(135deg,var(--blue) 0%,var(--blue-dk) 100%);
+  padding:0;position:relative;overflow:hidden;
 }
-.hdr-stripe{
-  position:absolute;top:0;left:0;
-  width:100%;height:100%;
-  background:linear-gradient(135deg,var(--red-dk) 0%,transparent 60%);
-  opacity:.5;
-}
-.hdr-inner{
-  position:relative;z-index:1;
-  padding:24px 20px 20px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-}
-.hdr-logo{
-  background:white;color:var(--red);
-  font-size:15px;font-weight:900;
-  padding:8px 14px;border-radius:10px;
-  letter-spacing:.5px;flex-shrink:0;
-}
-.hdr-text h1{
-  font-size:22px;font-weight:900;color:white;
-  line-height:1.3;
-}
-.hdr-text p{
-  font-size:13px;color:rgba(255,255,255,.75);
-  margin-top:4px;
-}
+.hdr::before{content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06);}
+.hdr-inner{position:relative;z-index:1;padding:22px 18px 18px;}
 .hdr-badge{
-  background:var(--dark);
-  padding:10px 20px;
-  display:flex;align-items:center;justify-content:space-between;
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:4px 12px;
+  font-size:11px;font-weight:600;color:rgba(255,255,255,.85);
+  letter-spacing:.04em;margin-bottom:10px;
 }
-.hdr-badge span{font-size:12px;color:rgba(255,255,255,.6);}
-.hdr-badge strong{font-size:12px;color:#f0b429;}
+.hdr-title{font-size:22px;font-weight:900;color:white;line-height:1.3;}
+.hdr-sub{font-size:13px;color:rgba(255,255,255,.65);margin-top:5px;font-weight:500;}
+.hdr-alert{
+  background:rgba(0,0,0,.2);
+  padding:10px 18px;
+  font-size:12.5px;font-weight:700;
+  color:rgba(255,255,255,.9);
+  display:flex;align-items:center;gap:8px;
+  border-top:1px solid rgba(255,255,255,.1);
+}
 
 /* ══ SECTIONS ══ */
-.section{margin:12px 12px 0;}
-.section:last-child{margin-bottom:12px;}
+.sec{margin:12px 12px 0;}
+.sec:last-child{margin-bottom:12px;}
+.sec-label{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.sec-label .sn{
+  background:var(--blue);color:white;width:28px;height:28px;
+  border-radius:8px;font-size:13px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.sec-label h2{font-size:16px;font-weight:700;color:var(--dark);}
 
 /* ══ RÈGLE DORÉE ══ */
-.rule-card{
-  background:var(--dark);
-  border-radius:16px;
-  overflow:hidden;
-  box-shadow:0 4px 20px rgba(0,0,0,.15);
-}
+.rule-card{background:var(--dark);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);}
 .rule-top{
-  background:var(--red);
-  padding:14px 18px;
+  background:var(--blue);padding:12px 18px;
   display:flex;align-items:center;gap:10px;
 }
 .rule-top .badge{
-  background:white;color:var(--red);
-  font-size:10px;font-weight:900;
-  padding:3px 10px;border-radius:20px;
-  letter-spacing:.5px;flex-shrink:0;
+  background:white;color:var(--blue);font-size:10px;font-weight:800;
+  padding:3px 10px;border-radius:20px;letter-spacing:.5px;flex-shrink:0;
 }
 .rule-top span{color:white;font-size:14px;font-weight:700;}
 .rule-body{padding:18px;}
 .rule-main{
-  text-align:center;
-  font-size:17px;font-weight:700;
-  color:white;line-height:1.9;
-  padding:14px 0;
-  border-bottom:1px solid rgba(255,255,255,.1);
+  text-align:center;font-size:17px;font-weight:700;
+  color:white;line-height:2;padding:14px;
+  background:rgba(255,255,255,.05);border-radius:10px;
+  border-right:3px solid var(--blue);
 }
-.rule-main em{color:#f0b429;font-style:normal;}
-.rule-results{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:10px;margin-top:14px;
-}
-.rule-ok{
-  background:var(--gbg);border:1.5px solid var(--gbd);
-  border-radius:10px;padding:12px;text-align:center;
-}
-.rule-ok .ri{font-size:22px;}
-.rule-ok .rt{font-size:13px;font-weight:700;color:var(--green);margin-top:4px;line-height:1.4;}
-.rule-no{
-  background:var(--ebg);border:1.5px solid var(--ebd);
-  border-radius:10px;padding:12px;text-align:center;
-}
-.rule-no .ri{font-size:22px;}
-.rule-no .rt{font-size:13px;font-weight:700;color:var(--err);margin-top:4px;line-height:1.4;}
+.rule-main em{color:#93c5fd;font-style:normal;}
+.rule-results{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+.rule-ok{background:var(--gbg);border:1.5px solid var(--gbd);border-radius:10px;padding:12px;text-align:center;}
+.rule-no{background:var(--ebg);border:1.5px solid var(--ebd);border-radius:10px;padding:12px;text-align:center;}
+.ri{font-size:22px;margin-bottom:5px;}
+.rt-ok{font-size:13px;font-weight:700;color:var(--green);line-height:1.4;}
+.rt-no{font-size:13px;font-weight:700;color:var(--err);line-height:1.4;}
 .rule-law{
-  margin-top:12px;padding:10px 14px;
-  background:rgba(255,255,255,.07);
-  border-radius:8px;
-  display:flex;align-items:center;gap:8px;
-  font-size:11.5px;color:rgba(255,255,255,.5);
+  margin-top:12px;padding:8px 12px;
+  background:rgba(255,255,255,.06);border-radius:8px;
+  font-size:11px;color:rgba(255,255,255,.4);
   direction:ltr;text-align:left;
+  display:flex;align-items:center;gap:6px;
 }
-.rule-law strong{color:rgba(255,255,255,.8);}
+.rule-law strong{color:rgba(255,255,255,.65);}
 
-/* ══ ALERTE CLEF ══ */
-.alert-key{
+/* ══ ALERTE ══ */
+.alert-box{
   background:var(--abg);border:2px solid var(--abd);
-  border-radius:12px;padding:14px 16px;
+  border-radius:14px;padding:14px 16px;
   display:flex;gap:12px;align-items:flex-start;
+  box-shadow:var(--shadow);
 }
-.alert-key .ai{font-size:22px;flex-shrink:0;}
-.alert-key p{font-size:13.5px;color:var(--amber);font-weight:600;line-height:1.7;}
-.alert-key strong{color:#5a3000;}
+.alert-box .ai{font-size:20px;flex-shrink:0;margin-top:1px;}
+.alert-box p{font-size:13.5px;color:var(--amber);font-weight:600;line-height:1.7;}
+.alert-box strong{color:#78350f;}
 
 /* ══ ÉTAPES ══ */
-.steps-card{
-  background:white;border-radius:16px;
-  overflow:hidden;
-  box-shadow:0 2px 12px rgba(0,0,0,.07);
-}
-.steps-head{
-  background:var(--dark);padding:12px 18px;
-  font-size:14px;font-weight:700;color:white;
-  display:flex;align-items:center;gap:8px;
-}
-.step-item{
-  padding:14px 18px;
-  display:flex;gap:14px;align-items:flex-start;
-  border-bottom:1px solid #f0f0f0;
-}
+.steps-card{background:white;border-radius:16px;overflow:hidden;border:1px solid #e2e8f0;box-shadow:var(--shadow);}
+.steps-head{background:var(--dark);padding:12px 18px;font-size:14px;font-weight:700;color:white;display:flex;align-items:center;gap:8px;}
+.step-item{padding:14px 18px;display:flex;gap:14px;align-items:flex-start;border-bottom:1px solid #f1f5f9;}
 .step-item:last-child{border:none;}
-.snum{
-  background:var(--red);color:white;
-  width:32px;height:32px;border-radius:50%;
-  font-size:15px;font-weight:900;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-}
+.snum{background:var(--blue);color:white;width:32px;height:32px;border-radius:8px;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .scontent h4{font-size:14px;font-weight:700;color:var(--dark);margin-bottom:4px;}
-.scontent p{font-size:13px;color:#555;line-height:1.6;}
+.scontent p{font-size:13px;color:#475569;line-height:1.65;}
 .scontent .link{
-  font-size:11.5px;color:var(--blue);font-weight:700;
+  font-size:11px;color:var(--blue);font-weight:700;
   direction:ltr;display:inline-block;margin-top:5px;
-  background:#f0f7ff;padding:3px 8px;border-radius:5px;
+  background:var(--blue-lt);padding:3px 9px;border-radius:6px;
   word-break:break-all;
 }
 
-/* ══ COULEURS RÉSULTAT ══ */
-.colors-card{
-  display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;
-}
-.color-badge{
-  border-radius:12px;padding:14px 8px;text-align:center;
-  box-shadow:0 2px 8px rgba(0,0,0,.08);
-}
+/* ══ COULEURS ══ */
+.colors-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.color-badge{border-radius:14px;padding:16px 8px;text-align:center;box-shadow:var(--shadow);}
 .color-badge.ok{background:var(--gbg);border:2px solid var(--gbd);}
 .color-badge.warn{background:var(--abg);border:2px solid var(--abd);}
 .color-badge.danger{background:var(--ebg);border:2px solid var(--ebd);}
-.color-badge .ci{font-size:26px;display:block;margin-bottom:6px;}
-.color-badge .cl{font-size:12px;font-weight:700;}
+.color-badge .ci{font-size:28px;display:block;margin-bottom:7px;}
+.color-badge .cl{font-size:13px;font-weight:800;}
 .color-badge.ok .cl{color:var(--green);}
 .color-badge.warn .cl{color:var(--amber);}
 .color-badge.danger .cl{color:var(--err);}
-.color-badge .cd{font-size:11px;margin-top:3px;opacity:.75;}
+.color-badge .cd{font-size:11px;margin-top:4px;font-weight:600;opacity:.8;}
 .color-badge.ok .cd{color:var(--green);}
 .color-badge.warn .cd{color:var(--amber);}
 .color-badge.danger .cd{color:var(--err);}
 
-/* ══ RÈGLES IMPORTANTES ══ */
-.rules-card{
-  background:white;border-radius:16px;
-  overflow:hidden;
-  box-shadow:0 2px 12px rgba(0,0,0,.07);
-}
-.rules-head{
-  background:var(--red);padding:12px 18px;
-  font-size:14px;font-weight:700;color:white;
-  display:flex;align-items:center;gap:8px;
-}
-.rule-item{
-  padding:12px 18px;
-  display:flex;gap:12px;align-items:flex-start;
-  border-bottom:1px solid #f5f5f5;
-}
+/* ══ RÈGLES ══ */
+.rules-card{background:white;border-radius:16px;overflow:hidden;border:1px solid #e2e8f0;box-shadow:var(--shadow);}
+.rules-head{background:var(--blue);padding:12px 18px;font-size:14px;font-weight:700;color:white;display:flex;align-items:center;gap:8px;}
+.rule-item{padding:13px 18px;display:flex;gap:12px;align-items:flex-start;border-bottom:1px solid #f8fafc;}
 .rule-item:last-child{border:none;}
-.rule-dot{
-  width:8px;height:8px;border-radius:50%;
-  background:var(--red);flex-shrink:0;margin-top:6px;
-}
-.rule-item p{font-size:13.5px;color:#333;line-height:1.6;}
+.rule-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:7px;}
+.rule-item p{font-size:13.5px;color:#334155;line-height:1.65;}
 .rule-item strong{color:var(--dark);font-weight:700;}
 
 /* ══ CONSÉQUENCES ══ */
-.conseq-card{
-  background:var(--ebg);border:2px solid var(--ebd);
-  border-radius:16px;overflow:hidden;
-}
-.conseq-head{
-  background:var(--err);padding:12px 18px;
-  font-size:14px;font-weight:700;color:white;
-  display:flex;align-items:center;gap:8px;
-}
-.conseq-grid{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:1px;background:#f5c6c6;
-}
-.conseq-item{
-  background:var(--ebg);padding:12px 14px;
-  text-align:center;
-}
-.conseq-item .ci{font-size:20px;margin-bottom:4px;}
-.conseq-item p{font-size:12px;font-weight:600;color:var(--err);line-height:1.4;}
+.conseq-card{background:var(--ebg);border:2px solid var(--ebd);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);}
+.conseq-head{background:var(--err);padding:12px 18px;font-size:14px;font-weight:700;color:white;display:flex;align-items:center;gap:8px;}
+.conseq-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#fca5a5;}
+.conseq-item{background:var(--ebg);padding:14px;text-align:center;}
+.conseq-item .ci{font-size:22px;margin-bottom:5px;}
+.conseq-item p{font-size:12px;font-weight:700;color:var(--err);line-height:1.4;}
 
-/* ══ QUOTE FINALE ══ */
+/* ══ QUOTE ══ */
 .quote-card{
   background:var(--dark);border-radius:16px;
   padding:20px;text-align:center;
-  box-shadow:0 4px 20px rgba(0,0,0,.15);
+  box-shadow:var(--shadow);
 }
-.quote-label{font-size:11px;color:#f0b429;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.quote-label{font-size:11px;color:#93c5fd;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
 .quote-text{
   font-size:17px;font-weight:700;color:white;
   line-height:2;padding:14px;
   background:rgba(255,255,255,.05);border-radius:10px;
-  border-right:3px solid var(--red);
+  border-right:3px solid var(--blue);
 }
-.quote-src{font-size:11px;color:rgba(255,255,255,.4);margin-top:10px;}
 
 /* ══ FOOTER ══ */
-.footer{
-  background:var(--dark);margin-top:12px;
-  padding:14px 18px;text-align:center;
-}
-.footer p{font-size:11.5px;color:rgba(255,255,255,.5);line-height:1.8;}
-.footer strong{color:rgba(255,255,255,.8);}
+.footer{background:var(--dark);margin-top:12px;padding:16px 18px;text-align:center;}
+.footer p{font-size:11.5px;color:rgba(255,255,255,.35);line-height:1.9;}
 .footer .law-ref{
   display:inline-block;margin-top:8px;
-  background:rgba(240,180,41,.15);
-  border:1px solid rgba(240,180,41,.3);
+  background:rgba(37,99,235,.2);border:1px solid rgba(37,99,235,.3);
   border-radius:6px;padding:4px 12px;
-  font-size:11px;color:#f0b429;
-  direction:ltr;
+  font-size:11px;color:rgba(99,149,255,.8);
+  direction:ltr;letter-spacing:.01em;
 }
-
-/* ══ SECTION LABEL ══ */
-.sec-label{
-  display:flex;align-items:center;gap:10px;
-  margin-bottom:10px;
-}
-.sec-label .sn{
-  background:var(--red);color:white;
-  width:26px;height:26px;border-radius:50%;
-  font-size:12px;font-weight:900;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.sec-label h2{font-size:16px;font-weight:700;color:var(--dark);}
 </style>
 </head>
 <body>
 <div class="page">
 
-<!-- ══ HEADER ══ -->
+<!-- HEADER -->
 <div class="hdr">
-  <div class="hdr-stripe"></div>
   <div class="hdr-inner">
-    <div class="hdr-text">
-      <h1>دليل السائق الدولي</h1>
-      <p>حاسبة شنغن 90 / 180 يوم</p>
-    </div>
-    <div class="hdr-logo">AUTRANSA</div>
+    <div class="hdr-badge">🛂 دليل السائق الدولي</div>
+    <div class="hdr-title">حاسبة شنغن — 90 / 180 يوم</div>
+    <div class="hdr-sub">تحقق من رصيدك قبل كل دخول لأوروبا</div>
   </div>
-  <div class="hdr-badge">
-    <span>group since 1980</span>
-    <strong>⚠️ اقرأ قبل كل رحلة لأوروبا</strong>
-  </div>
+  <div class="hdr-alert">⚠️ اقرأ هذا الدليل قبل كل رحلة إلى أوروبا</div>
 </div>
 
-<!-- ══ 1. القاعدة الذهبية ══ -->
-<div class="section">
+<!-- 1. القاعدة -->
+<div class="sec">
   <div class="sec-label">
     <div class="sn">1</div>
     <h2>القاعدة الأساسية</h2>
@@ -315,31 +212,30 @@ body{
       <div class="rule-results">
         <div class="rule-ok">
           <div class="ri">✅</div>
-          <div class="rt">أقل من 90 يوم<br/>— ادخل</div>
+          <div class="rt-ok">أقل من 90 يوم<br/>— ادخل</div>
         </div>
         <div class="rule-no">
           <div class="ri">🚫</div>
-          <div class="rt">90 يوم أو أكثر<br/>— ممنوع</div>
+          <div class="rt-no">90 يوم أو أكثر<br/>— ممنوع</div>
         </div>
       </div>
       <div class="rule-law">
-        <strong>📜 المرجع القانوني :</strong>&nbsp;
-        Règlement (UE) N° 610/2013 — Code Frontières Schengen, Art. 6
+        <strong>📜 المرجع :</strong>&nbsp;Règlement (UE) N° 610/2013 — Code Frontières Schengen, Art. 6
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ ALERTE CLÉ ══ -->
-<div class="section">
-  <div class="alert-key">
+<!-- ALERTE -->
+<div class="sec">
+  <div class="alert-box">
     <div class="ai">⚠️</div>
-    <p>لا يوجد "إعادة تشغيل" كل سنة. النافذة <strong>تتحرك كل يوم</strong>. الفيزا الصالحة <strong>لا تعني الحق في الدخول</strong> — القاعدة 90/180 أقوى من الفيزا.</p>
+    <p>لا يوجد إعادة تشغيل كل سنة. النافذة <strong>تتحرك كل يوم</strong>. الفيزا الصالحة <strong>لا تعني الحق في الدخول</strong> — قاعدة 90/180 أقوى من الفيزا.</p>
   </div>
 </div>
 
-<!-- ══ 2. كيف تستخدم التطبيق ══ -->
-<div class="section">
+<!-- 2. الاستخدام -->
+<div class="sec">
   <div class="sec-label">
     <div class="sn">2</div>
     <h2>كيف تستخدم التطبيق</h2>
@@ -365,22 +261,22 @@ body{
       <div class="snum">3</div>
       <div class="scontent">
         <h4>أدخل أختام جواز السفر</h4>
-        <p>كل دخول وخروج من شنغن في آخر <strong>6 أشهر</strong> — لا تترك أي رحلة</p>
+        <p>كل دخول وخروج من شنغن في آخر <strong>6 أشهر</strong> — لا تترك أي رحلة ولو قديمة</p>
       </div>
     </div>
     <div class="step-item">
       <div class="snum">4</div>
       <div class="scontent">
         <h4>اقرأ النتيجة</h4>
-        <p>اللون يخبرك كل شيء :</p>
+        <p>اللون يخبرك كل شيء — انظر أدناه</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ COULEURS ══ -->
-<div class="section">
-  <div class="colors-card">
+<!-- COULEURS -->
+<div class="sec">
+  <div class="colors-grid">
     <div class="color-badge ok">
       <span class="ci">🟢</span>
       <div class="cl">أخضر</div>
@@ -389,18 +285,18 @@ body{
     <div class="color-badge warn">
       <span class="ci">🟠</span>
       <div class="cl">برتقالي</div>
-      <div class="cd">أيام محدودة<br/>تنبّه</div>
+      <div class="cd">أيام محدودة تنبّه</div>
     </div>
     <div class="color-badge danger">
       <span class="ci">🔴</span>
       <div class="cl">أحمر</div>
-      <div class="cd">ممنوع الدخول<br/>لا تحاول</div>
+      <div class="cd">ممنوع لا تحاول</div>
     </div>
   </div>
 </div>
 
-<!-- ══ 3. القواعد ══ -->
-<div class="section">
+<!-- 3. القواعد -->
+<div class="sec">
   <div class="sec-label">
     <div class="sn">3</div>
     <h2>قواعد يجب احترامها</h2>
@@ -409,35 +305,35 @@ body{
     <div class="rules-head">📋 التزم بها دائمًا</div>
     <div class="rule-item">
       <div class="rule-dot"></div>
-      <p>استخدم التطبيق <strong>قبل كل رحلة</strong> — لا تعتمد على الذاكرة</p>
+      <p>استخدم التطبيق <strong>قبل كل رحلة</strong> — لا تعتمد على الذاكرة أبدًا</p>
     </div>
     <div class="rule-item">
       <div class="rule-dot"></div>
-      <p>أدخل <strong>جميع الأختام</strong> من آخر 6 أشهر — حتى القديمة منها</p>
+      <p>أدخل <strong>جميع الأختام</strong> من آخر 6 أشهر — حتى الرحلات القديمة</p>
     </div>
     <div class="rule-item">
       <div class="rule-dot"></div>
-      <p>استخدم خاصية <strong>المحاكاة</strong> لمعرفة هل الرحلة القادمة مسموحة</p>
+      <p>استخدم خاصية <strong>المحاكاة</strong> للتحقق من رحلتك القادمة قبل الذهاب</p>
     </div>
     <div class="rule-item">
       <div class="rule-dot"></div>
-      <p>إذا كان <strong>اللون أحمر : لا تدخل</strong> حتى لو الفيزا سارية</p>
+      <p>إذا كان <strong>اللون أحمر : لا تدخل</strong> حتى لو الفيزا سارية المفعول</p>
     </div>
     <div class="rule-item">
       <div class="rule-dot"></div>
-      <p>في حالة شك — <strong>اتصل بالمسؤول قبل الحدود</strong></p>
+      <p>في حالة شك — <strong>اتصل بالمسؤول قبل الوصول للحدود</strong></p>
     </div>
   </div>
 </div>
 
-<!-- ══ 4. CONSÉQUENCES ══ -->
-<div class="section">
+<!-- 4. العواقب -->
+<div class="sec">
   <div class="sec-label">
     <div class="sn">4</div>
     <h2>عواقب تجاوز 90 يوم</h2>
   </div>
   <div class="conseq-card">
-    <div class="conseq-head">🚨 عواقب خطيرة</div>
+    <div class="conseq-head">🚨 عواقب خطيرة جداً</div>
     <div class="conseq-grid">
       <div class="conseq-item">
         <div class="ci">🚫</div>
@@ -452,32 +348,28 @@ body{
         <p>حظر دخول أوروبا</p>
       </div>
       <div class="conseq-item">
-        <div class="ci">🏢</div>
-        <p>مشاكل قانونية للشركة</p>
+        <div class="ci">📋</div>
+        <p>مشاكل قانونية</p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ══ QUOTE ══ -->
-<div class="section">
+<!-- QUOTE -->
+<div class="sec">
   <div class="quote-card">
     <div class="quote-label">القاعدة الذهبية — تذكّرها دائمًا</div>
     <div class="quote-text">
       "اليوم اللي كتسول فيه هو نقطة البداية،<br/>
       ومنه كترجع أوروبا 180 يوم للور."
     </div>
-    <div class="quote-src">LAKCHER AHMED — AUTRANSA MAROC</div>
   </div>
 </div>
 
-<!-- ══ FOOTER ══ -->
+<!-- FOOTER -->
 <div class="footer">
-  <p><strong>LAKCHER AHMED</strong> | Administrativo Tráfico Maroc</p>
-  <p>AUTRANSA MAROC | administracion.maroc@autransasl.com</p>
-  <p>Pol. In. Cortijo Real, Calle Capricho 6, 11206 Algeciras (Cádiz) — España</p>
-  <div class="law-ref">📜 Règlement (UE) N° 610/2013 | Code Frontières Schengen Art. 6 | Règlement (CE) N° 562/2006</div>
-  <p style="margin-top:8px;">تطبيق استرشادي — AUTRANSA MAROC © 2026</p>
+  <p>تطبيق استرشادي — حاسبة شنغن 90/180 © 2026</p>
+  <div class="law-ref">📜 Règl. (UE) N° 610/2013 | Code Frontières Schengen Art. 6 | Règl. (CE) N° 562/2006</div>
 </div>
 
 </div>
