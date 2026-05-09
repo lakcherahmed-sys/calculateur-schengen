@@ -3,290 +3,481 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>دليل السائق — حاسبة شنغن</title>
+<title>دليل السائق — AUTRANSA شنغن</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;900&display=swap" rel="stylesheet"/>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;700;900&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Noto Kufi Arabic','Tahoma',sans-serif;background:#f5f5f5;color:#111;font-size:15px;direction:rtl;}
-@media print{
-  body{background:white;}
-  .page-break{page-break-after:always;}
-  .no-print{display:none;}
+:root{
+  --red:#cc0000;--red-dk:#990000;--red-lt:#fff0f0;
+  --dark:#1a1a2e;--white:#fff;--bg:#f2f2f2;
+  --green:#0b6e3f;--gbg:#e8f7ee;--gbd:#4caf7d;
+  --amber:#7a4a00;--abg:#fff8e6;--abd:#f0b429;
+  --err:#9b1c1c;--ebg:#fff0f0;--ebd:#f87171;
+  --blue:#1a4f8a;
 }
-.page{max-width:210mm;margin:0 auto;background:white;}
+body{
+  font-family:'Noto Kufi Arabic','Tahoma',sans-serif;
+  background:var(--bg);color:#111;
+  font-size:15px;direction:rtl;
+  -webkit-font-smoothing:antialiased;
+}
+.page{max-width:480px;margin:0 auto;background:var(--bg);}
 
-/* COVER */
-.cover-red{background:#cc0000;padding:40px 30px 25px;text-align:center;}
-.cover-red h1{font-size:52px;font-weight:900;color:white;letter-spacing:1px;}
-.cover-red p{font-size:16px;color:rgba(255,255,255,.75);margin-top:8px;font-style:italic;}
-.cover-dark{background:#1a1a2e;padding:35px 30px;text-align:center;}
-.cover-dark h2{font-size:36px;font-weight:900;color:white;}
-.cover-dark p{font-size:20px;color:#aaa;margin-top:10px;}
-.cover-gray{background:#f0f0f0;padding:25px 30px;text-align:center;}
-.cover-gray h3{font-size:24px;font-weight:700;color:#cc0000;}
-.cover-gray p{font-size:16px;color:#444;margin-top:8px;}
+/* ══ HEADER ══ */
+.hdr{
+  background:var(--red);
+  padding:0;
+  position:relative;
+  overflow:hidden;
+}
+.hdr-stripe{
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  background:linear-gradient(135deg,var(--red-dk) 0%,transparent 60%);
+  opacity:.5;
+}
+.hdr-inner{
+  position:relative;z-index:1;
+  padding:24px 20px 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.hdr-logo{
+  background:white;color:var(--red);
+  font-size:15px;font-weight:900;
+  padding:8px 14px;border-radius:10px;
+  letter-spacing:.5px;flex-shrink:0;
+}
+.hdr-text h1{
+  font-size:22px;font-weight:900;color:white;
+  line-height:1.3;
+}
+.hdr-text p{
+  font-size:13px;color:rgba(255,255,255,.75);
+  margin-top:4px;
+}
+.hdr-badge{
+  background:var(--dark);
+  padding:10px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.hdr-badge span{font-size:12px;color:rgba(255,255,255,.6);}
+.hdr-badge strong{font-size:12px;color:#f0b429;}
 
-/* HEADER PAGE */
-.doc-header{background:#cc0000;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #990000;}
-.doc-header .logo{font-size:18px;font-weight:900;color:white;letter-spacing:.5px;}
-.doc-header .subtitle{font-size:13px;color:rgba(255,255,255,.8);}
+/* ══ SECTIONS ══ */
+.section{margin:12px 12px 0;}
+.section:last-child{margin-bottom:12px;}
 
-/* CONTENT */
-.content{padding:20px 25px;}
-.section-title{font-size:22px;font-weight:900;color:#cc0000;margin:24px 0 8px;padding-bottom:6px;border-bottom:3px solid #cc0000;}
-.separator{height:3px;background:#cc0000;margin:8px 0 16px;border-radius:2px;}
+/* ══ RÈGLE DORÉE ══ */
+.rule-card{
+  background:var(--dark);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,.15);
+}
+.rule-top{
+  background:var(--red);
+  padding:14px 18px;
+  display:flex;align-items:center;gap:10px;
+}
+.rule-top .badge{
+  background:white;color:var(--red);
+  font-size:10px;font-weight:900;
+  padding:3px 10px;border-radius:20px;
+  letter-spacing:.5px;flex-shrink:0;
+}
+.rule-top span{color:white;font-size:14px;font-weight:700;}
+.rule-body{padding:18px;}
+.rule-main{
+  text-align:center;
+  font-size:17px;font-weight:700;
+  color:white;line-height:1.9;
+  padding:14px 0;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.rule-main em{color:#f0b429;font-style:normal;}
+.rule-results{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:10px;margin-top:14px;
+}
+.rule-ok{
+  background:var(--gbg);border:1.5px solid var(--gbd);
+  border-radius:10px;padding:12px;text-align:center;
+}
+.rule-ok .ri{font-size:22px;}
+.rule-ok .rt{font-size:13px;font-weight:700;color:var(--green);margin-top:4px;line-height:1.4;}
+.rule-no{
+  background:var(--ebg);border:1.5px solid var(--ebd);
+  border-radius:10px;padding:12px;text-align:center;
+}
+.rule-no .ri{font-size:22px;}
+.rule-no .rt{font-size:13px;font-weight:700;color:var(--err);margin-top:4px;line-height:1.4;}
+.rule-law{
+  margin-top:12px;padding:10px 14px;
+  background:rgba(255,255,255,.07);
+  border-radius:8px;
+  display:flex;align-items:center;gap:8px;
+  font-size:11.5px;color:rgba(255,255,255,.5);
+  direction:ltr;text-align:left;
+}
+.rule-law strong{color:rgba(255,255,255,.8);}
 
-/* GOLDEN RULE BOX */
-.golden-box{background:#fff0f0;border:2px solid #cc0000;border-radius:10px;padding:20px;margin:12px 0;text-align:center;}
-.golden-box .rule-title{font-size:20px;font-weight:900;color:#cc0000;margin-bottom:12px;}
-.golden-box .rule-text{font-size:18px;font-weight:700;color:#1a1a2e;line-height:1.8;}
-.golden-box .rule-ok{font-size:17px;font-weight:700;color:#0b6e3f;margin-top:12px;}
-.golden-box .rule-no{font-size:17px;font-weight:700;color:#cc0000;margin-top:6px;}
+/* ══ ALERTE CLEF ══ */
+.alert-key{
+  background:var(--abg);border:2px solid var(--abd);
+  border-radius:12px;padding:14px 16px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.alert-key .ai{font-size:22px;flex-shrink:0;}
+.alert-key p{font-size:13.5px;color:var(--amber);font-weight:600;line-height:1.7;}
+.alert-key strong{color:#5a3000;}
 
-/* INFO BOX */
-.info-box{border-radius:8px;padding:14px 16px;margin:10px 0;}
-.info-box.blue{background:#f0f7ff;border:1.5px solid #90c4f9;color:#1a4f8a;}
-.info-box.green{background:#e8f7ee;border:1.5px solid #4caf7d;color:#0b6e3f;}
-.info-box.amber{background:#fff8e6;border:1.5px solid #f0b429;color:#7a4a00;}
-.info-box.red{background:#fff0f0;border:1.5px solid #f87171;color:#9b1c1c;}
-.info-box.dark{background:#1a1a2e;border:none;color:white;text-align:center;padding:20px;}
-.info-box strong{font-weight:700;}
+/* ══ ÉTAPES ══ */
+.steps-card{
+  background:white;border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.07);
+}
+.steps-head{
+  background:var(--dark);padding:12px 18px;
+  font-size:14px;font-weight:700;color:white;
+  display:flex;align-items:center;gap:8px;
+}
+.step-item{
+  padding:14px 18px;
+  display:flex;gap:14px;align-items:flex-start;
+  border-bottom:1px solid #f0f0f0;
+}
+.step-item:last-child{border:none;}
+.snum{
+  background:var(--red);color:white;
+  width:32px;height:32px;border-radius:50%;
+  font-size:15px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.scontent h4{font-size:14px;font-weight:700;color:var(--dark);margin-bottom:4px;}
+.scontent p{font-size:13px;color:#555;line-height:1.6;}
+.scontent .link{
+  font-size:11.5px;color:var(--blue);font-weight:700;
+  direction:ltr;display:inline-block;margin-top:5px;
+  background:#f0f7ff;padding:3px 8px;border-radius:5px;
+  word-break:break-all;
+}
 
-/* TABLE */
-.tbl{width:100%;border-collapse:collapse;margin:12px 0;}
-.tbl th{background:#cc0000;color:white;padding:10px 12px;font-size:15px;font-weight:700;text-align:center;}
-.tbl td{padding:9px 12px;border:1px solid #e0e0e0;font-size:14px;vertical-align:top;}
-.tbl tr:nth-child(even) td{background:#f7f7f7;}
+/* ══ COULEURS RÉSULTAT ══ */
+.colors-card{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;
+}
+.color-badge{
+  border-radius:12px;padding:14px 8px;text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+.color-badge.ok{background:var(--gbg);border:2px solid var(--gbd);}
+.color-badge.warn{background:var(--abg);border:2px solid var(--abd);}
+.color-badge.danger{background:var(--ebg);border:2px solid var(--ebd);}
+.color-badge .ci{font-size:26px;display:block;margin-bottom:6px;}
+.color-badge .cl{font-size:12px;font-weight:700;}
+.color-badge.ok .cl{color:var(--green);}
+.color-badge.warn .cl{color:var(--amber);}
+.color-badge.danger .cl{color:var(--err);}
+.color-badge .cd{font-size:11px;margin-top:3px;opacity:.75;}
+.color-badge.ok .cd{color:var(--green);}
+.color-badge.warn .cd{color:var(--amber);}
+.color-badge.danger .cd{color:var(--err);}
 
-/* STEPS */
-.steps{margin:12px 0;}
-.step{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start;flex-direction:row-reverse;}
-.step-num{background:#cc0000;color:white;width:36px;height:36px;border-radius:50%;font-size:18px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.step-content{flex:1;background:#f7f7f7;border-radius:8px;padding:12px 14px;border-right:4px solid #cc0000;}
-.step-content h4{font-size:16px;font-weight:700;color:#cc0000;margin-bottom:6px;}
-.step-content p{font-size:14px;color:#333;line-height:1.7;}
-.step-content .link{font-size:13px;color:#1a4f8a;font-weight:700;direction:ltr;display:block;margin-top:4px;}
+/* ══ RÈGLES IMPORTANTES ══ */
+.rules-card{
+  background:white;border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.07);
+}
+.rules-head{
+  background:var(--red);padding:12px 18px;
+  font-size:14px;font-weight:700;color:white;
+  display:flex;align-items:center;gap:8px;
+}
+.rule-item{
+  padding:12px 18px;
+  display:flex;gap:12px;align-items:flex-start;
+  border-bottom:1px solid #f5f5f5;
+}
+.rule-item:last-child{border:none;}
+.rule-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--red);flex-shrink:0;margin-top:6px;
+}
+.rule-item p{font-size:13.5px;color:#333;line-height:1.6;}
+.rule-item strong{color:var(--dark);font-weight:700;}
 
-/* STATUS BADGES */
-.status-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:12px 0;}
-.status-badge{border-radius:8px;padding:12px;text-align:center;border:1.5px solid;}
-.status-badge.ok{background:#e8f7ee;border-color:#4caf7d;color:#0b6e3f;}
-.status-badge.warn{background:#fff8e6;border-color:#f0b429;color:#7a4a00;}
-.status-badge.danger{background:#fff0f0;border-color:#f87171;color:#9b1c1c;}
-.status-badge .icon{font-size:24px;display:block;margin-bottom:6px;}
-.status-badge .label{font-size:13px;font-weight:700;}
+/* ══ CONSÉQUENCES ══ */
+.conseq-card{
+  background:var(--ebg);border:2px solid var(--ebd);
+  border-radius:16px;overflow:hidden;
+}
+.conseq-head{
+  background:var(--err);padding:12px 18px;
+  font-size:14px;font-weight:700;color:white;
+  display:flex;align-items:center;gap:8px;
+}
+.conseq-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:#f5c6c6;
+}
+.conseq-item{
+  background:var(--ebg);padding:12px 14px;
+  text-align:center;
+}
+.conseq-item .ci{font-size:20px;margin-bottom:4px;}
+.conseq-item p{font-size:12px;font-weight:600;color:var(--err);line-height:1.4;}
 
-/* EXAMPLE */
-.example-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
-.ex-ok{background:#e8f7ee;border:1.5px solid #4caf7d;border-radius:8px;padding:14px;}
-.ex-no{background:#fff0f0;border:1.5px solid #f87171;border-radius:8px;padding:14px;}
-.ex-title{font-size:15px;font-weight:700;margin-bottom:8px;}
-.ex-ok .ex-title{color:#0b6e3f;}
-.ex-no .ex-title{color:#9b1c1c;}
-.ex-row{font-size:13px;color:#333;margin-bottom:4px;line-height:1.6;}
+/* ══ QUOTE FINALE ══ */
+.quote-card{
+  background:var(--dark);border-radius:16px;
+  padding:20px;text-align:center;
+  box-shadow:0 4px 20px rgba(0,0,0,.15);
+}
+.quote-label{font-size:11px;color:#f0b429;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+.quote-text{
+  font-size:17px;font-weight:700;color:white;
+  line-height:2;padding:14px;
+  background:rgba(255,255,255,.05);border-radius:10px;
+  border-right:3px solid var(--red);
+}
+.quote-src{font-size:11px;color:rgba(255,255,255,.4);margin-top:10px;}
 
-/* WARNINGS LIST */
-.warn-list{background:white;border:1.5px solid #e0e0e0;border-radius:8px;padding:14px;margin:10px 0;}
-.warn-list li{font-size:14px;color:#333;margin-bottom:8px;line-height:1.7;list-style:none;padding-right:20px;position:relative;}
-.warn-list li::before{content:"•";color:#cc0000;font-size:18px;position:absolute;right:0;top:-2px;}
+/* ══ FOOTER ══ */
+.footer{
+  background:var(--dark);margin-top:12px;
+  padding:14px 18px;text-align:center;
+}
+.footer p{font-size:11.5px;color:rgba(255,255,255,.5);line-height:1.8;}
+.footer strong{color:rgba(255,255,255,.8);}
+.footer .law-ref{
+  display:inline-block;margin-top:8px;
+  background:rgba(240,180,41,.15);
+  border:1px solid rgba(240,180,41,.3);
+  border-radius:6px;padding:4px 12px;
+  font-size:11px;color:#f0b429;
+  direction:ltr;
+}
 
-/* FOOTER */
-.doc-footer{background:#1a1a2e;padding:12px 20px;text-align:center;margin-top:20px;}
-.doc-footer p{font-size:12px;color:rgba(255,255,255,.6);}
-.doc-footer strong{color:white;}
+/* ══ SECTION LABEL ══ */
+.sec-label{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:10px;
+}
+.sec-label .sn{
+  background:var(--red);color:white;
+  width:26px;height:26px;border-radius:50%;
+  font-size:12px;font-weight:900;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.sec-label h2{font-size:16px;font-weight:700;color:var(--dark);}
 </style>
 </head>
 <body>
 <div class="page">
 
-<!-- COVER -->
-<div class="cover-red">
-  <h1>AUTRANSA</h1>
-  <p>group since 1980</p>
-</div>
-<div class="cover-dark">
-  <h2>دليل استخدام حاسبة شنغن</h2>
-  <p>قاعدة 90 / 180 يوم — سائق النقل الدولي</p>
-</div>
-<div class="cover-gray">
-  <h3>هذا الدليل للسائق الدولي فقط</h3>
-  <p>اقرأه بعناية قبل كل رحلة إلى أوروبا</p>
-</div>
-
-<div class="doc-header" style="margin-top:20px;">
-  <span class="logo">AUTRANSA</span>
-  <span class="subtitle">دليل السائق — حاسبة شنغن 90/180 يوم</span>
-</div>
-
-<div class="content">
-
-  <!-- 1. القاعدة -->
-  <div class="section-title">1.  القاعدة الأساسية — اعرفها عن ظهر قلب</div>
-
-  <div class="golden-box">
-    <div class="rule-title">القاعدة الذهبية</div>
-    <div class="rule-text">
-      "في أي يوم تدخل فيه شنغن،<br/>
-      أوروبا ترجع 180 يوم للوراء<br/>
-      وتعد كم يوم قضيتها في شنغن."
+<!-- ══ HEADER ══ -->
+<div class="hdr">
+  <div class="hdr-stripe"></div>
+  <div class="hdr-inner">
+    <div class="hdr-text">
+      <h1>دليل السائق الدولي</h1>
+      <p>حاسبة شنغن 90 / 180 يوم</p>
     </div>
-    <div class="rule-ok">✅ إذا المجموع أقل من 90 يوم → ادخل</div>
-    <div class="rule-no">🚫 إذا المجموع 90 يوم أو أكثر → ممنوع الدخول</div>
+    <div class="hdr-logo">AUTRANSA</div>
   </div>
-
-  <div class="example-grid" style="margin-top:14px;">
-    <div class="ex-ok">
-      <div class="ex-title">✅ مثال مسموح</div>
-      <div class="ex-row">تاريخ الدخول : 07/05/2026</div>
-      <div class="ex-row">النافذة : 09/11/2025 → 07/05/2026</div>
-      <div class="ex-row">مجموع الأيام في هذه الفترة : <strong>77 يوم</strong></div>
-      <div class="ex-row" style="color:#0b6e3f;font-weight:700;">77 من أصل 90 ✅ — ادخل</div>
-    </div>
-    <div class="ex-no">
-      <div class="ex-title">🚫 مثال ممنوع</div>
-      <div class="ex-row">تاريخ الدخول : 20/06/2026</div>
-      <div class="ex-row">النافذة : 21/12/2025 → 20/06/2026</div>
-      <div class="ex-row">مجموع الأيام في هذه الفترة : <strong>93 يوم</strong></div>
-      <div class="ex-row" style="color:#9b1c1c;font-weight:700;">93 من أصل 90 🚫 — ممنوع</div>
-    </div>
+  <div class="hdr-badge">
+    <span>group since 1980</span>
+    <strong>⚠️ اقرأ قبل كل رحلة لأوروبا</strong>
   </div>
+</div>
 
-  <div class="info-box amber" style="margin-top:10px;">
-    <strong>⚠️ تنبيه مهم :</strong> لا يوجد "إعادة تشغيل" كل سنة أو كل شهر. النافذة تتحرك كل يوم تلقائيًا. رحلة من 6 أشهر مضت قد تؤثر على دخولك اليوم.
+<!-- ══ 1. القاعدة الذهبية ══ -->
+<div class="section">
+  <div class="sec-label">
+    <div class="sn">1</div>
+    <h2>القاعدة الأساسية</h2>
   </div>
-
-  <!-- 2. خطوات الاستخدام -->
-  <div class="section-title" style="margin-top:24px;">2.  كيف تستخدم التطبيق — خطوة بخطوة</div>
-
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <div class="step-content">
-        <h4>افتح التطبيق على هاتفك</h4>
-        <p>لا حاجة لتنزيل أي شيء — يفتح مباشرة في المتصفح (Chrome أو Safari)</p>
-        <span class="link">https://lakcherahmed-sys.github.io/Calcul-Schengen-ESS-Autransa</span>
-      </div>
+  <div class="rule-card">
+    <div class="rule-top">
+      <div class="badge">RÈGLE 90/180</div>
+      <span>اعرفها عن ظهر قلب</span>
     </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <div class="step-content">
-        <h4>أدخل تواريخ التأشيرة</h4>
-        <p>• تاريخ بداية التأشيرة (مثال : 30/07/2024)<br/>
-        • تاريخ نهاية التأشيرة (مثال : 29/07/2026)<br/>
-        <strong style="color:#0b6e3f;">يظهر تلقائيًا : مدة التأشيرة + النافذة الزمنية الحالية</strong></p>
+    <div class="rule-body">
+      <div class="rule-main">
+        في يوم <em>دخولك</em> لشنغن،<br/>
+        أوروبا ترجع <em>180 يوم</em> للوراء<br/>
+        وتعد كم يوم قضيتها هناك.
       </div>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <div class="step-content">
-        <h4>أدخل أختام جواز السفر</h4>
-        <p>افتح جواز سفرك ولكل ختم اكتب :<br/>
-        • تاريخ الدخول إلى شنغن<br/>
-        • تاريخ الخروج من شنغن<br/>
-        <strong style="color:#0b6e3f;">التطبيق يحسب الأيام تلقائيًا</strong></p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-content">
-        <h4>اقرأ النتيجة</h4>
-        <div class="status-row" style="margin-top:8px;">
-          <div class="status-badge ok"><span class="icon">✅</span><span class="label">أخضر<br/>يمكنك الدخول</span></div>
-          <div class="status-badge warn"><span class="icon">⚠️</span><span class="label">برتقالي<br/>أيام محدودة</span></div>
-          <div class="status-badge danger"><span class="icon">🚫</span><span class="label">أحمر<br/>لا تدخل</span></div>
+      <div class="rule-results">
+        <div class="rule-ok">
+          <div class="ri">✅</div>
+          <div class="rt">أقل من 90 يوم<br/>— ادخل</div>
+        </div>
+        <div class="rule-no">
+          <div class="ri">🚫</div>
+          <div class="rt">90 يوم أو أكثر<br/>— ممنوع</div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- 3. المحاكاة -->
-  <div class="section-title" style="margin-top:24px;">3.  المحاكاة — خطط رحلتك قبل الذهاب</div>
-
-  <div class="info-box amber">
-    <strong>ما هي المحاكاة ؟</strong><br/>
-    قبل أي رحلة، أدخل في التطبيق تاريخ الدخول المخطط وتاريخ الخروج المخطط.<br/>
-    التطبيق يجيبك فورًا :
-    <ul style="margin-top:8px;padding-right:20px;">
-      <li style="list-style:disc;margin-bottom:4px;">هل هذه الرحلة مسموحة ؟</li>
-      <li style="list-style:disc;margin-bottom:4px;">كم يوم يمكنك البقاء كحد أقصى ؟</li>
-      <li style="list-style:disc;">إذا ممنوع : من أي تاريخ يمكنك الدخول ؟</li>
-    </ul>
-  </div>
-
-  <div class="example-grid" style="margin-top:10px;">
-    <div class="ex-ok">
-      <div class="ex-title">✅ نتيجة : مسموح</div>
-      <div class="ex-row">دخول : 15/05/2026 → خروج : 31/05/2026 (17 يوم)</div>
-      <div class="ex-row">68 يوم مستهلك + 17 يوم = <strong>85/90</strong></div>
-      <div class="ex-row" style="color:#0b6e3f;font-weight:700;">✅ مسموح — الرصيد بعدها : 5 أيام</div>
-    </div>
-    <div class="ex-no">
-      <div class="ex-title">🚫 نتيجة : مرفوض</div>
-      <div class="ex-row">دخول : 09/05/2026 → خروج : 31/05/2026 (23 يوم)</div>
-      <div class="ex-row">68 يوم + 23 يوم = <strong>91/90</strong> يتجاوز الحد</div>
-      <div class="ex-row" style="color:#1a4f8a;font-weight:700;">🗓️ لـ 23 يوم : ادخل من 15/06/2026</div>
-    </div>
-  </div>
-
-  <!-- 4. تعليمات -->
-  <div class="section-title" style="margin-top:24px;">4.  تعليمات مهمة — يجب الالتزام بها</div>
-
-  <ul class="warn-list">
-    <li>أدخل كل أختام جواز سفرك من آخر 6 أشهر — لا تترك أي رحلة</li>
-    <li>إذا ظهر تحذير بالبرتقالي "النافذة ترجع إلى..." : أضف الرحلات القديمة المنسية</li>
-    <li>لا تعتمد على الذاكرة — استخدم التطبيق دائمًا قبل كل رحلة</li>
-    <li>استخدم المحاكاة قبل كل رحلة جديدة لمعرفة مسبقًا إذا كانت مسموحة</li>
-    <li>إذا كنت في الأحمر : لا تدخل حتى لو فيزاك ساري</li>
-    <li>الفيزا الصالحة لا تعني الحق في الدخول — قاعدة 90/180 أهم</li>
-    <li>في حالة شك : اتصل بمسؤول المرور قبل العبور</li>
-  </ul>
-
-  <div class="info-box red" style="margin-top:10px;">
-    <strong>عواقب تجاوز 90 يوم :</strong><br/>
-    رفض الدخول في الحدود &nbsp;|&nbsp; غرامة مالية &nbsp;|&nbsp; حظر الدخول لأوروبا &nbsp;|&nbsp; مشاكل قانونية للشركة &nbsp;|&nbsp; خسارة التأشيرة
-  </div>
-
-  <!-- 5. PDF -->
-  <div class="section-title" style="margin-top:24px;">5.  كيف ترسل التقرير للمسؤول</div>
-
-  <div class="example-grid">
-    <div style="background:#f0f7ff;border:1.5px solid #90c4f9;border-radius:8px;padding:14px;">
-      <div style="font-size:15px;font-weight:700;color:#1a4f8a;margin-bottom:8px;">📄 زر "تحميل PDF"</div>
-      <div style="font-size:13px;color:#333;line-height:1.7;">
-        ينزل ملف PDF كامل على هاتفك يحتوي على :<br/>
-        • تفاصيل جميع الإقامات<br/>
-        • الأيام المستهلكة والمتبقية<br/>
-        • النافذة الزمنية الحالية<br/>
-        • شعار وتوقيع AUTRANSA
-      </div>
-    </div>
-    <div style="background:#e8f7ee;border:1.5px solid #4caf7d;border-radius:8px;padding:14px;">
-      <div style="font-size:15px;font-weight:700;color:#0b6e3f;margin-bottom:8px;">📤 زر "مشاركة التقرير"</div>
-      <div style="font-size:13px;color:#333;line-height:1.7;">
-        يفتح مباشرة WhatsApp أو البريد لإرسال ملخص :<br/>
-        • الأيام المستهلكة والمتبقية<br/>
-        • قائمة الإقامات<br/>
-        • الحالة : مطابق أو تجاوز
+      <div class="rule-law">
+        <strong>📜 المرجع القانوني :</strong>&nbsp;
+        Règlement (UE) N° 610/2013 — Code Frontières Schengen, Art. 6
       </div>
     </div>
   </div>
-
 </div>
 
-<!-- GOLDEN QUOTE FOOTER -->
-<div class="info-box dark" style="margin:16px 20px;border-radius:10px;">
-  <p style="color:#f0b429;font-size:16px;font-weight:700;margin-bottom:10px;">تذكر دائمًا :</p>
-  <p style="color:white;font-size:18px;font-weight:700;line-height:1.8;">
-    "اليوم اللي كتسول فيه هو نقطة البداية،<br/>
-    ومنه كترجع أوروبا 180 يوم للور."
-  </p>
-  <p style="color:#aaa;font-size:13px;margin-top:12px;font-style:italic;">LAKCHER AHMED — AUTRANSA MAROC</p>
+<!-- ══ ALERTE CLÉ ══ -->
+<div class="section">
+  <div class="alert-key">
+    <div class="ai">⚠️</div>
+    <p>لا يوجد "إعادة تشغيل" كل سنة. النافذة <strong>تتحرك كل يوم</strong>. الفيزا الصالحة <strong>لا تعني الحق في الدخول</strong> — القاعدة 90/180 أقوى من الفيزا.</p>
+  </div>
 </div>
 
-<div class="doc-footer">
-  <p><strong>LAKCHER AHMED</strong> | AUTRANSA MAROC | administracion.maroc@autransasl.com</p>
-  <p style="margin-top:4px;">Pol. In. Cortijo Real, Calle Capricho 6, 11206 Algeciras (Cádiz) — España</p>
-  <p style="margin-top:4px;">تطبيق استرشادي — AUTRANSA MAROC © 2026</p>
+<!-- ══ 2. كيف تستخدم التطبيق ══ -->
+<div class="section">
+  <div class="sec-label">
+    <div class="sn">2</div>
+    <h2>كيف تستخدم التطبيق</h2>
+  </div>
+  <div class="steps-card">
+    <div class="steps-head">📱 4 خطوات فقط</div>
+    <div class="step-item">
+      <div class="snum">1</div>
+      <div class="scontent">
+        <h4>افتح التطبيق</h4>
+        <p>لا تنزيل — يفتح في المتصفح مباشرة</p>
+        <span class="link">lakcherahmed-sys.github.io/Calcul-Schengen-ESS-Autransa</span>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="snum">2</div>
+      <div class="scontent">
+        <h4>أدخل تواريخ الفيزا</h4>
+        <p>بداية الفيزا ونهايتها — التطبيق يحسب النافذة الزمنية تلقائيًا</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="snum">3</div>
+      <div class="scontent">
+        <h4>أدخل أختام جواز السفر</h4>
+        <p>كل دخول وخروج من شنغن في آخر <strong>6 أشهر</strong> — لا تترك أي رحلة</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="snum">4</div>
+      <div class="scontent">
+        <h4>اقرأ النتيجة</h4>
+        <p>اللون يخبرك كل شيء :</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ COULEURS ══ -->
+<div class="section">
+  <div class="colors-card">
+    <div class="color-badge ok">
+      <span class="ci">🟢</span>
+      <div class="cl">أخضر</div>
+      <div class="cd">يمكنك الدخول</div>
+    </div>
+    <div class="color-badge warn">
+      <span class="ci">🟠</span>
+      <div class="cl">برتقالي</div>
+      <div class="cd">أيام محدودة<br/>تنبّه</div>
+    </div>
+    <div class="color-badge danger">
+      <span class="ci">🔴</span>
+      <div class="cl">أحمر</div>
+      <div class="cd">ممنوع الدخول<br/>لا تحاول</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 3. القواعد ══ -->
+<div class="section">
+  <div class="sec-label">
+    <div class="sn">3</div>
+    <h2>قواعد يجب احترامها</h2>
+  </div>
+  <div class="rules-card">
+    <div class="rules-head">📋 التزم بها دائمًا</div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p>استخدم التطبيق <strong>قبل كل رحلة</strong> — لا تعتمد على الذاكرة</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p>أدخل <strong>جميع الأختام</strong> من آخر 6 أشهر — حتى القديمة منها</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p>استخدم خاصية <strong>المحاكاة</strong> لمعرفة هل الرحلة القادمة مسموحة</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p>إذا كان <strong>اللون أحمر : لا تدخل</strong> حتى لو الفيزا سارية</p>
+    </div>
+    <div class="rule-item">
+      <div class="rule-dot"></div>
+      <p>في حالة شك — <strong>اتصل بالمسؤول قبل الحدود</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 4. CONSÉQUENCES ══ -->
+<div class="section">
+  <div class="sec-label">
+    <div class="sn">4</div>
+    <h2>عواقب تجاوز 90 يوم</h2>
+  </div>
+  <div class="conseq-card">
+    <div class="conseq-head">🚨 عواقب خطيرة</div>
+    <div class="conseq-grid">
+      <div class="conseq-item">
+        <div class="ci">🚫</div>
+        <p>رفض الدخول في الحدود</p>
+      </div>
+      <div class="conseq-item">
+        <div class="ci">💶</div>
+        <p>غرامة مالية</p>
+      </div>
+      <div class="conseq-item">
+        <div class="ci">⛔</div>
+        <p>حظر دخول أوروبا</p>
+      </div>
+      <div class="conseq-item">
+        <div class="ci">🏢</div>
+        <p>مشاكل قانونية للشركة</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ QUOTE ══ -->
+<div class="section">
+  <div class="quote-card">
+    <div class="quote-label">القاعدة الذهبية — تذكّرها دائمًا</div>
+    <div class="quote-text">
+      "اليوم اللي كتسول فيه هو نقطة البداية،<br/>
+      ومنه كترجع أوروبا 180 يوم للور."
+    </div>
+    <div class="quote-src">LAKCHER AHMED — AUTRANSA MAROC</div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<div class="footer">
+  <p><strong>LAKCHER AHMED</strong> | Administrativo Tráfico Maroc</p>
+  <p>AUTRANSA MAROC | administracion.maroc@autransasl.com</p>
+  <p>Pol. In. Cortijo Real, Calle Capricho 6, 11206 Algeciras (Cádiz) — España</p>
+  <div class="law-ref">📜 Règlement (UE) N° 610/2013 | Code Frontières Schengen Art. 6 | Règlement (CE) N° 562/2006</div>
+  <p style="margin-top:8px;">تطبيق استرشادي — AUTRANSA MAROC © 2026</p>
 </div>
 
 </div>
