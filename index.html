@@ -3,167 +3,376 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Calculateur Schengen — AUTRANSA</title>
+<title>Calculateur Schengen 90/180</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Kufi+Arabic:wght@400;600;700;900&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script data-goatcounter="https://autransa.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <style>
 :root{
-  --red:#cc0000;--red-dk:#990000;--red-lt:#fff0f0;--red-md:#ffb3b3;
-  --white:#fff;--bg:#efefef;--gray:#f7f7f7;--bdr:#e0e0e0;
-  --text:#111;--text2:#666;
-  --green:#0b6e3f;--gbg:#e8f7ee;--gbd:#4caf7d;
-  --amber:#7a4a00;--abg:#fff8e6;--abd:#f0b429;
-  --err:#9b1c1c;--ebg:#fff0f0;--ebd:#f87171;
-  --blue:#1a4f8a;--bbg:#f0f7ff;--bbd:#90c4f9;
-  --teal:#0e6b6b;--tbg:#e6f7f7;--tbd:#4cb8b8;
-  --r:14px;--rs:10px;
+  --accent:#2563eb;--accent-dk:#1d4ed8;--accent-lt:#eff6ff;--accent-md:#bfdbfe;
+  --white:#fff;--bg:#f1f5f9;--surface:#fff;--bdr:#e2e8f0;--gray:#f8fafc;
+  --text:#0f172a;--text2:#64748b;--text3:#94a3b8;
+  --green:#166534;--gbg:#f0fdf4;--gbd:#86efac;--gmed:#22c55e;
+  --amber:#92400e;--abg:#fffbeb;--abd:#fcd34d;--amed:#f59e0b;
+  --err:#991b1b;--ebg:#fef2f2;--ebd:#fca5a5;--emed:#ef4444;
+  --teal:#0f766e;--tbg:#f0fdfa;--tbd:#5eead4;
+  --r:16px;--rs:12px;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html[dir="rtl"]{font-family:'Noto Kufi Arabic','Tahoma',sans-serif;}
-html[dir="ltr"]{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
-body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;padding-bottom:30px;}
+html[dir="ltr"]{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;}
+body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;padding-bottom:40px;-webkit-font-smoothing:antialiased;}
 
-.lbar{background:var(--red-dk);display:flex;justify-content:flex-end;padding:7px 16px;gap:8px;}
+/* ══ LANG BAR ══ */
+.lbar{
+  background:var(--accent-dk);
+  display:flex;justify-content:flex-end;
+  padding:8px 18px;gap:8px;
+}
 html[dir="rtl"] .lbar{justify-content:flex-start;}
-.lb{background:none;border:1.5px solid rgba(255,255,255,.3);color:rgba(255,255,255,.65);font-size:13px;font-weight:700;padding:4px 16px;border-radius:20px;cursor:pointer;transition:all .2s;}
-.lb.on{background:white;color:var(--red);border-color:white;}
+.lb{
+  background:none;border:1.5px solid rgba(255,255,255,.25);
+  color:rgba(255,255,255,.6);font-size:13px;font-weight:700;
+  padding:4px 18px;border-radius:20px;cursor:pointer;
+  transition:all .2s;letter-spacing:.02em;
+}
+.lb.on{background:white;color:var(--accent);border-color:white;}
 
-.hdr{background:var(--red);padding:18px 16px 16px;position:relative;overflow:hidden;}
-.hdr::after{content:'';position:absolute;top:0;right:0;width:150px;height:100%;background:var(--red-dk);clip-path:polygon(35% 0,100% 0,100% 100%,0 100%);opacity:.35;}
-html[dir="rtl"] .hdr::after{right:auto;left:0;clip-path:polygon(0 0,65% 0,100% 100%,0 100%);}
-.hdr-in{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.hdr-logo{background:white;color:var(--red);font-size:14px;font-weight:900;padding:7px 14px;border-radius:9px;letter-spacing:.5px;flex-shrink:0;}
+/* ══ HEADER ══ */
+.hdr{
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent-dk) 100%);
+  padding:24px 20px 22px;position:relative;overflow:hidden;
+}
+.hdr::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:200px;height:200px;border-radius:50%;
+  background:rgba(255,255,255,.06);
+}
+.hdr::after{
+  content:'';position:absolute;bottom:-60px;left:-20px;
+  width:160px;height:160px;border-radius:50%;
+  background:rgba(255,255,255,.04);
+}
+.hdr-in{position:relative;z-index:1;}
+.hdr-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:4px 12px;
+  font-size:11px;font-weight:600;color:rgba(255,255,255,.85);
+  letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px;
+}
+.hdr-title{
+  font-size:24px;font-weight:800;color:white;
+  line-height:1.2;letter-spacing:-.3px;
+}
+.hdr-sub{font-size:13.5px;color:rgba(255,255,255,.7);margin-top:5px;font-weight:500;}
+.hdr-law{
+  margin-top:12px;font-size:11px;color:rgba(255,255,255,.45);
+  direction:ltr;font-style:italic;
+}
 
-.box{max-width:480px;margin:0 auto;padding:14px;}
-.card{background:var(--white);border-radius:var(--r);padding:16px;margin-bottom:12px;border:1px solid var(--bdr);box-shadow:0 2px 10px rgba(0,0,0,.06);}
-.card-t{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px;padding-bottom:12px;border-bottom:2.5px solid var(--red-lt);}
-.num{background:var(--red);color:white;width:26px;height:26px;border-radius:50%;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+/* ══ LAYOUT ══ */
+.box{max-width:480px;margin:0 auto;padding:16px;}
 
-.r2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.fl label{font-size:12px;color:var(--text2);font-weight:600;display:block;margin-bottom:5px;}
-.fl input[type="date"]{width:100%;font-size:15px;padding:11px 12px;border:1.5px solid var(--bdr);border-radius:var(--rs);background:var(--gray);color:var(--text);transition:border-color .2s;}
-.fl input[type="date"]:focus{outline:none;border-color:var(--red);background:white;}
+/* ══ CARD ══ */
+.card{
+  background:var(--surface);border-radius:var(--r);
+  padding:18px;margin-bottom:14px;
+  border:1px solid var(--bdr);
+  box-shadow:var(--shadow);
+}
+.card-t{
+  display:flex;align-items:center;gap:10px;
+  font-size:15px;font-weight:700;color:var(--text);
+  margin-bottom:16px;padding-bottom:14px;
+  border-bottom:1px solid var(--bdr);
+}
+.num{
+  background:var(--accent);color:white;
+  width:28px;height:28px;border-radius:8px;
+  font-size:13px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
 
-.vi{background:var(--tbg);border:1.5px solid var(--tbd);border-radius:var(--rs);padding:11px 13px;margin-top:10px;font-size:14px;color:var(--teal);display:none;line-height:1.8;}
+/* ══ INPUTS ══ */
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.fl label{
+  font-size:12px;color:var(--text2);font-weight:600;
+  display:block;margin-bottom:6px;letter-spacing:.02em;
+}
+.fl input[type="date"],
+.fl input[type="text"]{
+  width:100%;font-size:15px;font-weight:500;
+  padding:12px 14px;
+  border:1.5px solid var(--bdr);border-radius:var(--rs);
+  background:var(--gray);color:var(--text);
+  transition:border-color .2s,background .2s,box-shadow .2s;
+  -webkit-appearance:none;
+}
+.fl input:focus{
+  outline:none;border-color:var(--accent);
+  background:white;box-shadow:0 0 0 3px var(--accent-lt);
+}
+.fl input[type="text"]::placeholder{color:var(--text3);}
+
+/* ══ VISA INFO ══ */
+.vi{
+  background:var(--tbg);border:1.5px solid var(--tbd);
+  border-radius:var(--rs);padding:12px 14px;
+  margin-top:12px;font-size:14px;color:var(--teal);
+  display:none;line-height:1.8;font-weight:500;
+}
 .vi strong{font-weight:700;}
 .vi-status{font-size:13px;margin-top:5px;padding-top:6px;border-top:1px solid var(--tbd);}
 
-/* FENÊTRE GLISSANTE ACTIVE */
-.win-box{background:#f0f7ff;border:1.5px solid #90c4f9;border-radius:var(--rs);padding:10px 13px;margin-top:8px;font-size:13px;color:#1a4f8a;display:none;line-height:1.8;}
+/* ══ FENÊTRE GLISSANTE ══ */
+.win-box{
+  background:var(--accent-lt);border:1.5px solid var(--accent-md);
+  border-radius:var(--rs);padding:10px 14px;
+  margin-top:10px;font-size:13px;color:var(--accent-dk);
+  display:none;line-height:1.8;font-weight:500;
+}
 .win-box strong{font-weight:700;}
-.win-warn{background:#fff8e6;border:1.5px solid #f0b429;border-radius:var(--rs);padding:9px 12px;margin-top:6px;font-size:12px;color:#7a4a00;display:none;line-height:1.7;}
+.win-warn{
+  background:var(--abg);border:1.5px solid var(--abd);
+  border-radius:var(--rs);padding:9px 13px;
+  margin-top:8px;font-size:12.5px;color:var(--amber);
+  display:none;line-height:1.7;
+}
 
-.abox{border-radius:var(--rs);padding:10px 13px;font-size:13px;line-height:1.7;border:1.5px solid;margin-top:8px;display:none;}
+.abox{
+  border-radius:var(--rs);padding:11px 14px;
+  font-size:13px;line-height:1.7;border:1.5px solid;
+  margin-top:10px;display:none;font-weight:500;
+}
 .abox.danger{background:var(--ebg);border-color:var(--ebd);color:var(--err);}
 
-.eh{display:grid;grid-template-columns:1fr 1fr 54px 32px;gap:6px;margin-bottom:6px;}
-.eh span{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;}
-.er{display:grid;grid-template-columns:1fr 1fr 54px 32px;gap:6px;align-items:start;margin-bottom:8px;}
-.er input{font-size:13px;padding:9px 7px;border:1.5px solid var(--bdr);border-radius:var(--rs);background:var(--gray);color:var(--text);width:100%;transition:border-color .2s;}
-.er input:focus{outline:none;border-color:var(--red);}
+/* ══ TAMPONS TABLE ══ */
+.eh{display:grid;grid-template-columns:1fr 1fr 58px 34px;gap:8px;margin-bottom:8px;}
+.eh span{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;}
+.er{display:grid;grid-template-columns:1fr 1fr 58px 34px;gap:8px;align-items:start;margin-bottom:10px;}
+.er input{
+  font-size:13px;font-weight:500;
+  padding:10px 8px;border:1.5px solid var(--bdr);
+  border-radius:var(--rs);background:var(--gray);
+  color:var(--text);width:100%;transition:border-color .2s,box-shadow .2s;
+  -webkit-appearance:none;
+}
+.er input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-lt);}
 .er input.ei{border-color:var(--ebd)!important;background:var(--ebg)!important;}
-.dj{text-align:center;font-size:14px;font-weight:700;padding:9px 4px;border-radius:var(--rs);background:var(--gray);color:var(--text2);}
+.dj{
+  text-align:center;font-size:14px;font-weight:700;
+  padding:10px 4px;border-radius:var(--rs);
+  background:var(--gray);color:var(--text3);
+}
 .dj.ok{background:var(--gbg);color:var(--green);}
 .dj.wn{background:var(--abg);color:var(--amber);}
 .dj.dn{background:var(--ebg);color:var(--err);}
-.err-row{grid-column:1/4;font-size:11px;color:var(--err);padding:2px 2px 0;}
-.xb{width:32px;height:36px;background:none;border:1.5px solid var(--bdr);border-radius:var(--rs);color:var(--text2);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
-.xb:hover{background:var(--ebg);color:var(--err);border-color:var(--ebd);}
-.ab{width:100%;background:none;border:2px dashed var(--bdr);border-radius:var(--rs);color:var(--text2);font-size:14px;padding:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:4px;font-weight:600;transition:all .15s;}
-.ab:hover{background:var(--red-lt);color:var(--red);border-color:var(--red-md);}
-.merge-notice{font-size:11px;color:var(--amber);background:var(--abg);border:1px solid var(--abd);border-radius:6px;padding:5px 9px;margin-top:6px;display:none;}
+.err-row{grid-column:1/4;font-size:11px;color:var(--err);padding:2px 2px 0;font-weight:500;}
+.xb{
+  width:34px;height:42px;background:none;
+  border:1.5px solid var(--bdr);border-radius:var(--rs);
+  color:var(--text3);cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+.xb:hover{background:var(--ebg);color:var(--emed);border-color:var(--ebd);}
+.ab{
+  width:100%;background:none;
+  border:2px dashed var(--bdr);border-radius:var(--rs);
+  color:var(--text2);font-size:14px;font-weight:600;
+  padding:11px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  margin-top:4px;transition:all .2s;
+}
+.ab:hover{background:var(--accent-lt);color:var(--accent);border-color:var(--accent-md);}
+.merge-notice{
+  font-size:12px;color:var(--amber);
+  background:var(--abg);border:1px solid var(--abd);
+  border-radius:8px;padding:6px 10px;
+  margin-top:8px;display:none;font-weight:500;
+}
 
-.sim{background:var(--abg);border:1.5px solid var(--abd);border-radius:var(--rs);padding:13px;margin-top:12px;display:none;}
-.sim-t{font-size:13px;font-weight:700;color:var(--amber);margin-bottom:10px;}
-.sfl label{font-size:12px;color:var(--amber);font-weight:600;display:block;margin-bottom:5px;}
-.sfl input{width:100%;font-size:14px;padding:10px;border:1.5px solid var(--abd);border-radius:var(--rs);background:var(--white);color:var(--text);transition:border-color .2s;}
-.sfl input:focus{outline:none;border-color:var(--amber);}
-.sim-res{margin-top:10px;font-size:13px;line-height:1.8;padding:11px 13px;border-radius:var(--rs);display:none;border:1.5px solid;}
+/* ══ SIMULATION ══ */
+.sim{
+  background:var(--abg);border:1.5px solid var(--abd);
+  border-radius:var(--rs);padding:14px;margin-top:14px;display:none;
+}
+.sim-t{font-size:13.5px;font-weight:700;color:var(--amber);margin-bottom:12px;}
+.sfl label{font-size:12px;color:var(--amber);font-weight:600;display:block;margin-bottom:6px;}
+.sfl input{
+  width:100%;font-size:14px;font-weight:500;padding:11px 12px;
+  border:1.5px solid var(--abd);border-radius:var(--rs);
+  background:white;color:var(--text);transition:border-color .2s;
+  -webkit-appearance:none;
+}
+.sfl input:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 3px rgba(245,158,11,.15);}
+.sim-res{
+  margin-top:12px;font-size:14px;font-weight:500;line-height:1.8;
+  padding:12px 14px;border-radius:var(--rs);display:none;border:1.5px solid;
+}
 .sim-res.ok{background:var(--gbg);color:var(--green);border-color:var(--gbd);}
 .sim-res.wn{background:var(--abg);color:var(--amber);border-color:var(--abd);}
 .sim-res.dn{background:var(--ebg);color:var(--err);border-color:var(--ebd);}
 
-.sg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
-.sc{background:white;border-radius:var(--rs);padding:14px;border:1px solid var(--bdr);text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.04);}
-.sl{font-size:11px;color:var(--text2);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em;}
-.sv{font-size:32px;font-weight:800;line-height:1;}
-.su{font-size:12px;color:var(--text2);margin-top:3px;}
-.c-ok{color:var(--green);}
-.c-wn{color:var(--amber);}
-.c-dn{color:var(--err);}
+/* ══ STATS GRID ══ */
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.sc{
+  background:white;border-radius:var(--rs);padding:16px 14px;
+  border:1px solid var(--bdr);text-align:center;
+  box-shadow:var(--shadow-sm);
+}
+.sl{font-size:11px;color:var(--text2);font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;}
+.sv{font-size:36px;font-weight:900;line-height:1;letter-spacing:-1px;}
+.su{font-size:12px;color:var(--text3);margin-top:4px;font-weight:500;}
+.c-ok{color:var(--gmed);}
+.c-wn{color:var(--amed);}
+.c-dn{color:var(--emed);}
 .c-tl{color:var(--teal);}
+.c-blue{color:var(--accent);}
 
-.gw{background:white;border:1px solid var(--bdr);border-radius:var(--rs);padding:13px;margin-bottom:12px;}
-.gl{display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:var(--text2);margin-bottom:8px;}
-.gt{height:16px;background:var(--gray);border-radius:8px;overflow:hidden;}
-.gf{height:100%;border-radius:8px;transition:width .5s,background .4s;}
-.gok{background:var(--gbd);}
-.gwn{background:var(--abd);}
-.gdn{background:var(--ebd);}
-.gs{font-size:13px;color:var(--text2);margin-top:6px;text-align:center;font-weight:500;}
+/* ══ GAUGE ══ */
+.gw{
+  background:white;border:1px solid var(--bdr);
+  border-radius:var(--rs);padding:14px;margin-bottom:14px;
+  box-shadow:var(--shadow-sm);
+}
+.gl{
+  display:flex;justify-content:space-between;
+  font-size:12px;font-weight:700;color:var(--text3);margin-bottom:10px;
+}
+.gl .gc{font-size:14px;font-weight:800;color:var(--text);}
+.gt{height:18px;background:var(--bdr);border-radius:9px;overflow:hidden;}
+.gf{height:100%;border-radius:9px;transition:width .6s cubic-bezier(.4,0,.2,1),background .4s;}
+.gok{background:linear-gradient(90deg,var(--gmed),#16a34a);}
+.gwn{background:linear-gradient(90deg,var(--amed),#d97706);}
+.gdn{background:linear-gradient(90deg,var(--emed),#dc2626);}
+.gs{font-size:13px;color:var(--text2);margin-top:8px;text-align:center;font-weight:600;}
 
-.rb{border-radius:var(--rs);padding:13px;margin-bottom:12px;border:1.5px solid;font-size:14px;line-height:1.7;}
+/* ══ RESULT BOX ══ */
+.rb{
+  border-radius:var(--rs);padding:14px 16px;
+  margin-bottom:14px;border:1.5px solid;
+  font-size:14px;font-weight:500;line-height:1.7;
+}
 .rb strong{font-weight:700;}
 .rb.ok{background:var(--gbg);border-color:var(--gbd);color:var(--green);}
 .rb.wn{background:var(--abg);border-color:var(--abd);color:var(--amber);}
 .rb.dn{background:var(--ebg);border-color:var(--ebd);color:var(--err);}
 
-.next-box{background:var(--bbg);border:1.5px solid var(--bbd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;font-size:13px;color:var(--blue);display:none;line-height:1.8;}
+/* ══ NEXT BOX ══ */
+.next-box{
+  background:var(--accent-lt);border:1.5px solid var(--accent-md);
+  border-radius:var(--rs);padding:13px 16px;
+  margin-bottom:14px;font-size:14px;color:var(--accent-dk);
+  display:none;line-height:1.8;font-weight:500;
+}
 .next-box strong{font-weight:700;}
-.next-date{font-size:19px;font-weight:800;color:var(--blue);display:block;margin:3px 0;}
+.next-date{font-size:22px;font-weight:900;color:var(--accent);display:block;margin:4px 0;}
 
-.visa-alerts{margin-bottom:12px;}
-.valert{border-radius:var(--rs);padding:11px 13px;font-size:13px;line-height:1.7;border:1.5px solid;margin-bottom:8px;}
+/* ══ ALERTS ══ */
+.visa-alerts{margin-bottom:14px;}
+.valert{
+  border-radius:var(--rs);padding:12px 14px;
+  font-size:13.5px;font-weight:500;line-height:1.7;
+  border:1.5px solid;margin-bottom:10px;
+}
 .valert.expired{background:var(--ebg);border-color:var(--ebd);color:var(--err);}
 .valert.quota{background:var(--ebg);border-color:var(--ebd);color:var(--err);}
 .valert.warn{background:var(--abg);border-color:var(--abd);color:var(--amber);}
 
-.bk{background:var(--gray);border-radius:var(--rs);padding:12px 13px;margin-bottom:12px;display:none;}
-.bt{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;}
-.br{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--text2);padding:5px 0;border-bottom:1px solid var(--bdr);}
-.br:last-child{border:none;font-weight:700;color:var(--text);font-size:14px;margin-top:4px;padding-top:4px;}
-.iw{color:var(--red);font-weight:700;white-space:nowrap;margin-left:6px;}
-.merged-tag{font-size:10px;background:var(--abg);color:var(--amber);border:1px solid var(--abd);border-radius:4px;padding:1px 5px;margin:0 4px;}
+/* ══ BREAKDOWN ══ */
+.bk{
+  background:var(--gray);border-radius:var(--rs);
+  border:1px solid var(--bdr);
+  padding:14px;margin-bottom:14px;display:none;
+}
+.bt{
+  font-size:11px;font-weight:700;color:var(--text3);
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;
+}
+.br{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:13.5px;color:var(--text2);font-weight:500;
+  padding:7px 0;border-bottom:1px solid var(--bdr);
+}
+.br:last-child{border:none;font-weight:700;color:var(--text);font-size:15px;margin-top:4px;padding-top:8px;}
+.iw{color:var(--gmed);font-weight:700;white-space:nowrap;margin-left:8px;}
+.merged-tag{
+  font-size:10px;background:var(--abg);color:var(--amber);
+  border:1px solid var(--abd);border-radius:4px;
+  padding:1px 6px;margin:0 6px;font-weight:600;
+}
 
-.btn-share{width:100%;background:var(--red);color:white;border:none;border-radius:var(--rs);padding:13px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;transition:background .15s;}
-.btn-share:hover{background:var(--red-dk);}
-.btn-pdf{width:100%;background:var(--blue);color:white;border:none;border-radius:var(--rs);padding:13px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:8px;transition:background .15s;}
-.btn-pdf:hover{background:#143d6e;}
-.btn-reset{width:100%;background:none;border:1.5px solid var(--bdr);border-radius:var(--rs);padding:11px;font-size:14px;color:var(--text2);cursor:pointer;font-weight:600;transition:all .15s;}
+/* ══ BUTTONS ══ */
+.btn-share{
+  width:100%;background:var(--accent);color:white;border:none;
+  border-radius:var(--rs);padding:14px;font-size:15px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  gap:8px;margin-bottom:10px;
+  transition:background .15s,transform .1s,box-shadow .15s;
+  box-shadow:0 2px 8px rgba(37,99,235,.3);
+  letter-spacing:.01em;
+}
+.btn-share:hover{background:var(--accent-dk);box-shadow:0 4px 16px rgba(37,99,235,.4);}
+.btn-share:active{transform:scale(.98);}
+.btn-pdf{
+  width:100%;background:#0f172a;color:white;border:none;
+  border-radius:var(--rs);padding:14px;font-size:15px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  gap:8px;margin-bottom:10px;
+  transition:background .15s,transform .1s;
+  letter-spacing:.01em;
+}
+.btn-pdf:hover{background:#1e293b;}
+.btn-pdf:active{transform:scale(.98);}
+.btn-reset{
+  width:100%;background:none;border:1.5px solid var(--bdr);
+  border-radius:var(--rs);padding:12px;font-size:14px;
+  color:var(--text2);cursor:pointer;font-weight:600;
+  transition:all .15s;
+}
 .btn-reset:hover{background:var(--ebg);color:var(--err);border-color:var(--ebd);}
 
-.footer{background:#1a1a2e;margin-top:10px;}
-.ft{background:var(--red);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
-.fl-brand{display:flex;align-items:center;gap:12px;}
-.fl-logo{background:white;color:var(--red);font-size:16px;font-weight:900;padding:7px 14px;border-radius:9px;letter-spacing:.5px;}
-.fl-since{font-size:11px;color:rgba(255,255,255,.75);margin-top:2px;}
-.fl-name{font-size:15px;font-weight:700;color:white;}
-.fm{background:#111827;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-.fm-addr{font-size:12px;color:rgba(255,255,255,.6);line-height:1.8;}
-.fm-addr strong{color:rgba(255,255,255,.85);}
-.fm-email{font-size:12px;color:#f87171;font-weight:500;}
-.fb{background:#080810;padding:9px 18px;text-align:center;font-size:11px;color:rgba(255,255,255,.3);}
-html[dir="rtl"] .ft{flex-direction:row-reverse;}
-html[dir="rtl"] .fl-brand{flex-direction:row-reverse;}
-html[dir="rtl"] .fm{flex-direction:row-reverse;}
-html[dir="rtl"] .fl-name{text-align:left;}
+/* ══ FOOTER ══ */
+.footer{
+  background:#0f172a;margin-top:10px;
+  padding:16px 20px;text-align:center;
+}
+.footer p{font-size:12px;color:rgba(255,255,255,.35);line-height:1.9;}
+.footer .law{
+  display:inline-block;margin-top:8px;
+  background:rgba(37,99,235,.2);border:1px solid rgba(37,99,235,.3);
+  border-radius:6px;padding:4px 12px;
+  font-size:11px;color:rgba(99,149,255,.8);
+  direction:ltr;letter-spacing:.01em;
+}
+
 .hidden{display:none!important;}
+
+/* ══ RTL TWEAKS ══ */
+html[dir="rtl"] .iw{margin-left:0;margin-right:8px;}
+html[dir="rtl"] .merged-tag{margin:0 6px;}
 </style>
 </head>
 <body>
 
+<!-- LANG BAR -->
 <div class="lbar">
   <button class="lb on" id="bfr" onclick="setLang('fr')">FR</button>
   <button class="lb" id="bar" onclick="setLang('ar')">ع</button>
 </div>
 
+<!-- HEADER -->
 <div class="hdr">
   <div class="hdr-in">
-    <div>
-      <div style="font-size:20px;font-weight:800;color:white;" id="h-title">🛂 Calculateur Schengen</div>
-      <div style="font-size:13px;color:rgba(255,255,255,.8);margin-top:3px;" id="h-sub">Règle 90/180 jours — Chauffeur routier</div>
-    </div>
-    <div class="hdr-logo">AUTRANSA</div>
+    <div class="hdr-pill">🛂 <span id="h-pill">Espace Schengen</span></div>
+    <div class="hdr-title" id="h-title">Calculateur 90 / 180 jours</div>
+    <div class="hdr-sub" id="h-sub">Vérifiez votre quota avant chaque entrée en Europe</div>
+    <div class="hdr-law" id="h-law">Règl. (UE) N° 610/2013 — Code Frontières Schengen, Art. 6</div>
   </div>
 </div>
 
@@ -173,20 +382,23 @@ html[dir="rtl"] .fl-name{text-align:left;}
   <div class="card">
     <div class="card-t">
       <span class="num">1</span>
-      <span id="t1">Dates du visa</span>
+      <span id="t1">Informations visa</span>
+    </div>
+    <div class="fl" style="margin-bottom:14px;">
+      <label id="l-drv">👤 <span id="l-drv-t">Nom du titulaire (optionnel)</span></label>
+      <input type="text" id="drv" oninput="save()"/>
     </div>
     <div class="r2">
       <div class="fl">
-        <label id="l-vs">📅 Début</label>
+        <label id="l-vs">📅 <span id="l-vs-t">Début du visa</span></label>
         <input type="date" id="vs" min="2020-01-01" max="2035-12-31" oninput="onVC()"/>
       </div>
       <div class="fl">
-        <label id="l-ve">📅 Fin</label>
+        <label id="l-ve">📅 <span id="l-ve-t">Fin du visa</span></label>
         <input type="date" id="ve" min="2020-01-01" max="2035-12-31" oninput="onVC()"/>
       </div>
     </div>
     <div class="vi" id="vi"></div>
-    <!-- FENÊTRE GLISSANTE ACTIVE -->
     <div class="win-box" id="win-box"></div>
     <div class="win-warn" id="win-warn"></div>
     <div class="abox danger" id="visa-err"></div>
@@ -207,18 +419,20 @@ html[dir="rtl"] .fl-name{text-align:left;}
     <div id="elist"></div>
     <div class="merge-notice" id="merge-notice"></div>
     <button class="ab" onclick="addE()">
-      <span style="font-size:18px;">＋</span>
+      <span style="font-size:20px;">＋</span>
       <span id="add-lbl">Ajouter un séjour</span>
     </button>
+
+    <!-- SIMULATION -->
     <div class="sim" id="sim">
       <div class="sim-t" id="sim-t">🔮 Simulation — Prochaine entrée</div>
       <div class="r2">
         <div class="fl sfl">
-          <label id="l-se">📅 Entrée prévue</label>
+          <label id="l-se">📅 <span id="l-se-t">Entrée prévue</span></label>
           <input type="date" id="se" min="2020-01-01" max="2035-12-31" oninput="runSim()"/>
         </div>
         <div class="fl sfl">
-          <label id="l-sx">📅 Sortie prévue</label>
+          <label id="l-sx">📅 <span id="l-sx-t">Sortie prévue</span></label>
           <input type="date" id="sx" min="2020-01-01" max="2035-12-31" oninput="runSim()"/>
         </div>
       </div>
@@ -229,43 +443,65 @@ html[dir="rtl"] .fl-name{text-align:left;}
   <!-- RÉSULTATS -->
   <div id="sw" class="hidden">
     <div class="visa-alerts" id="visa-alerts"></div>
+
     <div class="sg">
-      <div class="sc"><div class="sl" id="sl1">Jours consommés</div><div class="sv c-ok" id="s1">0</div><div class="su" id="su1">sur 90</div></div>
-      <div class="sc"><div class="sl" id="sl2">Jours restants</div><div class="sv c-ok" id="s2">90</div><div class="su" id="su2">disponibles</div></div>
-      <div class="sc"><div class="sl" id="sl3">Quota</div><div class="sv c-ok" id="s3">0</div><div class="su">%</div></div>
-      <div class="sc"><div class="sl" id="sl4">Fin visa</div><div class="sv c-tl" id="s4">—</div><div class="su" id="su4">jours</div></div>
+      <div class="sc">
+        <div class="sl" id="sl1">Consommés</div>
+        <div class="sv c-ok" id="s1">0</div>
+        <div class="su" id="su1">sur 90 jours</div>
+      </div>
+      <div class="sc">
+        <div class="sl" id="sl2">Restants</div>
+        <div class="sv c-ok" id="s2">90</div>
+        <div class="su" id="su2">disponibles</div>
+      </div>
+      <div class="sc">
+        <div class="sl" id="sl3">Quota</div>
+        <div class="sv c-ok" id="s3">0</div>
+        <div class="su">%</div>
+      </div>
+      <div class="sc">
+        <div class="sl" id="sl4">Fin du visa</div>
+        <div class="sv c-blue" id="s4">—</div>
+        <div class="su" id="su4">jours</div>
+      </div>
     </div>
+
     <div class="gw">
-      <div class="gl"><span>0</span><span id="gtxt" style="color:#111;font-size:13px;font-weight:700;">0 / 90</span><span>90 MAX</span></div>
+      <div class="gl">
+        <span>0 j</span>
+        <span class="gc" id="gtxt">0 / 90 jours</span>
+        <span>90 MAX</span>
+      </div>
       <div class="gt"><div class="gf gok" id="gf" style="width:0%"></div></div>
       <div class="gs" id="gsub"></div>
     </div>
+
     <div id="rbox"></div>
     <div class="next-box" id="next-box"></div>
+
     <div class="bk" id="bk">
       <div class="bt" id="bkt">Détail des séjours</div>
       <div id="brows"></div>
     </div>
-    <button class="btn-share" id="btn-share" onclick="shareReport()">📤 <span id="share-lbl">Partager le rapport</span></button>
-    <button class="btn-pdf" id="btn-pdf" onclick="genPDF()">📄 <span id="pdf-lbl">Télécharger PDF</span></button>
-    <button class="btn-reset" onclick="resetAll()">↺ <span id="rst-lbl">Réinitialiser</span></button>
+
+    <button class="btn-share" id="btn-share" onclick="shareReport()">
+      📤 <span id="share-lbl">Partager le rapport</span>
+    </button>
+    <button class="btn-pdf" id="btn-pdf" onclick="genPDF()">
+      📄 <span id="pdf-lbl">Télécharger PDF</span>
+    </button>
+    <button class="btn-reset" onclick="resetAll()">
+      ↺ <span id="rst-lbl">Réinitialiser</span>
+    </button>
   </div>
 
 </div>
 
+<!-- FOOTER -->
 <div class="footer">
-  <div class="ft">
-    <div class="fl-brand">
-      <div class="fl-logo">AUTRANSA</div>
-      <div class="fl-since">group since 1980</div>
-    </div>
-    <div><div class="fl-name">LAKCHER AHMED</div></div>
-  </div>
-  <div class="fm">
-    <div class="fm-addr"><strong id="f-addr-t">Adresse :</strong><br/>Pol. In. Cortijo Real, Calle Capricho 6<br/>11206 Algeciras (Cádiz) — España</div>
-    <div class="fm-email">administracion.maroc@autransasl.com</div>
-  </div>
-  <div class="fb" id="f-bot">Application indicative — AUTRANSA MAROC © 2026</div>
+  <p id="f-bot">Application indicative — Calculateur Schengen 90/180 © 2026</p>
+  <p id="f-law2" class="law">Règl. (UE) N° 610/2013 | Code Frontières Schengen Art. 6 | Règl. (CE) N° 562/2006</p>
 </div>
 
 <script>
@@ -322,7 +558,7 @@ const SCH={
   }
 };
 
-/* ══ ÉTAT ══ */
+/* ══ STATE ══ */
 let entries=[{id:1,e:'',s:'',err:false}];
 let lang='fr';
 let uid=100;
@@ -331,20 +567,25 @@ const $=id=>document.getElementById(id);
 /* ══ TRADUCTIONS ══ */
 const TX={
   fr:{
-    htitle:'🛂 Calculateur Schengen',hsub:'Règle 90/180 jours — Chauffeur routier',
-    t1:'Dates du visa',t2:'Tampons passeport',
-    lvs:'📅 Début',lve:'📅 Fin',
+    pill:'Espace Schengen',
+    htitle:'Calculateur 90 / 180 jours',
+    hsub:'Vérifiez votre quota avant chaque entrée en Europe',
+    hlaw:'Règl. (UE) N° 610/2013 — Code Frontières Schengen, Art. 6',
+    t1:'Informations visa',t2:'Tampons passeport',
+    ldrv:'Nom du titulaire (optionnel)',
+    lvs:'Début du visa',lve:'Fin du visa',
     hin:'Entrée',hout:'Sortie',hdays:'Jours',add:'Ajouter un séjour',
-    simt:'🔮 Simulation — Prochaine entrée',lse:'📅 Entrée prévue',lsx:'📅 Sortie prévue',
-    sl1:'Jours consommés',su1:'sur 90',sl2:'Jours restants',su2:'disponibles',
-    sl3:'Quota',sl4:'Fin visa',su4:'jours',
+    simt:'🔮 Simulation — Prochaine entrée',
+    lse:'Entrée prévue',lsx:'Sortie prévue',
+    sl1:'Consommés',su1:'sur 90 jours',sl2:'Restants',su2:'disponibles',
+    sl3:'Quota',sl4:'Fin du visa',su4:'jours',
     gtxt:u=>`${u} / 90 jours`,
     gsok:r=>`✅ ${r} jour(s) disponible(s)`,
-    gswn:r=>`⚠️ Attention — ${r} jours restants`,
-    gsdn:'🚫 Quota épuisé',
-    rok:(u,r,ws,we)=>`<strong>✅ Conforme — ${u}/90 jours</strong><br>Fenêtre : ${ws} → ${we} &nbsp;|&nbsp; Solde : <strong>${r} jours</strong>`,
-    rwn:(u,r)=>`<strong>⚠️ Seuil critique — ${u}/90</strong><br>Solde : <strong>${r} jours</strong>. Planifier avec précaution.`,
-    rdn:u=>`<strong>🚫 Quota dépassé — ${u}/90 !</strong><br>Entrée en Schengen refusée.`,
+    gswn:r=>`⚠️ Attention — seulement ${r} jours restants`,
+    gsdn:'🚫 Quota épuisé — entrée impossible',
+    rok:(u,r,ws,we)=>`<strong>✅ Conforme — ${u}/90 jours utilisés</strong><br>Fenêtre : ${ws} → ${we} &nbsp;|&nbsp; Solde : <strong>${r} jours</strong>`,
+    rwn:(u,r)=>`<strong>⚠️ Seuil critique — ${u}/90 jours</strong><br>Solde : <strong>${r} jours</strong>. Planifiez vos prochains trajets avec précaution.`,
+    rdn:u=>`<strong>🚫 Quota dépassé — ${u}/90 jours !</strong><br>Entrée en espace Schengen refusée.`,
     nextlbl:'🗓️ Prochaine entrée possible :',
     nextval:(d,n)=>`<strong class="next-date">${d}</strong>dans <strong>${n} jours</strong>`,
     bkt:'Détail des séjours (fenêtre active)',
@@ -352,7 +593,7 @@ const TX={
     mergeNotice:'⚠️ Séjours chevauchants fusionnés automatiquement',
     sharelbl:'Partager le rapport',pdflbl:'Télécharger PDF',rst:'Réinitialiser',
     errDateOrder:'⚠️ La date de fin doit être après la date de début',
-    errEntryOrder:'⚠️ La sortie doit être après l\'entrée',
+    errEntryOrder:'⚠️ La sortie doit être après la date d\'entrée',
     errSimOrder:'⚠️ La sortie prévue doit être après l\'entrée prévue',
     errVisaStart:d=>`🚫 Entrée avant le début du visa (${d})`,
     errVisaEnd:d=>`🚫 Sortie après expiration du visa (${d}) — Réduire le séjour`,
@@ -363,42 +604,49 @@ const TX={
     visaExpiringSoon:n=>`⚠️ <strong>Attention</strong> — Visa expire dans <strong>${n} jours</strong>`,
     quotaAlert:'🚫 <strong>Quota dépassé</strong> — 90 jours consommés sur 180.',
     winbox:(ws,we)=>`🔍 <strong>Fenêtre glissante active :</strong> ${ws} → ${we}`,
-    winwarn:(ws,firstEntry)=>`⚠️ La fenêtre remonte au <strong>${ws}</strong>. Avez-vous des séjours Schengen entre le <strong>${ws}</strong> et le <strong>${firstEntry}</strong> ? Si oui, ajoutez-les pour un calcul exact.`,
+    winwarn:(ws,fe)=>`⚠️ La fenêtre remonte au <strong>${ws}</strong>. Des séjours antérieurs au <strong>${fe}</strong> sont peut-être manquants — ajoutez-les pour un calcul exact.`,
     simdn:(se,u,nd1,nn1,nd2,nn2,trip)=>{
       let h=`🚫 <strong>Entrée impossible le ${se}</strong><br>Quota : ${u}/90<br>`;
       h+=`🗓️ Entrée possible (1 jour) : <strong>${nd1}</strong> (dans ${nn1} jours)`;
       if(nd2&&nd2!==nd1)h+=`<br>🗓️ Pour ${trip} jours : <strong>${nd2}</strong> (dans ${nn2} jours)`;
       return h;
     },
-    simwn:(se,u,r,ms)=>`⚠️ <strong>Attention — ${se}</strong><br>Utilisé : ${u}/90 &nbsp;|&nbsp; Max séjour : <strong>${ms} jours</strong>`,
+    simwn:(se,u,r,ms)=>`⚠️ <strong>Attention — ${se}</strong><br>Utilisé : ${u}/90 &nbsp;|&nbsp; Séjour max : <strong>${ms} jours</strong>`,
     simok:(se,u,r,ms)=>`✅ <strong>Entrée possible le ${se}</strong><br>Déjà utilisé : ${u}/90 &nbsp;|&nbsp; Solde : <strong>${r} jours</strong><br>Séjour max autorisé : <strong>${ms} jours</strong>`,
     simchk:(se,sx,u,trip,tot)=>`🔍 <strong>${se} → ${sx}</strong> (${trip} jours)<br>${u}j déjà + ${trip}j = <strong>${tot}/90</strong>`,
     simchkok:r=>`<br>✅ <strong>Autorisé</strong> — Solde après : <strong>${r} jours</strong>`,
     simchkdn:(nd,nn,trip)=>`<br>🚫 <strong>Refusé</strong> — Dépasse 90j<br>🗓️ Pour ${trip} jours : à partir du <strong>${nd}</strong> (dans ${nn} jours)`,
-    fadrt:'Adresse :',fbot:'Application indicative — AUTRANSA MAROC © 2026',
+    fbot:'Application indicative — Calculateur Schengen 90/180 © 2026',
     confirmReset:'Réinitialiser ? Toutes les données seront effacées.',
-    report:(used,remain,ws,we,vr,list,winWs,winWe)=>{
-      let r=`RAPPORT SCHENGEN — AUTRANSA\n${'='.repeat(30)}\nFenetre active : ${winWs} => ${winWe}\nVisa fin dans : ${vr} jours\n${'-'.repeat(30)}\nConsomme : ${used}/90 jours\nSolde : ${remain} jours\nQuota : ${Math.round(used/90*100)}%\n${'-'.repeat(30)}\nSejours :\n`;
+    report:(used,remain,ws,we,vr,list,name)=>{
+      let r=`RAPPORT SCHENGEN 90/180\n${'='.repeat(32)}\n`;
+      if(name)r+=`Titulaire : ${name}\n`;
+      r+=`Fenetre active : ${ws} -> ${we}\nVisa restant : ${vr} jours\n${'-'.repeat(32)}\nConsomme : ${used}/90 jours\nSolde : ${remain} jours\nQuota : ${Math.round(used/90*100)}%\n${'-'.repeat(32)}\nSejours :\n`;
       list.forEach((e,i)=>r+=`${i+1}. ${e}\n`);
-      r+=`${'='.repeat(30)}\nLAKCHER AHMED - AUTRANSA MAROC\nadministracion.maroc@autransasl.com\nApplication indicative`;
+      r+=`${'='.repeat(32)}\nRegl. (UE) N 610/2013 — Application indicative`;
       return r;
     }
   },
   ar:{
-    htitle:'🛂 حاسبة شنغن',hsub:'قاعدة 90/180 يوم — سائق النقل الدولي',
-    t1:'تواريخ التأشيرة',t2:'أختام جواز السفر',
-    lvs:'📅 بداية',lve:'📅 نهاية',
+    pill:'منطقة شنغن',
+    htitle:'حاسبة 90 / 180 يوم',
+    hsub:'تحقق من رصيدك قبل كل دخول لأوروبا',
+    hlaw:'اللائحة (EU) رقم 610/2013 — مدونة حدود شنغن، المادة 6',
+    t1:'معلومات التأشيرة',t2:'أختام جواز السفر',
+    ldrv:'اسم صاحب التأشيرة (اختياري)',
+    lvs:'بداية التأشيرة',lve:'نهاية التأشيرة',
     hin:'دخول',hout:'خروج',hdays:'أيام',add:'إضافة إقامة',
-    simt:'🔮 محاكاة — دخول مستقبلي',lse:'📅 دخول مخطط',lsx:'📅 خروج مخطط',
-    sl1:'الأيام المستهلكة',su1:'من 90 يوم',sl2:'الأيام المتبقية',su2:'متاحة',
-    sl3:'النسبة',sl4:'انتهاء التأشيرة',su4:'يوم',
+    simt:'🔮 محاكاة — دخول مستقبلي',
+    lse:'دخول مخطط',lsx:'خروج مخطط',
+    sl1:'مستهلك',su1:'من 90 يوم',sl2:'متبقي',su2:'متاح',
+    sl3:'النسبة',sl4:'انتهاء الفيزا',su4:'يوم',
     gtxt:u=>`${u} / 90 يوم`,
     gsok:r=>`✅ متبقي ${r} يوم`,
     gswn:r=>`⚠️ انتبه — ${r} أيام فقط`,
     gsdn:'🚫 استُنفدت الحصة',
     rok:(u,r,ws,we)=>`<strong>✅ مطابق — ${u}/90 يوم</strong><br>النافذة : ${ws} → ${we} &nbsp;|&nbsp; الرصيد : <strong>${r} يوم</strong>`,
-    rwn:(u,r)=>`<strong>⚠️ حد حرج — ${u}/90</strong><br>الرصيد : <strong>${r} يوم</strong>. تخطيط بحذر.`,
-    rdn:u=>`<strong>🚫 تجاوز الحصة — ${u}/90 يوم !</strong><br>رفض الدخول إلى شنغن.`,
+    rwn:(u,r)=>`<strong>⚠️ حد حرج — ${u}/90 يوم</strong><br>الرصيد : <strong>${r} يوم</strong>. خطط برحلاتك بحذر.`,
+    rdn:u=>`<strong>🚫 تجاوز الحصة — ${u}/90 يوم !</strong><br>رفض الدخول إلى منطقة شنغن.`,
     nextlbl:'🗓️ أقرب موعد للدخول :',
     nextval:(d,n)=>`<strong class="next-date">${d}</strong>بعد <strong>${n} يوم</strong>`,
     bkt:'تفاصيل الإقامات (النافذة الحالية)',
@@ -417,7 +665,7 @@ const TX={
     visaExpiringSoon:n=>`⚠️ <strong>انتبه</strong> — التأشيرة تنتهي بعد <strong>${n} يوم</strong>`,
     quotaAlert:'🚫 <strong>تجاوز الحصة</strong> — استُهلكت 90 يوماً من أصل 180.',
     winbox:(ws,we)=>`🔍 <strong>النافذة الزمنية الحالية :</strong> ${ws} → ${we}`,
-    winwarn:(ws,firstEntry)=>`⚠️ النافذة ترجع إلى <strong>${ws}</strong>. هل لديك إقامات شنغن بين <strong>${ws}</strong> و <strong>${firstEntry}</strong> ؟ إذا نعم، أضفها لحساب دقيق.`,
+    winwarn:(ws,fe)=>`⚠️ النافذة ترجع إلى <strong>${ws}</strong>. هل لديك إقامات شنغن قبل <strong>${fe}</strong> ؟ إذا نعم، أضفها لحساب دقيق.`,
     simdn:(se,u,nd1,nn1,nd2,nn2,trip)=>{
       let h=`🚫 <strong>الدخول مستحيل في ${se}</strong><br>الحصة : ${u}/90<br>`;
       h+=`🗓️ ممكن (يوم واحد) : <strong>${nd1}</strong> (بعد ${nn1} يوم)`;
@@ -429,12 +677,14 @@ const TX={
     simchk:(se,sx,u,trip,tot)=>`🔍 <strong>${se} → ${sx}</strong> (${trip} أيام)<br>${u}ي + ${trip}ي = <strong>${tot}/90</strong>`,
     simchkok:r=>`<br>✅ <strong>مسموح</strong> — الرصيد بعدها : <strong>${r} يوم</strong>`,
     simchkdn:(nd,nn,trip)=>`<br>🚫 <strong>مرفوض</strong> — يتجاوز 90 يوماً<br>🗓️ لـ ${trip} أيام : من <strong>${nd}</strong> (بعد ${nn} يوم)`,
-    fadrt:'العنوان :',fbot:'تطبيق استرشادي — AUTRANSA MAROC © 2026',
+    fbot:'تطبيق استرشادي — حاسبة شنغن 90/180 © 2026',
     confirmReset:'إعادة تعيين؟ سيتم حذف جميع البيانات.',
-    report:(used,remain,ws,we,vr,list)=>{
-      let r=`RAPPORT SCHENGEN - AUTRANSA\n${'='.repeat(30)}\nFenetre : ${ws} => ${we}\nFin visa : ${vr} jours\n${'-'.repeat(30)}\nConsomme : ${used}/90\nSolde : ${remain} jours\n${'-'.repeat(30)}\nSejours :\n`;
+    report:(used,remain,ws,we,vr,list,name)=>{
+      let r=`RAPPORT SCHENGEN 90/180\n${'='.repeat(32)}\n`;
+      if(name)r+=`Titulaire : ${name}\n`;
+      r+=`Fenetre : ${ws} -> ${we}\nFin visa : ${vr} jours\n${'-'.repeat(32)}\nConsomme : ${used}/90\nSolde : ${remain} jours\n${'-'.repeat(32)}\nSejours :\n`;
       list.forEach((e,i)=>r+=`${i+1}. ${e}\n`);
-      r+=`${'='.repeat(30)}\nLAKCHER AHMED - AUTRANSA MAROC\nadministracion.maroc@autransasl.com`;
+      r+=`${'='.repeat(32)}\nApplication indicative`;
       return r;
     }
   }
@@ -461,12 +711,18 @@ function setLang(l){
   document.documentElement.setAttribute('dir',l==='ar'?'rtl':'ltr');
   $('bfr').classList.toggle('on',l==='fr');
   $('bar').classList.toggle('on',l==='ar');
-  $('h-title').textContent=tx.htitle;$('h-sub').textContent=tx.hsub;
+  $('h-pill').textContent=tx.pill;
+  $('h-title').textContent=tx.htitle;
+  $('h-sub').textContent=tx.hsub;
+  $('h-law').textContent=tx.hlaw;
   $('t1').textContent=tx.t1;$('t2').textContent=tx.t2;
-  $('l-vs').textContent=tx.lvs;$('l-ve').textContent=tx.lve;
+  $('l-drv-t').textContent=tx.ldrv;
+  $('drv').placeholder=l==='ar'?'مثال: محمد العلوي':'Ex: Jean Martin';
+  $('l-vs-t').textContent=tx.lvs;$('l-ve-t').textContent=tx.lve;
   $('h-in').textContent=tx.hin;$('h-out').textContent=tx.hout;$('h-days').textContent=tx.hdays;
   $('add-lbl').textContent=tx.add;
-  $('sim-t').textContent=tx.simt;$('l-se').textContent=tx.lse;$('l-sx').textContent=tx.lsx;
+  $('sim-t').textContent=tx.simt;
+  $('l-se-t').textContent=tx.lse;$('l-sx-t').textContent=tx.lsx;
   $('sl1').textContent=tx.sl1;$('su1').textContent=tx.su1;
   $('sl2').textContent=tx.sl2;$('su2').textContent=tx.su2;
   $('sl3').textContent=tx.sl3;$('sl4').textContent=tx.sl4;$('su4').textContent=tx.su4;
@@ -474,7 +730,6 @@ function setLang(l){
   $('share-lbl').textContent=tx.sharelbl;
   $('pdf-lbl').textContent=tx.pdflbl;
   $('rst-lbl').textContent=tx.rst;
-  $('f-addr-t').textContent=tx.fadrt;
   $('f-bot').textContent=tx.fbot;
   onVC();renderE();calc();runSim();
 }
@@ -486,23 +741,15 @@ function updateWinBox(){
   wb.style.display='none';ww.style.display='none';
   if(!v)return;
   const td=D.today();
-  // Fenêtre active = 180j en arrière depuis aujourd'hui
-  // mais limitée par le début du visa
-  const rawWs=D.add(td,-179);
-  const ws=Math.max(rawWs,v.s); // Ne pas aller avant le début du visa
-  const we=td;
+  const ws=D.add(td,-179);
   const tx=TX[lang];
-  wb.innerHTML=tx.winbox(D.fmt(ws),D.fmt(we));
+  wb.innerHTML=tx.winbox(D.fmt(ws),D.fmt(td));
   wb.style.display='block';
-  // Avertissement si la fenêtre remonte avant le premier séjour saisi
   const periods=getPeriods();
   if(periods.length>0){
     const firstEntry=periods.sort((a,b)=>a.d1-b.d1)[0].d1;
-    if(rawWs<firstEntry){
-      // La fenêtre réelle (sans limitation visa) remonte avant le 1er séjour saisi
-      const warnStart=D.fmt(rawWs);
-      const warnEnd=D.fmt(D.add(firstEntry,-1));
-      ww.innerHTML=tx.winwarn(D.fmt(rawWs),D.fmt(firstEntry));
+    if(ws<firstEntry){
+      ww.innerHTML=tx.winwarn(D.fmt(ws),D.fmt(firstEntry));
       ww.style.display='block';
     }
   }
@@ -512,8 +759,7 @@ function onVC(){
   const vi=$('vi'),ve=$('visa-err');
   vi.innerHTML='';vi.style.display='none';
   ve.innerHTML='';ve.style.display='none';
-  $('win-box').style.display='none';
-  $('win-warn').style.display='none';
+  $('win-box').style.display='none';$('win-warn').style.display='none';
   $('sim').style.display='none';
   const vsVal=$('vs').value,veVal=$('ve').value;
   if(!vsVal||!veVal)return;
@@ -634,7 +880,7 @@ function calc(){
     br.appendChild(div);
   });
   const tot=document.createElement('div');tot.className='br';
-  tot.innerHTML=`<span>${tx.btotal}</span><span style="color:var(--red);font-weight:800;">${used} / 90 ${suf}</span>`;
+  tot.innerHTML=`<span>${tx.btotal}</span><span style="font-weight:900;font-size:16px;color:${used>=90?'var(--emed)':used>=75?'var(--amed)':'var(--gmed)'};">${used} / 90 ${suf}</span>`;
   br.appendChild(tot);
   $('bk').style.display='block';sw.classList.remove('hidden');
 }
@@ -651,7 +897,6 @@ function runSim(){
   const remAtE=Math.max(0,90-usedAtE);
   const nd1=SCH.nextAvailable(merged,1);
   const nd1Str=nd1?D.fmt(nd1):'—',nd1Days=nd1?D.diff(td,nd1):0;
-
   if(!sxVal){
     sr.style.display='block';
     if(usedAtE>=90){sr.className='sim-res dn';sr.innerHTML=tx.simdn(D.fmt(ed),usedAtE,nd1Str,nd1Days,null,null,1);}
@@ -676,9 +921,8 @@ function runSim(){
   let html=tx.simchk(D.fmt(ed),D.fmt(xd),usedAtE,trip,usedAtX);
   if(usedAtX>90){
     sr.className='sim-res dn';
-    // Prochaine date pour 1 jour aussi
     html+=tx.simchkdn(ndTripStr,ndTripDays,trip);
-    if(nd1&&nd1Str!==ndTripStr) html+=`<br>🗓️ ${lang==='ar'?'ممكن (يوم واحد)':'Possible (1 jour)'} : <strong>${nd1Str}</strong> (${lang==='ar'?'بعد':'dans'} ${nd1Days} ${lang==='ar'?'يوم':'jours'})`;
+    if(nd1&&nd1Str!==ndTripStr)html+=`<br>🗓️ ${lang==='ar'?'ممكن (يوم واحد)':'Possible (1 jour)'} : <strong>${nd1Str}</strong> (${lang==='ar'?'بعد':'dans'} ${nd1Days} ${lang==='ar'?'يوم':'jours'})`;
   } else {
     sr.className=usedAtX>=75?'sim-res wn':'sim-res ok';
     html+=tx.simchkok(remAfter);
@@ -693,10 +937,11 @@ function shareReport(){
   const used=SCH.daysInWindow(merged,td);
   const remain=Math.max(0,90-used);
   const vr=v?Math.max(0,D.diff(td,v.e)):0;
+  const name=($('drv')&&$('drv').value.trim())?$('drv').value.trim():'';
   const list=merged.map(p=>`${D.fmt(p.d1)} -> ${D.fmt(p.d2)} (${D.span(p.d1,p.d2)}j)`);
-  const msg=TX[lang].report(used,remain,D.fmtS(ws),D.fmtS(td),vr,list,D.fmtS(ws),D.fmtS(td));
+  const msg=TX[lang].report(used,remain,D.fmtS(ws),D.fmtS(td),vr,list,name);
   if(navigator.share){
-    navigator.share({title:'Rapport Schengen AUTRANSA',text:msg}).catch(()=>{});
+    navigator.share({title:'Rapport Schengen 90/180',text:msg}).catch(()=>{});
   } else if(navigator.clipboard){
     navigator.clipboard.writeText(msg).then(()=>{
       const btn=$('btn-share'),orig=btn.innerHTML;
@@ -706,7 +951,7 @@ function shareReport(){
   }
 }
 
-/* ══ PDF — toujours en français ══ */
+/* ══ PDF ══ */
 function genPDF(){
   const v=getVisa(),merged=getMerged();
   const td=D.today(),ws=D.add(td,-179);
@@ -715,118 +960,161 @@ function genPDF(){
   const pct=Math.min(100,Math.round(used/90*100));
   const vr=v?Math.max(0,D.diff(td,v.e)):null;
   const status=v?SCH.visaStatus(v):null;
-  // PDF toujours en français — jsPDF ne supporte pas l'arabe
-  const FR=TX.fr;
+  const driverName=($('drv')&&$('drv').value.trim())?$('drv').value.trim():'';
 
   try{
     const{jsPDF}=window.jspdf;
     const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-    const W=210,ml=15,mr=195;let y=15;
+    const W=210,ml=15,mr=195;let y=0;
 
-    // En-tête
-    doc.setFillColor(204,0,0);doc.rect(0,0,W,32,'F');
-    doc.setFillColor(153,0,0);doc.rect(130,0,80,32,'F');
+    // EN-TÊTE
+    doc.setFillColor(37,99,235);doc.rect(0,0,W,40,'F');
+    doc.setFillColor(29,78,216);doc.rect(130,0,80,40,'F');
     doc.setTextColor(255,255,255);
-    doc.setFontSize(20);doc.setFont('helvetica','bold');doc.text('AUTRANSA',ml,13);
-    doc.setFontSize(10);doc.setFont('helvetica','normal');
-    doc.text('Calculateur Schengen — Regle 90/180 jours',ml,21);
-    doc.setFontSize(8);doc.text(`Rapport du : ${D.fmt(td)}`,mr,27,{align:'right'});
-    y=42;
+    doc.setFontSize(18);doc.setFont('helvetica','bold');
+    doc.text('CALCULATEUR SCHENGEN 90/180',ml,16);
+    doc.setFontSize(9.5);doc.setFont('helvetica','normal');
+    doc.text('Regle 90/180 jours — Transport International',ml,24);
+    doc.setFontSize(8);
+    doc.text(`Date : ${D.fmt(td)}`,mr,31,{align:'right'});
+    if(driverName){doc.setFontSize(9);doc.setFont('helvetica','bold');doc.text(`Titulaire : ${driverName}`,mr,38,{align:'right'});}
+    y=50;
 
-    // Visa
-    if(v){
-      doc.setFillColor(230,247,247);doc.rect(ml,y-5,mr-ml,13,'F');
-      doc.setFontSize(9);doc.setFont('helvetica','bold');doc.setTextColor(14,107,107);
-      doc.text(`Visa : ${D.fmt(v.s)} -> ${D.fmt(v.e)}`,ml+3,y+1);
-      const stLbl=status==='active'?'Actif':status==='expired'?'Expire':'Futur';
-      doc.text(`Statut : ${stLbl}`,mr-3,y+1,{align:'right'});
-      y+=18;
+    // BLOC TITULAIRE
+    if(driverName){
+      doc.setFillColor(15,23,42);doc.rect(ml,y-4,mr-ml,14,'F');
+      doc.setTextColor(255,255,255);
+      doc.setFontSize(9);doc.setFont('helvetica','bold');doc.text('TITULAIRE',ml+4,y+3);
+      doc.setFontSize(12);doc.text(driverName.toUpperCase(),ml+38,y+3);
+      doc.setFontSize(8);doc.setFont('helvetica','normal');doc.setTextColor(150,150,150);
+      doc.text(`Rapport du ${D.fmt(td)}`,mr-2,y+3,{align:'right'});
+      y+=20;
     }
 
-    // Fenêtre active
-    doc.setFillColor(240,247,255);doc.rect(ml,y-4,mr-ml,10,'F');
-    doc.setFontSize(9);doc.setFont('helvetica','bold');doc.setTextColor(26,79,138);
-    doc.text(`Fenetre active : ${D.fmt(ws)} -> ${D.fmt(td)}`,ml+3,y+2);
-    y+=14;
+    // VISA
+    if(v){
+      doc.setFillColor(240,253,250);doc.rect(ml,y-4,mr-ml,16,'F');
+      doc.setFillColor(15,118,110);doc.rect(ml,y-4,3,16,'F');
+      doc.setTextColor(15,118,110);doc.setFontSize(8);doc.setFont('helvetica','bold');
+      doc.text('VISA SCHENGEN',ml+6,y+1);
+      doc.setFontSize(11);doc.text(`${D.fmt(v.s)}  ->  ${D.fmt(v.e)}`,ml+6,y+8);
+      const stLbl=status==='active'?'ACTIF':status==='expired'?'EXPIRE':'FUTUR';
+      const stC=status==='active'?[22,101,52]:status==='expired'?[185,28,28]:[146,64,14];
+      doc.setTextColor(...stC);doc.setFontSize(10);doc.text(stLbl,mr-4,y+8,{align:'right'});
+      y+=22;
+    }
 
-    // Stats
+    // FENÊTRE
+    doc.setFillColor(239,246,255);doc.rect(ml,y-4,mr-ml,13,'F');
+    doc.setFillColor(37,99,235);doc.rect(ml,y-4,3,13,'F');
+    doc.setTextColor(37,99,235);doc.setFontSize(8);doc.setFont('helvetica','bold');
+    doc.text('FENETRE GLISSANTE ACTIVE (180 jours)',ml+6,y+1);
+    doc.setFontSize(11);doc.text(`${D.fmt(ws)}   ->   ${D.fmt(td)}`,ml+6,y+8);
+    y+=20;
+
+    // STATS
     const statData=[
-      {l:'Consommes',v:`${used}/90`,c:used>=90?[204,0,0]:used>=75?[122,74,0]:[11,110,63]},
-      {l:'Restants',v:`${remain}j`,c:[11,110,63]},
-      {l:'Quota',v:`${pct}%`,c:used>=90?[204,0,0]:used>=75?[122,74,0]:[11,110,63]},
-      {l:'Fin visa',v:vr!==null?`${vr}j`:'—',c:[14,107,107]},
+      {l:'JOURS CONSOMMES',v:`${used}`,u:'/90',c:used>=90?[185,28,28]:used>=75?[146,64,14]:[22,101,52],bg:used>=90?[254,242,242]:used>=75?[255,251,235]:[240,253,244]},
+      {l:'JOURS RESTANTS',v:`${remain}`,u:'jours',c:[22,101,52],bg:[240,253,244]},
+      {l:'QUOTA UTILISE',v:`${pct}`,u:'%',c:used>=90?[185,28,28]:used>=75?[146,64,14]:[22,101,52],bg:used>=90?[254,242,242]:used>=75?[255,251,235]:[240,253,244]},
+      {l:'FIN VISA DANS',v:vr!==null?`${vr}`:'—',u:'jours',c:[15,118,110],bg:[240,253,250]},
     ];
-    const bw=(mr-ml-9)/4;
+    const cW=(mr-ml-9)/4;
     statData.forEach((s,i)=>{
-      const bx=ml+i*(bw+3);
-      doc.setFillColor(245,245,245);doc.rect(bx,y-5,bw,18,'F');
-      doc.setFontSize(8);doc.setFont('helvetica','normal');doc.setTextColor(100,100,100);
-      doc.text(s.l,bx+bw/2,y+1,{align:'center'});
-      doc.setFontSize(14);doc.setFont('helvetica','bold');doc.setTextColor(...s.c);
-      doc.text(s.v,bx+bw/2,y+10,{align:'center'});
+      const bx=ml+i*(cW+3);
+      doc.setFillColor(...s.bg);doc.rect(bx,y-4,cW,24,'F');
+      doc.setFillColor(...s.c);doc.rect(bx,y-4,cW,2,'F');
+      doc.setFontSize(6.5);doc.setFont('helvetica','bold');doc.setTextColor(100,100,100);
+      doc.text(s.l,bx+cW/2,y+4,{align:'center'});
+      doc.setFontSize(22);doc.setFont('helvetica','bold');doc.setTextColor(...s.c);
+      doc.text(s.v,bx+cW/2,y+16,{align:'center'});
+      doc.setFontSize(7);doc.setFont('helvetica','normal');doc.setTextColor(120,120,120);
+      doc.text(s.u,bx+cW/2,y+21,{align:'center'});
     });
-    y+=26;
+    y+=32;
 
-    // Jauge
-    doc.setFillColor(240,240,240);doc.rect(ml,y,mr-ml,5,'F');
-    const bw2=Math.min(1,used/90)*(mr-ml);
-    doc.setFillColor(used>=90?204:used>=75?240:76,used>=90?0:used>=75?180:207,used>=90?0:used>=75?41:154);
-    doc.rect(ml,y,bw2,5,'F');
-    doc.setFontSize(8);doc.setTextColor(100,100,100);doc.setFont('helvetica','normal');
-    doc.text(`${used} / 90 jours`,W/2,y+9,{align:'center'});
-    y+=18;
+    // JAUGE
+    doc.setFillColor(226,232,240);doc.rect(ml,y,mr-ml,8,'F');
+    const fw=Math.min(1,used/90)*(mr-ml);
+    const gc=used>=90?[239,68,68]:used>=75?[245,158,11]:[34,197,94];
+    doc.setFillColor(...gc);doc.rect(ml,y,fw,8,'F');
+    doc.setTextColor(255,255,255);doc.setFontSize(7.5);doc.setFont('helvetica','bold');
+    if(fw>20)doc.text(`${used}/90 j`,ml+fw/2,y+5.5,{align:'center'});
+    doc.setFillColor(255,200,0);doc.rect(ml+(75/90)*(mr-ml),y,0.8,8,'F');
+    doc.setTextColor(100,116,139);doc.setFontSize(7);doc.setFont('helvetica','normal');
+    doc.text('0',ml,y+13);doc.text('75j seuil',ml+(75/90)*(mr-ml)-7,y+13);doc.text('90 MAX',mr,y+13,{align:'right'});
+    y+=20;
 
-    // Résultat
-    const rc=used>=90?[204,0,0]:used>=75?[122,74,0]:[11,110,63];
-    const rb=used>=90?[253,232,232]:used>=75?[255,248,230]:[232,247,238];
-    doc.setFillColor(...rb);doc.rect(ml,y-3,mr-ml,11,'F');
-    doc.setFontSize(10);doc.setFont('helvetica','bold');doc.setTextColor(...rc);
-    const rtx=used>=90?`Quota depasse — ${used}/90`:used>=75?`Seuil critique — ${remain}j restants`:`Conforme — ${remain}j disponibles`;
-    doc.text(rtx,ml+3,y+4);
-    y+=18;
+    // RÉSULTAT
+    const rc=used>=90?[185,28,28]:used>=75?[146,64,14]:[22,101,52];
+    const rbg=used>=90?[254,242,242]:used>=75?[255,251,235]:[240,253,244];
+    const rlbl=used>=90?'QUOTA DEPASSE':used>=75?'SEUIL CRITIQUE':'CONFORME';
+    const rmsg=used>=90?`${used}/90 jours — Entree en Schengen refusee`:used>=75?`${used}/90 jours — ${remain}j restants, planifier avec precaution`:`${used}/90 jours — ${remain} jours disponibles`;
+    doc.setFillColor(...rbg);doc.rect(ml,y-3,mr-ml,16,'F');
+    doc.setFillColor(...rc);doc.rect(ml,y-3,4,16,'F');
+    doc.setTextColor(...rc);doc.setFontSize(11);doc.setFont('helvetica','bold');
+    doc.text(rlbl,ml+8,y+5);
+    doc.setFontSize(9);doc.setFont('helvetica','normal');doc.setTextColor(60,60,60);
+    doc.text(rmsg,ml+8,y+11);
+    y+=24;
 
-    // Détail séjours
-    doc.setTextColor(30,30,30);doc.setFontSize(10);doc.setFont('helvetica','bold');
-    doc.text('Detail des sejours :',ml,y);y+=7;
-    doc.setFontSize(9);doc.setFont('helvetica','normal');
+    // TABLEAU
+    doc.setFillColor(15,23,42);doc.rect(ml,y-4,mr-ml,10,'F');
+    doc.setTextColor(255,255,255);doc.setFontSize(9);doc.setFont('helvetica','bold');
+    doc.text('DETAIL DES SEJOURS',ml+4,y+2.5);
+    doc.text('COMPTABILISE',mr-4,y+2.5,{align:'right'});
+    y+=12;
+    doc.setFillColor(241,245,249);doc.rect(ml,y-3,mr-ml,8,'F');
+    doc.setTextColor(100,116,139);doc.setFontSize(7.5);doc.setFont('helvetica','bold');
+    doc.text('N°',ml+4,y+2);doc.text('DATE ENTREE',ml+16,y+2);
+    doc.text('DATE SORTIE',ml+60,y+2);doc.text('DUREE',ml+104,y+2);
+    doc.text('JOURS COMPT.',mr-4,y+2,{align:'right'});
+    y+=10;
+    doc.setFontSize(9.5);
     merged.forEach((p,i)=>{
-      const s=Math.max(p.d1,ws),e=Math.min(p.d2,td);
-      const inW=e>=s?Math.round((e-s)/86400000)+1:0;
+      if(y>268){doc.addPage();y=20;}
+      const s=Math.max(p.d1,ws),e2=Math.min(p.d2,td);
+      const inW=e2>=s?Math.round((e2-s)/86400000)+1:0;
       const tot=D.span(p.d1,p.d2);
-      i%2===0?doc.setFillColor(248,248,248):doc.setFillColor(255,255,255);
-      doc.rect(ml,y-4,mr-ml,7,'F');
-      doc.setTextColor(50,50,50);
-      doc.text(`Sejour ${i+1} : ${D.fmt(p.d1)} -> ${D.fmt(p.d2)} (${tot}j)`,ml+3,y);
-      doc.setTextColor(inW>0?204:150,0,0);
-      doc.text(inW>0?`${inW}j v`:'hors fenetre',mr-3,y,{align:'right'});
-      y+=7;if(y>270){doc.addPage();y=20;}
+      doc.setFillColor(i%2===0?250:255,i%2===0?252:255,i%2===0?254:255);
+      doc.rect(ml,y-3,mr-ml,10,'F');
+      if(inW>0){doc.setFillColor(34,197,94);}else{doc.setFillColor(203,213,225);}
+      doc.rect(ml,y-3,2.5,10,'F');
+      doc.setTextColor(50,65,85);doc.setFont('helvetica','normal');
+      doc.text(`${i+1}`,ml+5.5,y+3.5,{align:'center'});
+      doc.text(D.fmt(p.d1),ml+16,y+3.5);doc.text(D.fmt(p.d2),ml+60,y+3.5);
+      doc.text(`${tot} j`,ml+104,y+3.5);
+      if(inW>0){doc.setTextColor(22,101,52);doc.setFont('helvetica','bold');doc.text(`${inW} j ✓`,mr-4,y+3.5,{align:'right'});}
+      else{doc.setTextColor(148,163,184);doc.setFont('helvetica','normal');doc.text('hors fenetre',mr-4,y+3.5,{align:'right'});}
+      y+=10;
     });
 
-    // Total
+    // TOTAL
     y+=3;
-    doc.setFillColor(204,0,0);doc.rect(ml,y-4,mr-ml,8,'F');
-    doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(10);
-    doc.text('Total fenetre :',ml+3,y+1);
-    doc.text(`${used} / 90 j`,mr-3,y+1,{align:'right'});
-    y+=14;
+    doc.setFillColor(37,99,235);doc.rect(ml,y-3,mr-ml,13,'F');
+    doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(11);
+    doc.text('TOTAL FENETRE GLISSANTE :',ml+4,y+5);
+    doc.setFontSize(14);doc.text(`${used} / 90 jours`,mr-4,y+5,{align:'right'});
+    y+=20;
 
-    // Pied de page
-    doc.setTextColor(120,120,120);doc.setFont('helvetica','normal');doc.setFontSize(8);
+    // PIED DE PAGE
+    doc.setFillColor(37,99,235);doc.rect(ml,y,mr-ml,0.8,'F');
+    y+=5;
+    doc.setTextColor(100,116,139);doc.setFont('helvetica','normal');doc.setFontSize(8);
     doc.text(`Fenetre active : ${D.fmt(ws)} -> ${D.fmt(td)}`,W/2,y,{align:'center'});
-    doc.text('LAKCHER AHMED — AUTRANSA MAROC | administracion.maroc@autransasl.com',W/2,y+5,{align:'center'});
-    doc.text('Application indicative — AUTRANSA MAROC © 2026',W/2,y+10,{align:'center'});
+    doc.setFontSize(7.5);doc.setTextColor(148,163,184);
+    doc.text('Regl. (UE) N° 610/2013 | Code Frontieres Schengen Art. 6 — Application indicative',W/2,y+6,{align:'center'});
 
-    doc.save(`Schengen_AUTRANSA_${D.fmt(td).replace(/\//g,'-')}.pdf`);
-  } catch(err){
-    alert('Erreur generation PDF. Reessayez.');
-    console.error(err);
-  }
+    const sfx=driverName?`_${driverName.replace(/\s+/g,'_')}`:'';
+    doc.save(`Schengen_90-180_${D.fmt(td).replace(/\//g,'-')}${sfx}.pdf`);
+  } catch(e){alert('Erreur PDF.');console.error(e);}
 }
 
 /* ══ RESET ══ */
 function resetAll(){
   if(!confirm(TX[lang].confirmReset))return;
   $('vs').value='';$('ve').value='';
+  if($('drv'))$('drv').value='';
   $('vi').style.display='none';$('visa-err').style.display='none';
   $('win-box').style.display='none';$('win-warn').style.display='none';
   $('sim').style.display='none';$('se').value='';$('sx').value='';$('sr').style.display='none';
@@ -834,19 +1122,20 @@ function resetAll(){
   renderE();$('sw').classList.add('hidden');$('bk').style.display='none';
   $('rbox').innerHTML='';$('next-box').style.display='none';
   $('visa-alerts').innerHTML='';$('merge-notice').style.display='none';
-  try{localStorage.removeItem('sch_v2');}catch(e){}
+  try{localStorage.removeItem('sch_pub');}catch(e){}
 }
 
 /* ══ PERSISTENCE ══ */
 function save(){
-  try{localStorage.setItem('sch_v2',JSON.stringify({vs:$('vs').value,ve:$('ve').value,entries,lang}));}catch(e){}
+  try{localStorage.setItem('sch_pub',JSON.stringify({vs:$('vs').value,ve:$('ve').value,entries,lang,drv:$('drv')?$('drv').value:''}));}catch(e){}
 }
 function load(){
   try{
-    const raw=localStorage.getItem('sch_v2');if(!raw)return;
+    const raw=localStorage.getItem('sch_pub');if(!raw)return;
     const d=JSON.parse(raw);
     if(d.vs)$('vs').value=d.vs;
     if(d.ve)$('ve').value=d.ve;
+    if(d.drv&&$('drv'))$('drv').value=d.drv;
     if(d.entries&&d.entries.length)entries=d.entries.map(e=>({...e,err:false}));
     if(d.lang)setLang(d.lang);else{renderE();onVC();}
   }catch(e){}
